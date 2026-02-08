@@ -1,152 +1,115 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garage La Plume</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage La Plume</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #1c1c1c;
-            color: #f5f5f5;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #1c1c1c;
+    color: #f5f5f5;
+}
 
-        header {
-            background: #111;
-            padding: 20px;
-            border-bottom: 4px solid #c30000;
-        }
+header, footer {
+    background: #111;
+    padding: 20px;
+    border-bottom: 4px solid #c30000;
+}
 
-        header h1 {
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+footer {
+    border-top: 4px solid #c30000;
+    text-align: center;
+}
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 20px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-        nav a {
-            color: #f5f5f5;
-            text-decoration: none;
-            font-weight: bold;
-        }
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-        nav a:hover {
-            color: #c30000;
-        }
+nav a:hover { color: #c30000; }
 
-        section {
-            padding: 60px 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
+section {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
 
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-            url('https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d') center/cover;
-            text-align: center;
-            padding: 100px 20px;
-        }
+.hero {
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+    url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover;
+    padding: 100px 20px;
+}
 
-        .hero h2 {
-            font-size: 40px;
-            color: #c30000;
-        }
+.hero h2 { color: #c30000; font-size: 40px; }
 
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+.services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
 
-        .service-box {
-            background: #2a2a2a;
-            padding: 20px;
-            border-left: 4px solid #c30000;
-        }
+.box {
+    background: #2a2a2a;
+    padding: 20px;
+    border-left: 4px solid #c30000;
+}
 
-        .service-box h3 {
-            color: #c30000;
-        }
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    background: #111;
+    border: 1px solid #555;
+    color: white;
+}
 
-        form, .employee-box {
-            background: #2a2a2a;
-            padding: 25px;
-            max-width: 450px;
-        }
+button {
+    background: #c30000;
+    border: none;
+    padding: 12px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
 
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            background: #111;
-            border: 1px solid #555;
-            color: white;
-        }
+button:hover { background: red; }
 
-        button {
-            background: #c30000;
-            border: none;
-            padding: 12px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+.hidden { display: none; }
 
-        button:hover {
-            background: #ff0000;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .access-box {
-            background: #111;
-            padding: 20px;
-            margin-top: 20px;
-            border: 2px dashed #c30000;
-        }
-
-        footer {
-            background: #111;
-            text-align: center;
-            padding: 15px;
-            border-top: 4px solid #c30000;
-        }
-
-        @media (max-width: 600px) {
-            nav ul {
-                flex-direction: column;
-            }
-            .hero h2 {
-                font-size: 28px;
-            }
-        }
-    </style>
+.dashboard {
+    background: #111;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px dashed #c30000;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <h1>Garage La Plume</h1>
-    <nav>
-        <ul>
-            <li><a href="#accueil">Accueil</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#recrutement">Recrutement</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#employe">Employé</a></li>
-        </ul>
-    </nav>
+<h1>Garage La Plume</h1>
+<nav>
+<ul>
+<li><a href="#accueil">Accueil</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#employe">Employé</a></li>
+</ul>
+</nav>
 </header>
 
 <section class="hero" id="accueil">
@@ -162,8 +125,12 @@
             <p>2000€.</p>
         </div>
         <div class="service-box">
-            <h3>🛢 dépanage</h3>
-            <p>3000€ en ville ; 5000€ autoroute.</p>
+            <h3>🛢 depannage</h3>
+            <p>3000€ ville ; 5000€ autoroute.</p>
+        </div>
+        <div class="service-box">
+            <h3>💻 Diagnostic</h3>
+            <p>Électronique et pannes.</p>
         </div>
         <div class="service-box">
             <h3>🚗 Contrôle</h3>
@@ -172,70 +139,87 @@
     </div>
 </section>
 
-<section id="recrutement">
-    <h2>Recrutement</h2>
-    <p>Nous recrutons des mécaniciens passionnés et motivés.</p>
-</section>
-
 <section id="contact">
-    <h2>Contact</h2>
-    <form>
-        <input type="text" placeholder="Nom" required>
-        <input type="email" placeholder="Email" required>
-        <input type="tel" placeholder="Téléphone">
-        <select>
-            <option>Information</option>
-            <option>Rendez-vous</option>
-            <option>Recrutement</option>
-        </select>
-        <textarea rows="5" placeholder="Message" required></textarea>
-        <button>Envoyer</button>
-    </form>
+<h2>Contact</h2>
+<form class="box">
+<input type="text" placeholder="Nom" required>
+<input type="email" placeholder="Email" required>
+<textarea placeholder="Message"></textarea>
+<button>Envoyer</button>
+</form>
 </section>
 
+<!-- ESPACE EMPLOYE -->
 <section id="employe">
-    <h2>Espace Employé 🔐</h2>
+<h2>Espace Employé 🔐</h2>
 
-    <div class="employee-box">
-        <h3>Connexion</h3>
+<div class="box" id="loginBox">
+<input id="user" placeholder="Identifiant">
+<input id="pass" type="password" placeholder="Mot de passe">
+<button onclick="login()">Connexion</button>
+<p id="msg" style="color:red;"></p>
+</div>
 
-        <input type="text" id="username" placeholder="Identifiant">
-        <input type="password" id="password" placeholder="Mot de passe">
+<div id="dashboard" class="dashboard hidden">
+<h3>Tableau de Bord</h3>
+<p id="roleText"></p>
 
-        <button onclick="login()">Se connecter</button>
-        <p id="error" style="color:red;"></p>
-    </div>
+<h4>📅 Planning</h4>
+<ul>
+<li>Lundi : 08h - 16h</li>
+<li>Mardi : 08h - 16h</li>
+<li>Mercredi : Repos</li>
+<li>Jeudi : 08h - 16h</li>
+<li>Vendredi : 08h - 15h</li>
+</ul>
 
-    <div id="access" class="access-box hidden">
-        <h3>Accès Employé Autorisé ✅</h3>
-        <ul>
-            <li>📅 Planning interne</li>
-            <li>📂 Documents internes</li>
-            <li>🔧 Outils garage</li>
-            <li>📊 Statistiques atelier</li>
-        </ul>
-    </div>
+<div id="adminPanel" class="hidden">
+<h4>⚙️ Accès Admin</h4>
+<ul>
+<li>Gestion employés</li>
+<li>Statistiques atelier</li>
+<li>Planning global</li>
+</ul>
+</div>
+
+<button onclick="logout()">Déconnexion</button>
+</div>
 </section>
 
 <footer>
-    <p>&copy; 2026 Garage La Plume</p>
+<p>&copy; 2026 Garage La Plume</p>
 </footer>
 
 <script>
-    function login() {
-        const user = document.getElementById("username").value;
-        const pass = document.getElementById("password").value;
-        const access = document.getElementById("access");
-        const error = document.getElementById("error");
+let role = "";
 
-        if (user === "employe" && pass === "garage123") {
-            access.classList.remove("hidden");
-            error.textContent = "";
-        } else {
-            error.textContent = "Identifiants incorrects";
-            access.classList.add("hidden");
-        }
+function login() {
+    const u = user.value;
+    const p = pass.value;
+
+    if (u === "employe" && p === "garage123") {
+        role = "Employé";
+    } else if (u === "admin" && p === "admin123") {
+        role = "Administrateur";
+        adminPanel.classList.remove("hidden");
+    } else {
+        msg.textContent = "Identifiants incorrects";
+        return;
     }
+
+    roleText.textContent = "Connecté en tant que : " + role;
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    msg.textContent = "";
+}
+
+function logout() {
+    dashboard.classList.add("hidden");
+    loginBox.classList.remove("hidden");
+    adminPanel.classList.add("hidden");
+    user.value = "";
+    pass.value = "";
+}
 </script>
 
 </body>
