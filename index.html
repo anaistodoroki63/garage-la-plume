@@ -290,27 +290,33 @@ function loadCalendar() {
     }
 }
 
-/* ===== POINTAGE ===== */
-function clock(type) {
-    const clocks = JSON.parse(localStorage.clock || "{}");
-    if (!clocks[currentUser.user]) clocks[currentUser.user] = [];
+/* ===== POINTEUSE (CORRIGÉE) ===== */
+function pointeuse(type) {
+    if (!currentUser) return;
 
-    clocks[currentUser.user].push(
+    const data = JSON.parse(localStorage.getItem("clocking") || "{}");
+
+    if (!data[currentUser.user]) {
+        data[currentUser.user] = [];
+    }
+
+    data[currentUser.user].push(
         `${type} - ${new Date().toLocaleString()}`
     );
 
-    localStorage.clock = JSON.stringify(clocks);
-    loadClock();
+    localStorage.setItem("clocking", JSON.stringify(data));
+    chargerPointeuse();
 }
 
-function loadClock() {
+function chargerPointeuse() {
     clockList.innerHTML = "";
-    const clocks = JSON.parse(localStorage.clock || "{}");
-    const logs = clocks[currentUser.user] || [];
 
-    logs.forEach(l => {
+    const data = JSON.parse(localStorage.getItem("clocking") || "{}");
+    const logs = data[currentUser.user] || [];
+
+    logs.forEach(ligne => {
         const li = document.createElement("li");
-        li.textContent = l;
+        li.textContent = ligne;
         clockList.appendChild(li);
     });
 }
