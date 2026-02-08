@@ -83,6 +83,27 @@
             background: rgba(80, 80, 100, 0.9);
         }
         
+        .nav-button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            background: rgba(60, 60, 80, 0.6);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-button.active {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        }
+        
+        .nav-button:not(.active):hover {
+            background: rgba(80, 80, 100, 0.8);
+        }
+        
         .hero-section {
             background: linear-gradient(135deg, rgba(15, 15, 25, 0.95) 0%, rgba(30, 30, 50, 0.9) 100%);
             position: relative;
@@ -91,7 +112,7 @@
         
         .hero-section::before {
             content: '';
-            position-absolute;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
@@ -121,6 +142,8 @@
             min-height: 60px;
             border: 1px solid rgba(60, 60, 80, 0.3);
             transition: all 0.2s ease;
+            border-radius: 4px;
+            padding: 4px;
         }
         
         .calendar-day:hover {
@@ -129,10 +152,11 @@
         
         .calendar-event {
             background: linear-gradient(90deg, #dc2626, #991b1b);
-            font-size: 10px;
+            font-size: 9px;
             padding: 2px 4px;
             border-radius: 2px;
             margin-top: 2px;
+            cursor: pointer;
         }
         
         .toast {
@@ -165,25 +189,6 @@
             to { opacity: 0; }
         }
         
-        .nav-link {
-            position: relative;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #dc2626;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
         .glow-text {
             text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
         }
@@ -192,6 +197,7 @@
             background: rgba(25, 25, 35, 0.8);
             border: 1px solid rgba(60, 60, 80, 0.3);
             transition: all 0.2s ease;
+            border-radius: 4px;
         }
         
         .file-item:hover {
@@ -202,6 +208,7 @@
         .clock-entry {
             border-left: 3px solid #dc2626;
             background: rgba(25, 25, 35, 0.6);
+            border-radius: 4px;
         }
         
         .section-divider {
@@ -213,200 +220,20 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-wrapper body-text text-gray-100"><!-- Header -->
+  <div class="app-wrapper body-text text-gray-100"><!-- Header Navigation -->
    <header class="bg-black/80 backdrop-blur-md border-b-4 red-border sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-6 py-4">
      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <h1 id="garageName" class="garage-title text-3xl font-bold red-accent glow-text">Garage La Plume</h1>
       <nav>
-       <ul class="flex flex-wrap gap-6">
-        <li><a href="#accueil" class="nav-link text-white hover:text-red-500 font-medium transition-colors">Accueil</a></li>
-        <li><a href="#services" class="nav-link text-white hover:text-red-500 font-medium transition-colors">Services</a></li>
-        <li><a href="#recruitment" class="nav-link text-white hover:text-red-500 font-medium transition-colors">Recrutement</a></li>
-        <li><a href="#contact" class="nav-link text-white hover:text-red-500 font-medium transition-colors">Contact</a></li>
-        <li><a href="#employe" class="nav-link text-white hover:text-red-500 font-medium transition-colors">Employé 🔐</a></li>
-       </ul>
+       <div class="flex flex-wrap gap-2"><a href="?page=home" class="nav-button active" id="navHome">🏠 Accueil</a> <a href="?page=services" class="nav-button" id="navServices">🔧 Services</a> <a href="?page=recruitment" class="nav-button" id="navRecruitment">💼 Recrutement</a> <a href="?page=contact" class="nav-button" id="navContact">📞 Contact</a> <a href="?page=employee" class="nav-button" id="navEmployee">🔐 Employé</a>
+       </div>
       </nav>
      </div>
     </div>
-   </header><!-- Hero Section -->
-   <section id="accueil" class="hero-section py-24 px-6 text-center relative">
-    <div class="absolute inset-0 opacity-10">
-     <svg class="w-full h-full" viewbox="0 0 100 100" preserveaspectratio="none"><defs>
-       <pattern id="grid" width="10" height="10" patternunits="userSpaceOnUse">
-        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5" />
-       </pattern>
-      </defs> <rect width="100" height="100" fill="url(#grid)" />
-     </svg>
-    </div>
-    <div class="relative z-10 max-w-3xl mx-auto">
-     <div class="inline-block mb-6">
-      <svg class="w-24 h-24 mx-auto red-accent" viewbox="0 0 100 100" fill="currentColor"><path d="M85 45c0-2-1-4-3-5l-7-3c-1-4-3-8-5-11l1-8c0-2-1-4-3-5l-4-2c-2-1-4 0-5 1l-6 5c-4-1-8-1-12 0l-6-5c-2-1-4-2-5-1l-4 2c-2 1-3 3-3 5l1 8c-2 3-4 7-5 11l-7 3c-2 1-3 3-3 5v5c0 2 1 4 3 5l7 3c1 4 3 8 5 11l-1 8c0 2 1 4 3 5l4 2c2 1 4 0 5-1l6-5c4 1 8 1 12 0l6 5c1 1 3 2 5 1l4-2c2-1 3-3 3-5l-1-8c2-3 4-7 5-11l7-3c2-1 3-3 3-5v-5zM50 65c-8 0-15-7-15-15s7-15 15-15 15 7 15 15-7 15-15 15z" />
-      </svg>
-     </div>
-     <h2 id="heroTitle" class="garage-title text-4xl md:text-5xl font-bold mb-4 text-white">Garage Automobile de Confiance</h2>
-     <p id="heroSubtitle" class="text-xl text-gray-300">Réparation • Entretien • Diagnostic</p>
-     <div class="mt-8 flex justify-center gap-4"><a href="#contact" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white inline-block">Nous Contacter</a> <a href="#services" class="btn-secondary px-8 py-3 rounded-lg font-semibold text-white inline-block border border-gray-600">Nos Services</a>
-     </div>
-    </div>
-   </section>
-   <div class="section-divider"></div><!-- Services Section -->
-   <section id="services" class="py-16 px-6">
-    <div class="max-w-5xl mx-auto">
-     <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Nos Services</h2>
-     <div class="grid md:grid-cols-3 gap-6">
-      <div class="service-card rounded-lg p-6">
-       <div class="text-4xl mb-4">
-        🔧
-       </div>
-       <h3 class="garage-title text-xl font-bold mb-2 text-white">Réparation</h3>
-       <p class="text-gray-400 mb-4">Réparation complète de votre véhicule par nos experts qualifiés.</p>
-       <p class="red-accent font-bold text-lg">À partir de 3000€</p>
-      </div>
-      <div class="service-card rounded-lg p-6">
-       <div class="text-4xl mb-4">
-        🛢️
-       </div>
-       <h3 class="garage-title text-xl font-bold mb-2 text-white">Entretien</h3>
-       <p class="text-gray-400 mb-4">Entretien régulier pour maintenir votre véhicule en parfait état.</p>
-       <p class="red-accent font-bold">Ville: 3000€ • Autoroute: 5000€</p>
-      </div>
-      <div class="service-card rounded-lg p-6">
-       <div class="text-4xl mb-4">
-        ���
-       </div>
-       <h3 class="garage-title text-xl font-bold mb-2 text-white">Contrôle</h3>
-       <p class="text-gray-400 mb-4">Pré-contrôle technique pour préparer votre passage.</p>
-       <p class="red-accent font-bold text-lg">Sur devis</p>
-      </div>
-     </div>
-    </div>
-   </section>
-   <div class="section-divider"></div><!-- Contact Section -->
-   <section id="contact" class="py-16 px-6">
-    <div class="max-w-2xl mx-auto">
-     <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Contact</h2>
-     <div class="card-bg rounded-xl p-8 border-l-4 red-border">
-      <form id="contactForm" class="space-y-4">
-       <div><label for="contactName" class="block text-sm font-medium mb-2 text-gray-300">Nom</label> <input type="text" id="contactName" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre nom">
-       </div>
-       <div><label for="contactEmail" class="block text-sm font-medium mb-2 text-gray-300">Email</label> <input type="email" id="contactEmail" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="votre@email.com">
-       </div>
-       <div><label for="contactMessage" class="block text-sm font-medium mb-2 text-gray-300">Message</label> <textarea id="contactMessage" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Votre message..."></textarea>
-       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white"> Envoyer le Message </button>
-      </form>
-     </div>
-    </div>
-   </section>
-   <div class="section-divider"></div><!-- Recruitment Section -->
-   <section id="recruitment" class="py-16 px-6">
-    <div class="max-w-4xl mx-auto">
-     <h2 id="recruitmentTitle" class="garage-title text-3xl font-bold mb-8 red-accent text-center">Rejoignez Notre Équipe</h2>
-     <div class="card-bg rounded-xl p-8 border-l-4 red-border mb-8">
-      <h3 class="garage-title text-xl font-bold mb-4 text-white">Postuler pour une offre d'emploi</h3>
-      <p class="text-gray-400 mb-6">Envoyez-nous votre CV et votre lettre de motivation. Nous examinerons votre candidature avec attention.</p>
-      <form id="recruitmentForm" class="space-y-4">
-       <div><label for="candidateName" class="block text-sm font-medium mb-2 text-gray-300">Nom Complet</label> <input type="text" id="candidateName" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Jean Dupont" required>
-       </div>
-       <div><label for="candidateEmail" class="block text-sm font-medium mb-2 text-gray-300">Email</label> <input type="email" id="candidateEmail" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="jean@example.com" required>
-       </div>
-       <div><label for="candidatePhone" class="block text-sm font-medium mb-2 text-gray-300">Téléphone</label> <input type="tel" id="candidatePhone" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="06 12 34 56 78" required>
-       </div>
-       <div><label for="candidatePosition" class="block text-sm font-medium mb-2 text-gray-300">Poste Souhaité</label> <select id="candidatePosition" class="input-style w-full px-4 py-3 rounded-lg text-white" required> <option value="">Sélectionner un poste...</option> <option value="Mécanicien">Mécanicien</option> <option value="Carrossier">Carrossier</option> <option value="Électricien Auto">Électricien Auto</option> <option value="Apprenti">Apprenti</option> <option value="Réceptionnaire">Réceptionnaire</option> <option value="Autre">Autre</option> </select>
-       </div>
-       <div><label for="candidateCv" class="block text-sm font-medium mb-2 text-gray-300">CV (PDF)</label>
-        <div class="flex gap-4"><input type="file" id="candidateCv" class="hidden" accept=".pdf" required> <button type="button" id="selectCvBtn" class="btn-secondary px-6 py-3 rounded-lg font-medium text-white border border-gray-600 flex-1"> 📄 Sélectionner CV </button> <span id="cvFileName" class="text-gray-400 self-center text-sm flex-1"></span>
-        </div>
-       </div>
-       <div><label for="candidateLetter" class="block text-sm font-medium mb-2 text-gray-300">Lettre de Motivation (optionnel)</label> <textarea id="candidateLetter" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Parlez-nous de vous et de votre int��rêt pour notre garage..."></textarea>
-       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white"> Envoyer ma Candidature </button>
-      </form>
-     </div><!-- Admin: View Candidates -->
-     <div id="candidatesPanel" class="hidden card-bg rounded-xl p-8 border-l-4 border-yellow-500">
-      <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2"><span>📋</span> Candidatures Reçues</h3>
-      <div id="candidatesList" class="space-y-4"></div>
-     </div>
-    </div>
-   </section>
-   <div class="section-divider"></div><!-- Employee Section -->
-   <section id="employe" class="py-16 px-6">
-    <div class="max-w-4xl mx-auto">
-     <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Espace Employé 🔐</h2><!-- Login Box -->
-     <div id="loginBox" class="card-bg rounded-xl p-8 border-l-4 red-border max-w-md mx-auto">
-      <h3 class="garage-title text-xl font-bold mb-6 text-white text-center">Connexion</h3>
-      <form id="loginForm" class="space-y-4">
-       <div><label for="user" class="block text-sm font-medium mb-2 text-gray-300">Identifiant</label> <input type="text" id="user" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre identifiant">
-       </div>
-       <div><label for="pass" class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label> <input type="password" id="pass" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••">
-       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white"> Se Connecter </button>
-      </form>
-     </div><!-- Dashboard (Hidden by default) -->
-     <div id="dashboard" class="hidden space-y-6"><!-- Welcome Banner -->
-      <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-       <div class="flex items-center justify-between flex-wrap gap-4">
-        <div>
-         <p class="text-gray-400 text-sm">Bienvenue,</p>
-         <p id="welcomeUser" class="garage-title text-2xl font-bold text-white"></p>
-         <p id="roleText" class="text-sm red-accent font-medium"></p>
-        </div><button id="logoutBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white"> Déconnexion </button>
-       </div>
-      </div><!-- Planning Section -->
-      <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-       <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2"><span>📅</span> Planning</h3>
-       <div class="grid md:grid-cols-2 gap-4 mb-6">
-        <div><label for="eventDate" class="block text-sm font-medium mb-2 text-gray-300">Date</label> <input type="date" id="eventDate" class="input-style w-full px-4 py-3 rounded-lg text-white">
-        </div>
-        <div><label for="eventText" class="block text-sm font-medium mb-2 text-gray-300">Mission / Entretien</label> <input type="text" id="eventText" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Description de la tâche">
-        </div>
-       </div><button id="addEventBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white mb-6"> Ajouter au Planning </button>
-       <div class="mb-4 flex items-center justify-between"><button id="prevMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">← Mois précédent</button> <span id="currentMonth" class="garage-title text-lg font-bold text-white"></span> <button id="nextMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">Mois suivant →</button>
-       </div>
-       <div class="calendar-grid text-center text-xs text-gray-400 mb-2">
-        <div class="py-2 font-bold">
-         Lun
-        </div>
-        <div class="py-2 font-bold">
-         Mar
-        </div>
-        <div class="py-2 font-bold">
-         Mer
-        </div>
-        <div class="py-2 font-bold">
-         Jeu
-        </div>
-        <div class="py-2 font-bold">
-         Ven
-        </div>
-        <div class="py-2 font-bold">
-         Sam
-        </div>
-        <div class="py-2 font-bold">
-         Dim
-        </div>
-       </div>
-       <div id="calendar" class="calendar-grid"></div>
-      </div><!-- Time Clock Section -->
-      <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-       <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2"><span>⏱️</span> Pointeuse</h3>
-       <div class="flex gap-4 mb-6"><button id="clockInBtn" class="btn-primary flex-1 py-3 rounded-lg font-medium text-white"> ✓ Entrée </button> <button id="clockOutBtn" class="btn-secondary flex-1 py-3 rounded-lg font-medium text-white border border-red-600"> ✕ Sortie </button>
-       </div>
-       <div id="clockList" class="space-y-2 max-h-48 overflow-y-auto"></div>
-       <div id="hoursWorked" class="mt-4 p-4 bg-black/30 rounded-lg text-center"></div>
-      </div><!-- Documents Section -->
-      <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-       <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2"><span>📁</span> Documents</h3>
-       <div class="flex gap-4 mb-6 flex-wrap"><input type="file" id="fileInput" class="hidden"> <button id="selectFileBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white border border-gray-600"> Sélectionner un fichier </button> <span id="selectedFileName" class="text-gray-400 self-center text-sm"></span> <button id="uploadFileBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white"> Uploader </button>
-       </div>
-       <div id="fileList" class="space-y-2"></div>
-      </div><!-- Admin Panel (Hidden for non-patrons) -->
-      <div id="adminPanel" class="hidden card-bg rounded-xl p-6 border-l-4 border-yellow-500">
-       <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2"><span>👑</span> Vue Patron - Données Globales</h3>
-       <div id="globalData" class="space-y-4"></div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Footer -->
-   <footer class="bg-black/80 border-t-4 red-border py-8 px-6 text-center">
+   </header><!-- Contenu dynamique -->
+   <div id="content"></div><!-- Footer -->
+   <footer class="bg-black/80 border-t-4 red-border py-8 px-6 text-center mt-12">
     <p class="text-gray-400">© 2026 Garage La Plume - Tous droits réservés</p>
    </footer>
   </div><!-- Toast Container -->
@@ -419,17 +246,10 @@
         const defaultConfig = {
             garage_name: 'Garage La Plume',
             hero_title: 'Garage Automobile de Confiance',
-            hero_subtitle: 'Réparation • Entretien • Diagnostic',
-            primary_color: '#dc2626',
-            background_color: '#0f0f0f',
-            text_color: '#f3f4f6',
-            surface_color: '#1e1e28',
-            secondary_color: '#3c3c50'
+            hero_subtitle: 'Réparation • Entretien • Diagnostic'
         };
 
         let config = { ...defaultConfig };
-        let currentUser = null;
-        let currentMonth = new Date();
 
         // Initialize SDK
         if (window.elementSdk) {
@@ -440,28 +260,7 @@
                     applyConfig();
                 },
                 mapToCapabilities: (cfg) => ({
-                    recolorables: [
-                        {
-                            get: () => cfg.background_color || defaultConfig.background_color,
-                            set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
-                        },
-                        {
-                            get: () => cfg.surface_color || defaultConfig.surface_color,
-                            set: (v) => { cfg.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
-                        },
-                        {
-                            get: () => cfg.text_color || defaultConfig.text_color,
-                            set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
-                        },
-                        {
-                            get: () => cfg.primary_color || defaultConfig.primary_color,
-                            set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
-                        },
-                        {
-                            get: () => cfg.secondary_color || defaultConfig.secondary_color,
-                            set: (v) => { cfg.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); }
-                        }
-                    ],
+                    recolorables: [],
                     borderables: [],
                     fontEditable: undefined,
                     fontSizeable: undefined
@@ -476,12 +275,7 @@
 
         function applyConfig() {
             const garageName = config.garage_name || defaultConfig.garage_name;
-            const heroTitle = config.hero_title || defaultConfig.hero_title;
-            const heroSubtitle = config.hero_subtitle || defaultConfig.hero_subtitle;
-            
             document.getElementById('garageName').textContent = garageName;
-            document.getElementById('heroTitle').textContent = heroTitle;
-            document.getElementById('heroSubtitle').textContent = heroSubtitle;
             document.title = garageName;
         }
 
@@ -565,9 +359,514 @@
         }
 
         // ============================================
-        // Authentication
+        // Page Templates
         // ============================================
-        
+
+        const pages = {
+            home: () => `
+                <section class="hero-section py-24 px-6 text-center relative">
+                    <div class="absolute inset-0 opacity-10">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <defs>
+                                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100" height="100" fill="url(#grid)"/>
+                        </svg>
+                    </div>
+                    <div class="relative z-10 max-w-3xl mx-auto">
+                        <div class="inline-block mb-6">
+                            <svg class="w-24 h-24 mx-auto red-accent" viewBox="0 0 100 100" fill="currentColor">
+                                <path d="M85 45c0-2-1-4-3-5l-7-3c-1-4-3-8-5-11l1-8c0-2-1-4-3-5l-4-2c-2-1-4 0-5 1l-6 5c-4-1-8-1-12 0l-6-5c-2-1-4-2-5-1l-4 2c-2 1-3 3-3 5l1 8c-2 3-4 7-5 11l-7 3c-2 1-3 3-3 5v5c0 2 1 4 3 5l7 3c1 4 3 8 5 11l-1 8c0 2 1 4 3 5l4 2c2 1 4 0 5-1l6-5c4 1 8 1 12 0l6 5c1 1 3 2 5 1l4-2c2-1 3-3 3-5l-1-8c2-3 4-7 5-11l7-3c2-1 3-3 3-5v-5zM50 65c-8 0-15-7-15-15s7-15 15-15 15 7 15 15-7 15-15 15z"/>
+                            </svg>
+                        </div>
+                        <h2 id="heroTitle" class="garage-title text-4xl md:text-5xl font-bold mb-4 text-white">${config.hero_title}</h2>
+                        <p id="heroSubtitle" class="text-xl text-gray-300">${config.hero_subtitle}</p>
+                        <div class="mt-8 flex justify-center gap-4 flex-wrap">
+                            <a href="?page=contact" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white inline-block">Nous Contacter</a>
+                            <a href="?page=services" class="btn-secondary px-8 py-3 rounded-lg font-semibold text-white inline-block border border-gray-600">Nos Services</a>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <section class="py-16 px-6">
+                    <div class="max-w-5xl mx-auto">
+                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Bienvenue au Garage La Plume</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <div class="text-4xl mb-4">🛠️</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Expertise & Qualité</h3>
+                                <p class="text-gray-400">Nos mécaniciens qualifiés vous garantissent une réparation de qualité supérieure avec des pièces de premier choix.</p>
+                            </div>
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <div class="text-4xl mb-4">⏱️</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Rapide & Fiable</h3>
+                                <p class="text-gray-400">Nous intervenons rapidement et dans les délais prévus. Votre satisfaction est notre priorité.</p>
+                            </div>
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <div class="text-4xl mb-4">💰</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Prix Compétitifs</h3>
+                                <p class="text-gray-400">Nos tarifs sont transparents et compétitifs. Devis gratuit sur demande pour tous les services.</p>
+                            </div>
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <div class="text-4xl mb-4">🔒</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Garantie & Assurance</h3>
+                                <p class="text-gray-400">Tous nos travaux sont garantis. Nous travaillons avec les meilleures assurances.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            services: () => `
+                <section class="py-16 px-6">
+                    <div class="max-w-5xl mx-auto">
+                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Nos Services</h2>
+                        <p class="text-center text-gray-400 mb-12 text-lg">Nous offrons un large éventail de services automobiles pour tous vos besoins.</p>
+                        
+                        <div class="grid md:grid-cols-3 gap-6 mb-12">
+                            <div class="service-card rounded-lg p-6">
+                                <div class="text-4xl mb-4">🔧</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Réparation Mécanique</h3>
+                                <p class="text-gray-400 mb-4">Réparation complète de votre véhicule par nos experts qualifiés. Moteur, boîte de vitesses, suspension et bien plus.</p>
+                                <p class="red-accent font-bold text-lg">À partir de 3000€</p>
+                            </div>
+                            <div class="service-card rounded-lg p-6">
+                                <div class="text-4xl mb-4">🛢️</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Entretien Régulier</h3>
+                                <p class="text-gray-400 mb-4">Entretien complet pour maintenir votre véhicule en parfait état. Vidange, filtres, fluides et inspections.</p>
+                                <p class="red-accent font-bold">Ville: 3000€ • Autoroute: 5000€</p>
+                            </div>
+                            <div class="service-card rounded-lg p-6">
+                                <div class="text-4xl mb-4">🔍</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Contrôle Technique</h3>
+                                <p class="text-gray-400 mb-4">Pré-contrôle technique complet pour préparer votre passage à la visite officielle.</p>
+                                <p class="red-accent font-bold text-lg">Sur devis</p>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="service-card rounded-lg p-6">
+                                <div class="text-4xl mb-4">🚗</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Carrosserie</h3>
+                                <p class="text-gray-400 mb-4">Réparation et restauration de carrosserie. Tôlerie, peinture, redressage et débosselage.</p>
+                                <p class="red-accent font-bold">Devis personnalisé</p>
+                            </div>
+                            <div class="service-card rounded-lg p-6">
+                                <div class="text-4xl mb-4">⚡</div>
+                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Électricité Auto</h3>
+                                <p class="text-gray-400 mb-4">Diagnostic et réparation des systèmes électriques. Batterie, alternateur, démarreur et électronique.</p>
+                                <p class="red-accent font-bold">À partir de 500€</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <section class="py-16 px-6">
+                    <div class="max-w-5xl mx-auto">
+                        <h2 class="garage-title text-2xl font-bold mb-8 text-white text-center">Pourquoi nous choisir ?</h2>
+                        <div class="grid md:grid-cols-4 gap-4">
+                            <div class="text-center">
+                                <p class="text-4xl mb-3">15+</p>
+                                <p class="text-gray-400">Années d'expérience</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl mb-3">500+</p>
+                                <p class="text-gray-400">Clients satisfaits</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl mb-3">98%</p>
+                                <p class="text-gray-400">Taux de satisfaction</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl mb-3">24/7</p>
+                                <p class="text-gray-400">Support disponible</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            recruitment: () => `
+                <section class="py-16 px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="garage-title text-3xl font-bold mb-4 red-accent text-center">Rejoignez Notre Équipe</h2>
+                        <p class="text-center text-gray-400 mb-12">Nous recherchons des talents passionnés pour rejoindre notre équipe dynamique.</p>
+                        
+                        <div class="card-bg rounded-xl p-8 border-l-4 red-border mb-12">
+                            <h3 class="garage-title text-xl font-bold mb-4 text-white">Postuler pour une offre d'emploi</h3>
+                            <p class="text-gray-400 mb-6">Envoyez-nous votre CV et votre lettre de motivation. Nous examinerons votre candidature avec attention.</p>
+                            
+                            <form id="recruitmentForm" class="space-y-4">
+                                <div>
+                                    <label for="candidateName" class="block text-sm font-medium mb-2 text-gray-300">Nom Complet</label>
+                                    <input type="text" id="candidateName" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Jean Dupont" required>
+                                </div>
+                                <div>
+                                    <label for="candidateEmail" class="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                                    <input type="email" id="candidateEmail" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="jean@example.com" required>
+                                </div>
+                                <div>
+                                    <label for="candidatePhone" class="block text-sm font-medium mb-2 text-gray-300">Téléphone</label>
+                                    <input type="tel" id="candidatePhone" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="06 12 34 56 78" required>
+                                </div>
+                                <div>
+                                    <label for="candidatePosition" class="block text-sm font-medium mb-2 text-gray-300">Poste Souhaité</label>
+                                    <select id="candidatePosition" class="input-style w-full px-4 py-3 rounded-lg text-white" required>
+                                        <option value="">Sélectionner un poste...</option>
+                                        <option value="Mécanicien">Mécanicien</option>
+                                        <option value="Carrossier">Carrossier</option>
+                                        <option value="Électricien Auto">Électricien Auto</option>
+                                        <option value="Apprenti">Apprenti</option>
+                                        <option value="Réceptionnaire">Réceptionnaire</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="candidateCv" class="block text-sm font-medium mb-2 text-gray-300">CV (PDF)</label>
+                                    <div class="flex gap-4">
+                                        <input type="file" id="candidateCv" class="hidden" accept=".pdf" required>
+                                        <button type="button" id="selectCvBtn" class="btn-secondary px-6 py-3 rounded-lg font-medium text-white border border-gray-600 flex-1">
+                                            📄 Sélectionner CV
+                                        </button>
+                                        <span id="cvFileName" class="text-gray-400 self-center text-sm flex-1"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="candidateLetter" class="block text-sm font-medium mb-2 text-gray-300">Lettre de Motivation (optionnel)</label>
+                                    <textarea id="candidateLetter" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Parlez-nous de vous..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
+                                    Envoyer ma Candidature
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="candidatesPanel" class="hidden card-bg rounded-xl p-8 border-l-4 border-yellow-500">
+                            <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2">
+                                <span>📋</span> Candidatures Reçues
+                            </h3>
+                            <div id="candidatesList" class="space-y-4"></div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            contact: () => `
+                <section class="py-16 px-6">
+                    <div class="max-w-2xl mx-auto">
+                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Contact</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-12">
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
+                                <div class="text-4xl mb-3">📍</div>
+                                <h3 class="font-bold text-white mb-2">Adresse</h3>
+                                <p class="text-gray-400">123 Rue de la Réparation<br>75000 Paris<br>France</p>
+                            </div>
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
+                                <div class="text-4xl mb-3">📞</div>
+                                <h3 class="font-bold text-white mb-2">Téléphone</h3>
+                                <p class="text-gray-400">
+                                    <a href="tel:+33123456789" class="hover:text-red-500 transition">+33 1 23 45 67 89</a><br>
+                                    <small>Lun-Ven: 9h-18h</small>
+                                </p>
+                            </div>
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
+                                <div class="text-4xl mb-3">✉️</div>
+                                <h3 class="font-bold text-white mb-2">Email</h3>
+                                <p class="text-gray-400">
+                                    <a href="mailto:contact@garagelaplume.fr" class="hover:text-red-500 transition">contact@garagelaplume.fr</a>
+                                </p>
+                            </div>
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
+                                <div class="text-4xl mb-3">🕐</div>
+                                <h3 class="font-bold text-white mb-2">Horaires</h3>
+                                <p class="text-gray-400">
+                                    Lun-Ven: 9h-18h<br>
+                                    Sam: 9h-13h<br>
+                                    Fermé le dimanche
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card-bg rounded-xl p-8 border-l-4 red-border">
+                            <h3 class="garage-title text-xl font-bold mb-6 text-white">Envoyez-nous un message</h3>
+                            <form id="contactForm" class="space-y-4">
+                                <div>
+                                    <label for="contactName" class="block text-sm font-medium mb-2 text-gray-300">Nom</label>
+                                    <input type="text" id="contactName" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre nom">
+                                </div>
+                                <div>
+                                    <label for="contactEmail" class="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                                    <input type="email" id="contactEmail" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="votre@email.com">
+                                </div>
+                                <div>
+                                    <label for="contactMessage" class="block text-sm font-medium mb-2 text-gray-300">Message</label>
+                                    <textarea id="contactMessage" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Votre message..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
+                                    Envoyer le Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            employee: () => `
+                <section class="py-16 px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Espace Employé 🔐</h2>
+                        
+                        <!-- Login Box -->
+                        <div id="loginBox" class="card-bg rounded-xl p-8 border-l-4 red-border max-w-md mx-auto">
+                            <h3 class="garage-title text-xl font-bold mb-6 text-white text-center">Connexion</h3>
+                            <form id="loginForm" class="space-y-4">
+                                <div>
+                                    <label for="user" class="block text-sm font-medium mb-2 text-gray-300">Identifiant</label>
+                                    <input type="text" id="user" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre identifiant">
+                                </div>
+                                <div>
+                                    <label for="pass" class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label>
+                                    <input type="password" id="pass" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••">
+                                </div>
+                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
+                                    Se Connecter
+                                </button>
+                            </form>
+                            <p id="loginMsg" class="mt-4 text-center text-sm"></p>
+                            <div class="mt-6 p-4 bg-black/30 rounded-lg">
+                                <p class="text-xs text-gray-500 text-center">Comptes de démonstration:</p>
+                                <p class="text-xs text-gray-400 text-center mt-1">patron/patron123 • jean/jean123 • paul/paul123</p>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard (Hidden by default) -->
+                        <div id="dashboard" class="hidden space-y-6">
+                            <!-- Welcome Banner -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <div class="flex items-center justify-between flex-wrap gap-4">
+                                    <div>
+                                        <p class="text-gray-400 text-sm">Bienvenue,</p>
+                                        <p id="welcomeUser" class="garage-title text-2xl font-bold text-white"></p>
+                                        <p id="roleText" class="text-sm red-accent font-medium"></p>
+                                    </div>
+                                    <button id="logoutBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white">
+                                        Déconnexion
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Planning Section -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
+                                    <span>📅</span> Planning
+                                </h3>
+                                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                    <div>
+                                        <label for="eventDate" class="block text-sm font-medium mb-2 text-gray-300">Date</label>
+                                        <input type="date" id="eventDate" class="input-style w-full px-4 py-3 rounded-lg text-white">
+                                    </div>
+                                    <div>
+                                        <label for="eventText" class="block text-sm font-medium mb-2 text-gray-300">Mission / Entretien</label>
+                                        <input type="text" id="eventText" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Description de la tâche">
+                                    </div>
+                                </div>
+                                <button id="addEventBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white mb-6">
+                                    Ajouter au Planning
+                                </button>
+                                
+                                <div class="mb-4 flex items-center justify-between">
+                                    <button id="prevMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">← Mois précédent</button>
+                                    <span id="currentMonth" class="garage-title text-lg font-bold text-white"></span>
+                                    <button id="nextMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">Mois suivant →</button>
+                                </div>
+                                
+                                <div class="calendar-grid text-center text-xs text-gray-400 mb-2">
+                                    <div class="py-2 font-bold">Lun</div>
+                                    <div class="py-2 font-bold">Mar</div>
+                                    <div class="py-2 font-bold">Mer</div>
+                                    <div class="py-2 font-bold">Jeu</div>
+                                    <div class="py-2 font-bold">Ven</div>
+                                    <div class="py-2 font-bold">Sam</div>
+                                    <div class="py-2 font-bold">Dim</div>
+                                </div>
+                                <div id="calendar" class="calendar-grid"></div>
+                            </div>
+
+                            <!-- Time Clock Section -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
+                                    <span>⏱️</span> Pointeuse
+                                </h3>
+                                <div class="flex gap-4 mb-6">
+                                    <button id="clockInBtn" class="btn-primary flex-1 py-3 rounded-lg font-medium text-white">
+                                        ✓ Entrée
+                                    </button>
+                                    <button id="clockOutBtn" class="btn-secondary flex-1 py-3 rounded-lg font-medium text-white border border-red-600">
+                                        ✕ Sortie
+                                    </button>
+                                </div>
+                                <div id="clockList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+                                <div id="hoursWorked" class="mt-4 p-4 bg-black/30 rounded-lg text-center"></div>
+                            </div>
+
+                            <!-- Documents Section -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
+                                    <span>📁</span> Documents
+                                </h3>
+                                <div class="flex gap-4 mb-6 flex-wrap">
+                                    <input type="file" id="fileInput" class="hidden">
+                                    <button id="selectFileBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white border border-gray-600">
+                                        Sélectionner un fichier
+                                    </button>
+                                    <span id="selectedFileName" class="text-gray-400 self-center text-sm"></span>
+                                    <button id="uploadFileBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white">
+                                        Uploader
+                                    </button>
+                                </div>
+                                <div id="fileList" class="space-y-2"></div>
+                            </div>
+
+                            <!-- Admin Panel (Hidden for non-patrons) -->
+                            <div id="adminPanel" class="hidden card-bg rounded-xl p-6 border-l-4 border-yellow-500">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2">
+                                    <span>👑</span> Vue Patron - Données Globales
+                                </h3>
+                                <div id="globalData" class="space-y-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `
+        };
+
+        // ============================================
+        // Router & Navigation
+        // ============================================
+
+        let currentUser = null;
+        let currentMonth = new Date();
+
+        function getPageFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('page') || 'home';
+        }
+
+        function renderPage() {
+            const page = getPageFromURL();
+            const contentDiv = document.getElementById('content');
+            
+            // Update nav buttons
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const navMap = {
+                'home': 'navHome',
+                'services': 'navServices',
+                'recruitment': 'navRecruitment',
+                'contact': 'navContact',
+                'employee': 'navEmployee'
+            };
+            
+            if (navMap[page]) {
+                document.getElementById(navMap[page]).classList.add('active');
+            }
+            
+            // Render page content
+            if (pages[page]) {
+                contentDiv.innerHTML = pages[page]();
+                attachEventListeners();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function attachEventListeners() {
+            const page = getPageFromURL();
+
+            if (page === 'contact') {
+                document.getElementById('contactForm')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('contactName').value;
+                    const email = document.getElementById('contactEmail').value;
+                    const message = document.getElementById('contactMessage').value;
+                    
+                    if (!name || !email || !message) {
+                        showToast('Veuillez remplir tous les champs', 'error');
+                        return;
+                    }
+                    
+                    showToast('Message envoyé avec succès !');
+                    document.getElementById('contactForm').reset();
+                });
+            }
+
+            if (page === 'recruitment') {
+                document.getElementById('selectCvBtn')?.addEventListener('click', () => {
+                    document.getElementById('candidateCv').click();
+                });
+
+                document.getElementById('candidateCv')?.addEventListener('change', (e) => {
+                    const fileName = e.target.files[0]?.name || '';
+                    document.getElementById('cvFileName').textContent = fileName ? `✓ ${fileName}` : '';
+                });
+
+                document.getElementById('recruitmentForm')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    submitApplication();
+                });
+
+                if (currentUser?.role === 'Patron') {
+                    renderCandidatesPanel();
+                }
+            }
+
+            if (page === 'employee') {
+                document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById('user').value;
+                    const password = document.getElementById('pass').value;
+                    login(username, password);
+                });
+
+                document.getElementById('logoutBtn')?.addEventListener('click', logout);
+                document.getElementById('addEventBtn')?.addEventListener('click', addEvent);
+                document.getElementById('clockInBtn')?.addEventListener('click', () => clockIn('Entrée'));
+                document.getElementById('clockOutBtn')?.addEventListener('click', () => clockIn('Sortie'));
+                document.getElementById('selectFileBtn')?.addEventListener('click', () => {
+                    document.getElementById('fileInput').click();
+                });
+
+                document.getElementById('fileInput')?.addEventListener('change', (e) => {
+                    const fileName = e.target.files[0]?.name || '';
+                    document.getElementById('selectedFileName').textContent = fileName;
+                });
+
+                document.getElementById('uploadFileBtn')?.addEventListener('click', uploadFile);
+                document.getElementById('prevMonth')?.addEventListener('click', () => {
+                    currentMonth.setMonth(currentMonth.getMonth() - 1);
+                    renderCalendar();
+                });
+                document.getElementById('nextMonth')?.addEventListener('click', () => {
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                    renderCalendar();
+                });
+
+                checkSession();
+            }
+        }
+
+        // ============================================
+        // Authentication Functions
+        // ============================================
+
         function login(username, password) {
             const users = getUsers();
             const user = users.find(u => u.user === username && u.pass === password);
@@ -588,8 +887,7 @@
         function logout() {
             currentUser = null;
             localStorage.removeItem('currentUser');
-            document.getElementById('candidatesPanel').classList.add('hidden');
-            hideDashboard();
+            renderPage();
             showToast('Déconnexion réussie');
         }
 
@@ -602,24 +900,13 @@
             if (currentUser.role === 'Patron') {
                 document.getElementById('adminPanel').classList.remove('hidden');
                 renderAdminPanel();
-                document.getElementById('candidatesPanel').classList.remove('hidden');
+                document.getElementById('candidatesPanel')?.classList.remove('hidden');
                 renderCandidatesPanel();
-            } else {
-                document.getElementById('adminPanel').classList.add('hidden');
-                document.getElementById('candidatesPanel').classList.add('hidden');
             }
             
             renderCalendar();
             renderClockEntries();
             renderFiles();
-        }
-
-        function hideDashboard() {
-            document.getElementById('loginBox').classList.remove('hidden');
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('user').value = '';
-            document.getElementById('pass').value = '';
-            document.getElementById('loginMsg').textContent = '';
         }
 
         function checkSession() {
@@ -631,11 +918,13 @@
         }
 
         // ============================================
-        // Calendar / Planning
+        // Calendar Functions
         // ============================================
-        
+
         function renderCalendar() {
             const calendar = document.getElementById('calendar');
+            if (!calendar) return;
+
             const events = getEvents();
             const year = currentMonth.getFullYear();
             const month = currentMonth.getMonth();
@@ -650,14 +939,12 @@
             
             calendar.innerHTML = '';
             
-            // Add empty cells for padding
             for (let i = 0; i < startPadding; i++) {
                 const emptyDay = document.createElement('div');
                 emptyDay.className = 'calendar-day rounded opacity-30';
                 calendar.appendChild(emptyDay);
             }
             
-            // Add days
             for (let day = 1; day <= lastDay.getDate(); day++) {
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const dayEvents = events.filter(e => e.date === dateStr && (currentUser.role === 'Patron' || e.user === currentUser.user));
@@ -709,7 +996,7 @@
             
             renderCalendar();
             if (currentUser.role === 'Patron') renderAdminPanel();
-            showToast('��vénement ajouté au planning');
+            showToast('Événement ajouté au planning');
         }
 
         function deleteEvent(eventId) {
@@ -732,9 +1019,9 @@
         }
 
         // ============================================
-        // Time Clock / Pointeuse
+        // Clock Functions
         // ============================================
-        
+
         function clockIn(type) {
             const entries = getClockEntries();
             const now = new Date();
@@ -757,11 +1044,11 @@
 
         function renderClockEntries() {
             const entries = getClockEntries();
-            const userEntries = currentUser.role === 'Patron' 
-                ? entries.filter(e => e.user === currentUser.user)
-                : entries.filter(e => e.user === currentUser.user);
+            const userEntries = entries.filter(e => e.user === currentUser.user);
             
             const clockList = document.getElementById('clockList');
+            if (!clockList) return;
+
             clockList.innerHTML = '';
             
             const recentEntries = userEntries.slice(-10).reverse();
@@ -778,7 +1065,6 @@
                 clockList.appendChild(entryEl);
             });
             
-            // Calculate hours worked today
             const today = new Date().toDateString();
             const todayEntries = userEntries.filter(e => new Date(e.timestamp).toDateString() === today);
             
@@ -801,9 +1087,9 @@
         }
 
         // ============================================
-        // File Management
+        // File Functions
         // ============================================
-        
+
         function uploadFile() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
@@ -847,6 +1133,8 @@
                 : files.filter(f => f.user === currentUser.user);
             
             const fileList = document.getElementById('fileList');
+            if (!fileList) return;
+
             fileList.innerHTML = '';
             
             if (userFiles.length === 0) {
@@ -893,9 +1181,9 @@
         }
 
         // ============================================
-        // Recruitment / Candidatures
+        // Recruitment Functions
         // ============================================
-        
+
         function submitApplication() {
             const name = document.getElementById('candidateName').value.trim();
             const email = document.getElementById('candidateEmail').value.trim();
@@ -906,11 +1194,6 @@
             
             if (!name || !email || !phone || !position || !cvFile) {
                 showToast('Veuillez remplir tous les champs obligatoires et joindre un CV', 'error');
-                return;
-            }
-            
-            if (cvFile.type !== 'application/pdf') {
-                showToast('Le CV doit être un fichier PDF', 'error');
                 return;
             }
             
@@ -936,10 +1219,13 @@
             document.getElementById('cvFileName').textContent = '';
             
             if (currentUser?.role === 'Patron') renderCandidatesPanel();
-            showToast('Candidature envoyée avec succès ! Merci de votre intérêt.');
+            showToast('Candidature envoyée avec succès !');
         }
 
         function renderCandidatesPanel() {
+            const panel = document.getElementById('candidatesPanel');
+            if (!panel) return;
+
             const candidates = getCandidates();
             const candidatesList = document.getElementById('candidatesList');
             
@@ -977,7 +1263,7 @@
                         </div>
                         <div>
                             <p class="text-gray-500">Candidature</p>
-                            <p class="text-white">${candidate.displayDate} à ${candidate.displayTime}</p>
+                            <p class="text-white">${candidate.displayDate}</p>
                         </div>
                     </div>
                     ${candidate.letter ? `
@@ -1003,10 +1289,10 @@
             }
         }
 
-        // ============================================
-        
         function renderAdminPanel() {
             const globalData = document.getElementById('globalData');
+            if (!globalData) return;
+
             const events = getEvents();
             const clockEntries = getClockEntries();
             const files = getFiles();
@@ -1054,86 +1340,17 @@
         }
 
         // ============================================
-        // Event Listeners
+        // Initialization
         // ============================================
-        
+
         document.addEventListener('DOMContentLoaded', () => {
             initializeStorage();
             applyConfig();
-            checkSession();
-            
-            // Login form
-            document.getElementById('loginForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('user').value;
-                const password = document.getElementById('pass').value;
-                login(username, password);
-            });
-            
-            // Contact form
-            document.getElementById('contactForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('contactName').value;
-                const email = document.getElementById('contactEmail').value;
-                const message = document.getElementById('contactMessage').value;
-                
-                if (!name || !email || !message) {
-                    showToast('Veuillez remplir tous les champs', 'error');
-                    return;
-                }
-                
-                showToast('Message envoyé avec succès !');
-                document.getElementById('contactForm').reset();
-            });
-            
-            // Logout
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-            
-            // Calendar navigation
-            document.getElementById('prevMonth').addEventListener('click', () => {
-                currentMonth.setMonth(currentMonth.getMonth() - 1);
-                renderCalendar();
-            });
-            
-            document.getElementById('nextMonth').addEventListener('click', () => {
-                currentMonth.setMonth(currentMonth.getMonth() + 1);
-                renderCalendar();
-            });
-            
-            // Add event
-            document.getElementById('addEventBtn').addEventListener('click', addEvent);
-            
-            // Clock buttons
-            document.getElementById('clockInBtn').addEventListener('click', () => clockIn('Entrée'));
-            document.getElementById('clockOutBtn').addEventListener('click', () => clockIn('Sortie'));
-            
-            // File upload
-            document.getElementById('selectFileBtn').addEventListener('click', () => {
-                document.getElementById('fileInput').click();
-            });
-            
-            document.getElementById('fileInput').addEventListener('change', (e) => {
-                const fileName = e.target.files[0]?.name || '';
-                document.getElementById('selectedFileName').textContent = fileName;
-            });
-            
-            document.getElementById('uploadFileBtn').addEventListener('click', uploadFile);
+            renderPage();
 
-            // Recruitment form
-            document.getElementById('selectCvBtn').addEventListener('click', () => {
-                document.getElementById('candidateCv').click();
-            });
-
-            document.getElementById('candidateCv').addEventListener('change', (e) => {
-                const fileName = e.target.files[0]?.name || '';
-                document.getElementById('cvFileName').textContent = fileName ? `✓ ${fileName}` : '';
-            });
-
-            document.getElementById('recruitmentForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                submitApplication();
-            });
+            window.addEventListener('hashchange', renderPage);
+            window.addEventListener('popstate', renderPage);
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caebc6b64181344',t:'MTc3MDU5MTU1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caec14ae4cbd131',t:'MTc3MDU5MTc1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
