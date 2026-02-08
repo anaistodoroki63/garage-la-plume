@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Garage La Plume - Server Manager</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/_sdk/element_sdk.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+ <head>
+  <meta charset="UTF-8">
+  <title>Garage La Plume - Server Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&amp;family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
         body {
             box-sizing: border-box;
         }
@@ -158,37 +158,29 @@
             background: rgba(35, 35, 45, 0.9);
         }
     </style>
-</head>
-<body>
-    <div class="app-wrapper body-text text-gray-100">
-        <!-- Header Navigation -->
-        <header class="bg-black/80 backdrop-blur-md border-b-4 purple-border sticky top-0 z-50">
-            <div class="max-w-6xl mx-auto px-6 py-4">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <h1 class="garage-title text-3xl font-bold purple-accent">🔧 Server Manager</h1>
-                    <nav>
-                        <div class="flex flex-wrap gap-2">
-                            <a href="?page=home" class="nav-button active" id="navHome">🏠 Accueil</a>
-                            <a href="?page=manager" class="nav-button" id="navManager">⚙️ Gestion</a>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </header>
-
-        <!-- Contenu dynamique -->
-        <div id="content"></div>
-
-        <!-- Footer -->
-        <footer class="bg-black/80 border-t-4 purple-border py-8 px-6 text-center mt-12">
-            <p class="text-gray-400">&copy; 2026 Garage La Plume - Server Manager</p>
-        </footer>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper body-text text-gray-100"><!-- Header Navigation -->
+   <header class="bg-black/80 backdrop-blur-md border-b-4 purple-border sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <h1 class="garage-title text-3xl font-bold purple-accent">🔧 Server Manager</h1>
+      <nav>
+       <div class="flex flex-wrap gap-2"><a href="?page=home" class="nav-button active" id="navHome">🏠 Accueil</a> <a href="?page=manager" class="nav-button" id="navManager">⚙️ Gestion</a>
+       </div>
+      </nav>
+     </div>
     </div>
-
-    <!-- Toast Container -->
-    <div id="toastContainer"></div>
-
-    <script>
+   </header><!-- Contenu dynamique -->
+   <div id="content"></div><!-- Footer -->
+   <footer class="bg-black/80 border-t-4 purple-border py-8 px-6 text-center mt-12">
+    <p class="text-gray-400">© 2026 Garage La Plume - Server Manager</p>
+   </footer>
+  </div><!-- Toast Container -->
+  <div id="toastContainer"></div>
+  <script>
         // ============================================
         // Storage & Initialization
         // ============================================
@@ -801,4 +793,180 @@
                 id: Date.now().toString(),
                 type: type,
                 user: user,
-                ti
+                timestamp: timestamp,
+                displayTime: new Date(timeStr).toLocaleString('fr-FR')
+            });
+            saveClockEntries(entries);
+
+            document.getElementById('newClockUser').value = '';
+            document.getElementById('newClockTime').value = '';
+
+            renderClockList();
+            updateServerStats();
+            showToast('Pointage ajouté avec succès');
+        }
+
+        function deleteClockManager(entryId) {
+            const entries = getClockEntries();
+            const index = entries.findIndex(e => e.id === entryId);
+            if (index !== -1) {
+                entries.splice(index, 1);
+                saveClockEntries(entries);
+                renderClockList();
+                updateServerStats();
+                showToast('Pointage supprimé');
+            }
+        }
+
+        // ============================================
+        // Files Management
+        // ============================================
+
+        function renderFilesList() {
+            const files = getFiles();
+            const filesList = document.getElementById('filesManagerList');
+            if (!filesList) return;
+
+            filesList.innerHTML = '';
+            if (files.length === 0) {
+                filesList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun fichier uploadé</p>';
+                return;
+            }
+
+            files.slice().reverse().forEach(file => {
+                const fileEl = document.createElement('div');
+                fileEl.className = 'bg-black/30 p-3 rounded flex justify-between items-center';
+                fileEl.innerHTML = `
+                    <div class="flex-1">
+                        <p class="font-bold text-white">📄 ${file.name}</p>
+                        <p class="text-xs text-gray-400">${file.user} • ${file.size} • ${file.displayDate}</p>
+                    </div>
+                    <button onclick="deleteFileManager('${file.id}')" class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-xs text-white transition">
+                        Supprimer
+                    </button>
+                `;
+                filesList.appendChild(fileEl);
+            });
+        }
+
+        function deleteFileManager(fileId) {
+            const files = getFiles();
+            const index = files.findIndex(f => f.id === fileId);
+            if (index !== -1) {
+                files.splice(index, 1);
+                saveFiles(files);
+                renderFilesList();
+                updateServerStats();
+                showToast('Fichier supprimé');
+            }
+        }
+
+        // ============================================
+        // Recovery & Data Management
+        // ============================================
+
+        function renderBackupInfo() {
+            const backupInfo = document.getElementById('backupInfo');
+            if (!backupInfo) return;
+
+            const users = getUsers();
+            backupInfo.innerHTML = `
+                <div>Utilisateurs: <strong>${users.length}</strong></div>
+                <div>Événements: <strong>${getEvents().length}</strong></div>
+                <div>Pointages: <strong>${getClockEntries().length}</strong></div>
+                <div>Fichiers: <strong>${getFiles().length}</strong></div>
+                <div class="text-xs mt-2">Dernière mise à jour: <strong>${new Date().toLocaleString('fr-FR')}</strong></div>
+            `;
+        }
+
+        function updateServerStats() {
+            document.getElementById('statsUsers').textContent = getUsers().length;
+            document.getElementById('statsEvents').textContent = getEvents().length;
+            document.getElementById('statsClock').textContent = getClockEntries().length;
+            document.getElementById('statsFiles').textContent = getFiles().length;
+        }
+
+        function exportData() {
+            const data = {
+                users: getUsers(),
+                events: getEvents(),
+                clock: getClockEntries(),
+                files: getFiles(),
+                exportedAt: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `garage-backup-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            showToast('✓ Données exportées avec succès');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (confirm('Êtes-vous sûr ? Cette action remplacera toutes les données.')) {
+                        if (data.users) saveUsers(data.users);
+                        if (data.events) saveEvents(data.events);
+                        if (data.clock) saveClockEntries(data.clock);
+                        if (data.files) saveFiles(data.files);
+
+                        renderUsersList();
+                        renderEventsList();
+                        renderClockList();
+                        renderFilesList();
+                        renderBackupInfo();
+                        updateServerStats();
+
+                        showToast('✓ Données importées avec succès');
+                    }
+                } catch (error) {
+                    showToast('❌ Erreur lors de l\'importation', 'error');
+                }
+            };
+            reader.readAsText(file);
+            document.getElementById('importFile').value = '';
+        }
+
+        function resetAllPasswords() {
+            if (!confirm('Tous les mots de passe seront définis à "password123". Continuer ?')) return;
+
+            const users = getUsers();
+            users.forEach(user => {
+                user.pass = 'password123';
+            });
+            saveUsers(users);
+            localStorage.removeItem('passwordChanged');
+
+            showToast('✓ Tous les mots de passe ont été réinitialisés');
+        }
+
+        function clearPasswordChanges() {
+            if (!confirm('Les utilisateurs devront changer leur mot de passe à la prochaine connexion. Continuer ?')) return;
+
+            localStorage.removeItem('passwordChanged');
+            showToast('✓ Les changements de mots de passe ont été réinitialisés');
+        }
+
+        // ============================================
+        // Initialization
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeStorage();
+            renderPage();
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caee64ee21fd131',t:'MTc3MDU5MzI2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
