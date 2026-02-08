@@ -145,37 +145,49 @@ dashboard.classList.add("hidden");
 loginBox.classList.remove("hidden");
 }
 
-/* PLANNING */
+/* ===== PLANNING (PAR UTILISATEUR) ===== */
 function ajouterPlanning(){
 if(!eventDate.value||!eventText.value)return;
-const d=JSON.parse(localStorage.planning||"{}");
-const k=currentUser.user+"|"+eventDate.value;
-if(!d[k])d[k]=[];
-d[k].push(eventText.value);
-localStorage.planning=JSON.stringify(d);
+
+const data=JSON.parse(localStorage.planning||"{}");
+const key=`${currentUser.user}|${eventDate.value}`;
+
+if(!data[key])data[key]=[];
+data[key].push(eventText.value);
+
+localStorage.planning=JSON.stringify(data);
 eventText.value="";
 chargerPlanning();
 }
 
 function chargerPlanning(){
 calendar.innerHTML="";
-const n=new Date(),y=n.getFullYear(),m=String(n.getMonth()+1).padStart(2,"0");
-const days=new Date(y,m,0).getDate();
-const d=JSON.parse(localStorage.planning||"{}");
-for(let i=1;i<=days;i++){
-const day=String(i).padStart(2,"0");
-const date=y+"-"+m+"-"+day;
+
+const now=new Date();
+const year=now.getFullYear();
+const month=String(now.getMonth()+1).padStart(2,"0");
+const days=new Date(year,month,0).getDate();
+const data=JSON.parse(localStorage.planning||"{}");
+
+for(let d=1;d<=days;d++){
+const day=String(d).padStart(2,"0");
+const date=`${year}-${month}-${day}`;
+const key=`${currentUser.user}|${date}`;
+
 const div=document.createElement("div");
 div.className="day";
-div.innerHTML="<strong>"+i+"</strong>";
-(d[currentUser.user+"|"+date]||[]).forEach(e=>{
-const ev=document.createElement("div");
-ev.className="event";ev.textContent=e;div.appendChild(ev);
+div.innerHTML=`<strong>${d}</strong>`;
+
+(data[key]||[]).forEach(ev=>{
+const e=document.createElement("div");
+e.className="event";
+e.textContent=ev;
+div.appendChild(e);
 });
+
 calendar.appendChild(div);
 }
 }
-
 /* POINTEUSE */
 function pointeuse(type){
 const d=JSON.parse(localStorage.pointage||"{}");
