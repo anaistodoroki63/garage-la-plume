@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Garage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenue à Mon Garage</h1>
+        <nav>
+            <ul>
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="accueil">
+            <h2>À Propos</h2>
+            <p>Bienvenue dans notre garage! Nous offrons des services de réparation et d'entretien automobiles de qualité.</p>
+        </section>
+
+        <section id="services">
+            <h2>Nos Services</h2>
+            <ul>
+                <li>Réparation mécanique</li>
+                <li>Entretien régulier</li>
+                <li>Diagnostic électronique</li>
+                <li>Changement de pneus</li>
+            </ul>
+        </section>
+
+        <section id="contact">
+            <h2>Nous Contacter</h2>
+            <p>Téléphone: garage laplume</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Mon Garage. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
