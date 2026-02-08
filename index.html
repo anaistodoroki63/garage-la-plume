@@ -2,10 +2,9 @@
 <html lang="fr">
  <head>
   <meta charset="UTF-8">
-  <title>Garage La Plume - Server Manager</title>
+  <title>Garage La Plume</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <style>
         * {
             box-sizing: border-box;
@@ -13,16 +12,10 @@
 
         html, body {
             height: 100%;
-            width: 100%;
             margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-            color: #e0e0e0;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: #1c1c1c;
+            color: #fff;
         }
 
         .app-wrapper {
@@ -30,1046 +23,1074 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
-        /* ===== HEADER ===== */
-        .header {
-            background: rgba(15, 23, 41, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #00d4ff;
-            padding: 1.5rem 2rem;
+        header {
+            background: #111;
+            padding: 20px;
+            border-bottom: 4px solid #c30000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.15);
         }
 
-        .header-title {
-            font-family: 'Space Mono', monospace;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #00d4ff;
+        header h1 {
             margin: 0;
-            letter-spacing: 1px;
         }
 
-        .header-status {
+        nav ul {
+            list-style: none;
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.9rem;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
         }
 
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #00ff88;
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 10px #00ff88;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-            gap: 0;
-        }
-
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: 250px;
-            background: rgba(10, 14, 39, 0.8);
-            border-right: 1px solid rgba(0, 212, 255, 0.2);
-            overflow-y: auto;
-            padding: 1.5rem 0;
-            flex-shrink: 0;
-        }
-
-        .sidebar-item {
-            padding: 1rem 1.5rem;
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
             cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
-            color: #a0a0a0;
-            font-weight: 500;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+            transition: color 0.3s;
         }
 
-        .sidebar-item:hover {
-            background: rgba(0, 212, 255, 0.05);
-            color: #00d4ff;
+        nav a:hover {
+            color: #c30000;
         }
 
-        .sidebar-item.active {
-            border-left-color: #00d4ff;
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-            box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.1);
-        }
-
-        .sidebar-item-icon {
-            font-size: 1.3rem;
-        }
-
-        /* ===== CONTENT AREA ===== */
-        .content-area {
+        .content-wrapper {
             flex: 1;
             overflow-y: auto;
-            padding: 2rem;
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.5) 0%, rgba(26, 31, 58, 0.5) 100%);
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        .section {
+        section {
             display: none;
         }
 
-        .section.active {
+        section.active {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .section-title {
-            font-family: 'Space Mono', monospace;
-            font-size: 1.8rem;
-            color: #00d4ff;
-            margin: 0 0 1.5rem 0;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== CARDS ===== */
-        .card {
-            background: rgba(20, 30, 50, 0.6);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: rgba(0, 212, 255, 0.4);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #00d4ff;
-            margin: 0 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* ===== FORMS ===== */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            color: #a0a0a0;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            background: rgba(15, 23, 41, 0.8);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 6px;
-            padding: 0.75rem;
-            color: #e0e0e0;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #00d4ff;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-            background: rgba(15, 23, 41, 0.95);
-        }
-
-        /* ===== BUTTONS ===== */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #00d4ff 0%, #00a8cc 100%);
-            color: #0a0e27;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-            border: 1px solid #00d4ff;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 212, 255, 0.2);
-        }
-
-        .btn-danger {
-            background: rgba(255, 51, 102, 0.1);
-            color: #ff3366;
-            border: 1px solid #ff3366;
-        }
-
-        .btn-danger:hover {
-            background: rgba(255, 51, 102, 0.2);
-        }
-
-        /* ===== TABLES ===== */
-        .table-wrapper {
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        th {
-            background: rgba(0, 212, 255, 0.1);
-            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
-            padding: 1rem;
-            text-align: left;
-            color: #00d4ff;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-            padding: 1rem;
-            color: #e0e0e0;
-        }
-
-        tr:hover {
-            background: rgba(0, 212, 255, 0.05);
-        }
-
-        /* ===== STATS ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-box {
-            background: rgba(20, 30, 50, 0.6);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .hero {
             text-align: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            padding: 80px 20px;
+            background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Crect fill='%23333' width='1200' height='600'/%3E%3C/svg%3E") center/cover;
+            margin-bottom: 40px;
         }
 
-        .stat-box:hover {
-            border-color: #00d4ff;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        .hero h2 {
+            color: #c30000;
+            font-size: 38px;
+            margin: 0 0 10px 0;
         }
 
-        .stat-value {
-            font-family: 'Space Mono', monospace;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #00ff88;
-            margin: 0.5rem 0;
+        .hero p {
+            font-size: 18px;
+            margin: 0;
         }
 
-        .stat-label {
-            font-size: 0.85rem;
-            color: #a0a0a0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        h2 {
+            color: #c30000;
+            margin-bottom: 20px;
         }
 
-        /* ===== NOTIFICATIONS ===== */
-        .notification {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            border: 1px solid;
-            animation: slideUp 0.3s ease;
-            z-index: 1000;
-            max-width: 400px;
+        h3 {
+            color: #c30000;
         }
 
-        .notification-success {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00ff88;
-            color: #00ff88;
-        }
-
-        .notification-error {
-            background: rgba(255, 51, 102, 0.1);
-            border-color: #ff3366;
-            color: #ff3366;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 212, 255, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 212, 255, 0.3);
+        .box {
+            background: #2a2a2a;
+            padding: 20px;
+            border-left: 4px solid #c30000;
+            margin-bottom: 20px;
             border-radius: 4px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 212, 255, 0.5);
+        .service-box {
+            background: #2a2a2a;
+            padding: 20px;
+            border-left: 4px solid #c30000;
+            margin-bottom: 15px;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+        .service-box h3 {
+            margin-top: 0;
         }
 
-        .action-buttons {
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #111;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 4px;
+            font-family: Arial;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #c30000;
+        }
+
+        button {
+            background: #c30000;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #ff0000;
+        }
+
+        button.secondary {
+            background: #555;
+        }
+
+        button.secondary:hover {
+            background: #777;
+        }
+
+        button.danger {
+            background: #8b0000;
+        }
+
+        button.danger:hover {
+            background: #c30000;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            background: #111;
+            padding: 20px;
+            border-top: 4px solid #c30000;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Planning & Calendar */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .day {
+            background: #111;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            min-height: 60px;
+            font-size: 12px;
+        }
+
+        .event {
+            background: #c30000;
+            margin-top: 3px;
+            padding: 3px;
+            font-size: 11px;
+            border-radius: 2px;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #111;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-left: 3px solid #c30000;
+            border-radius: 4px;
             display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table th {
+            background: #111;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #c30000;
+        }
+
+        table td {
+            background: #2a2a2a;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        table tr:hover td {
+            background: #333;
+        }
+
+        /* Messages */
+        .msg-error {
+            color: #ff6666;
+            margin-bottom: 10px;
+        }
+
+        .msg-success {
+            color: #66ff66;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            border: 2px solid #c30000;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+            color: #c30000;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #2a2a2a;
+            padding: 20px;
+            border-left: 4px solid #c30000;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            color: #c30000;
+            font-weight: bold;
+        }
+
+        .stat-card .label {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        .gestionnaire-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #c30000;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 999;
+        }
+
+        .gestionnaire-btn:hover {
+            background: #ff0000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero h2 {
+                font-size: 24px;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gestionnaire-btn {
+                position: static;
+                display: block;
+                margin-bottom: 20px;
+                text-align: center;
+            }
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+  <style>@view-transition { navigation: auto; }</style>
  </head>
- <body>
-  <div class="app-wrapper"><!-- HEADER -->
-   <div class="header">
-    <h1 class="header-title">⚙️ SERVER MANAGER</h1>
-    <div class="header-status"><span class="status-indicator"></span> <span>Système Opérationnel</span>
-    </div>
-   </div><!-- MAIN CONTENT -->
-   <div class="main-content"><!-- SIDEBAR -->
-    <div class="sidebar">
-     <div class="sidebar-item active" data-section="dashboard"><span class="sidebar-item-icon">📊</span> <span>Dashboard</span>
+ <body><a href="gestionnaire.html" target="_blank" class="gestionnaire-btn">⚙️ Gestionnaire</a>
+  <div class="app-wrapper">
+   <!-- HEADER -->
+   <header>
+    <h1>🔧 Garage La Plume</h1>
+    <nav>
+     <ul id="mainNav">
+      <li><a onclick="goToSection('accueil')">Accueil</a></li>
+      <li><a onclick="goToSection('services')">Services</a></li>
+      <li><a onclick="goToSection('recrutement')">Recrutement</a></li>
+      <li><a onclick="goToSection('contact')">Contact</a></li>
+      <li><a onclick="goToSection('employe')">Employé</a></li>
+     </ul>
+    </nav>
+   </header><!-- CONTENT -->
+   <div class="content-wrapper">
+    <!-- ACCUEIL -->
+    <section id="accueil" class="active">
+     <div class="hero">
+      <h2 id="heroTitle">Garage Automobile de Confiance</h2>
+      <p id="heroSlogan">Réparation • Entretien • Diagnostic</p>
      </div>
-     <div class="sidebar-item" data-section="users"><span class="sidebar-item-icon">👥</span> <span>Utilisateurs</span>
+     <div class="box">
+      <h2>Bienvenue chez Garage La Plume</h2>
+      <p id="accueilText">Votre garage de confiance pour tous vos besoins automobiles. Nous proposons des services de qualité avec une équipe professionnelle.</p>
      </div>
-     <div class="sidebar-item" data-section="vehicles"><span class="sidebar-item-icon">🚗</span> <span>Véhicules</span>
+    </section><!-- SERVICES -->
+    <section id="services">
+     <h2>Nos Services</h2>
+     <div id="servicesList"></div>
+    </section><!-- RECRUTEMENT -->
+    <section id="recrutement">
+     <h2>Rejoignez Notre Équipe 💼</h2>
+     <div class="box">
+      <h3>Offres d'Emploi</h3>
+      <p>Nous recherchons activement des talents pour renforcer notre équipe!</p>
+      <div id="jobsList"></div>
      </div>
-     <div class="sidebar-item" data-section="reservations"><span class="sidebar-item-icon">📅</span> <span>Réservations</span>
+     <div class="box">
+      <h3>Postuler</h3><input id="candidatNom" placeholder="Votre nom"> <input id="candidatEmail" placeholder="Votre email"> <input id="candidatPhone" placeholder="Votre téléphone"> <input id="candidatPoste" placeholder="Poste recherché"> <textarea id="candidatMsg" placeholder="Votre message" rows="5"></textarea>
+      <h3 style="margin-top: 20px;">📄 Joindre un CV (PDF)</h3><input type="file" id="recruiterFileInput" accept=".pdf"> <button onclick="uploadRecruiterFile()">Joindre mon CV</button>
+      <ul id="recruiterFileList" style="margin-top: 10px;"></ul><button onclick="envoyerCandidature()" style="margin-top: 10px;">Envoyer ma candidature</button>
+      <p id="candidatMsg2"></p>
      </div>
-     <div class="sidebar-item" data-section="maintenance"><span class="sidebar-item-icon">🔧</span> <span>Maintenance</span>
+    </section><!-- CONTACT -->
+    <section id="contact">
+     <h2>Contact</h2>
+     <div class="box">
+      <input id="contactName" placeholder="Votre nom"> <input id="contactEmail" placeholder="Votre email"> <textarea id="contactMsg" placeholder="Votre message" rows="5"></textarea> <button onclick="envoyerContact()">Envoyer</button>
+      <p id="contactMsg2"></p>
      </div>
-     <div class="sidebar-item" data-section="reports"><span class="sidebar-item-icon">📈</span> <span>Rapports</span>
+    </section><!-- EMPLOYE -->
+    <section id="employe">
+     <h2>Espace Employé 🔐</h2><!-- LOGIN -->
+     <div id="loginBox" class="box">
+      <h3>Connexion</h3><input id="user" placeholder="Identifiant"> <input id="pass" type="password" placeholder="Mot de passe"> <button onclick="login()">Connexion</button>
+      <p id="msg" class="msg-error"></p>
+     </div><!-- DASHBOARD -->
+     <div id="dashboard" class="hidden">
+      <p id="roleText" style="font-size: 16px; margin-bottom: 20px;"></p><!-- PLANNING -->
+      <div class="box">
+       <h3>📅 Planning</h3><input type="date" id="eventDate"> <input id="eventText" placeholder="Entretien / Mission"> <button onclick="ajouterPlanning()">Ajouter</button>
+       <div id="calendar" class="calendar"></div>
+       <ul id="eventList" style="margin-top: 20px;"></ul>
+      </div><!-- POINTEUSE -->
+      <div class="box">
+       <h3>⏱️ Pointeuse</h3><button onclick="pointeuse('Entrée')">Entrée</button> <button onclick="pointeuse('Sortie')">Sortie</button>
+       <ul id="clockList"></ul>
+       <p id="heuresTravaillees" style="margin-top: 15px; font-weight: bold;"></p>
+      </div><!-- DOCUMENTS -->
+      <div class="box">
+       <h3>📄 Documents PDF</h3><input type="file" id="fileInput" accept=".pdf"> <button onclick="uploadFile()">Importer PDF</button>
+       <ul id="fileList"></ul>
+      </div><!-- CHANGEMENT MDPASS -->
+      <div class="box">
+       <h3>🔑 Changer Mon Mot de Passe</h3><input id="oldPass" type="password" placeholder="Ancien mot de passe"> <input id="newPass" type="password" placeholder="Nouveau mot de passe"> <input id="confirmPass" type="password" placeholder="Confirmer mot de passe"> <button onclick="changerMotDePasse()">Mettre à jour</button>
+       <p id="passMsg"></p>
+      </div><!-- ADMIN PANEL -->
+      <div id="adminPanel" class="box hidden">
+       <h3>👑 Vue Patron</h3>
+       <div class="dashboard-grid" id="adminStats"></div>
+       <h3>Gérer les Employés</h3>
+       <div>
+        <input id="newUserName" placeholder="Nouvel identifiant"> <input id="newUserPass" type="password" placeholder="Mot de passe"> <select id="newUserRole"> <option value="Employé">Employé</option> <option value="Manager">Manager</option> </select> <button onclick="creerEmploye()">Créer Employé</button>
+        <p id="adminMsg"></p>
+       </div>
+       <h3>Liste des Employés</h3>
+       <table>
+        <thead>
+         <tr>
+          <th>Identifiant</th>
+          <th>Rôle</th>
+          <th>Actions</th>
+         </tr>
+        </thead>
+        <tbody id="employeTable"></tbody>
+       </table>
+      </div><button class="danger" onclick="logout()">Déconnexion</button>
      </div>
-     <div class="sidebar-item" data-section="settings"><span class="sidebar-item-icon">⚡</span> <span>Paramètres</span>
-     </div>
-    </div><!-- CONTENT AREA -->
-    <div class="content-area"><!-- DASHBOARD SECTION -->
-     <div class="section active" data-section-content="dashboard">
-      <h2 class="section-title">Dashboard Général</h2>
-      <div class="stats-grid">
-       <div class="stat-box">
-        <div class="stat-label">
-         Utilisateurs Actifs
-        </div>
-        <div class="stat-value" id="statUsers">
-         0
-        </div>
-       </div>
-       <div class="stat-box">
-        <div class="stat-label">
-         Véhicules
-        </div>
-        <div class="stat-value" id="statVehicles">
-         0
-        </div>
-       </div>
-       <div class="stat-box">
-        <div class="stat-label">
-         Réservations
-        </div>
-        <div class="stat-value" id="statReservations">
-         0
-        </div>
-       </div>
-       <div class="stat-box">
-        <div class="stat-label">
-         Révisions Planifiées
-        </div>
-        <div class="stat-value" id="statMaintenance">
-         0
-        </div>
-       </div>
-      </div>
-      <div class="card">
-       <h3 class="card-title">📋 Activité Récente</h3>
-       <div id="recentActivity" style="color: #a0a0a0; font-size: 0.9rem; line-height: 1.8;">
-        • Système initialisé<br>
-         • En attente d'activités...
-       </div>
-      </div>
-     </div><!-- USERS SECTION -->
-     <div class="section" data-section-content="users">
-      <h2 class="section-title">Gestion des Utilisateurs</h2>
-      <div class="card">
-       <h3 class="card-title">➕ Ajouter un Utilisateur</h3>
-       <div class="form-grid">
-        <div class="form-group"><label>Nom Complet</label> <input type="text" id="userName" placeholder="Jean Dupont">
-        </div>
-        <div class="form-group"><label>Email</label> <input type="email" id="userEmail" placeholder="jean@garage.fr">
-        </div>
-        <div class="form-group"><label>Téléphone</label> <input type="tel" id="userPhone" placeholder="06 12 34 56 78">
-        </div>
-        <div class="form-group"><label>Rôle</label> <select id="userRole"> <option value="Client">Client</option> <option value="Mécanicien">Mécanicien</option> <option value="Manager">Manager</option> <option value="Admin">Admin</option> </select>
-        </div>
-       </div><button class="btn btn-primary" onclick="addUser()">Créer Utilisateur</button>
-      </div>
-      <div class="card">
-       <h3 class="card-title">👥 Liste des Utilisateurs</h3>
-       <div class="table-wrapper">
-        <table>
-         <thead>
-          <tr>
-           <th>Nom</th>
-           <th>Email</th>
-           <th>Rôle</th>
-           <th>Actions</th>
-          </tr>
-         </thead>
-         <tbody id="usersTable">
-          <tr>
-           <td colspan="4" style="text-align: center; color: #a0a0a0;">Aucun utilisateur</td>
-          </tr>
-         </tbody>
-        </table>
-       </div>
-      </div>
-     </div><!-- VEHICLES SECTION -->
-     <div class="section" data-section-content="vehicles">
-      <h2 class="section-title">Gestion des Véhicules</h2>
-      <div class="card">
-       <h3 class="card-title">🚗 Ajouter un Véhicule</h3>
-       <div class="form-grid">
-        <div class="form-group"><label>Marque</label> <input type="text" id="vehicleBrand" placeholder="Peugeot">
-        </div>
-        <div class="form-group"><label>Modèle</label> <input type="text" id="vehicleModel" placeholder="308">
-        </div>
-        <div class="form-group"><label>Immatriculation</label> <input type="text" id="vehicleReg" placeholder="AB-123-CD">
-        </div>
-        <div class="form-group"><label>Année</label> <input type="number" id="vehicleYear" placeholder="2022">
-        </div>
-       </div><button class="btn btn-primary" onclick="addVehicle()">Ajouter Véhicule</button>
-      </div>
-      <div class="card">
-       <h3 class="card-title">📋 Parc Automobile</h3>
-       <div class="table-wrapper">
-        <table>
-         <thead>
-          <tr>
-           <th>Marque</th>
-           <th>Modèle</th>
-           <th>Immatriculation</th>
-           <th>Année</th>
-           <th>Actions</th>
-          </tr>
-         </thead>
-         <tbody id="vehiclesTable">
-          <tr>
-           <td colspan="5" style="text-align: center; color: #a0a0a0;">Aucun véhicule</td>
-          </tr>
-         </tbody>
-        </table>
-       </div>
-      </div>
-     </div><!-- RESERVATIONS SECTION -->
-     <div class="section" data-section-content="reservations">
-      <h2 class="section-title">Gestion des Réservations</h2>
-      <div class="card">
-       <h3 class="card-title">📅 Nouvelle Réservation</h3>
-       <div class="form-grid">
-        <div class="form-group"><label>Client</label> <select id="reservationClient"> <option value="">-- Sélectionner --</option> </select>
-        </div>
-        <div class="form-group"><label>Véhicule</label> <select id="reservationVehicle"> <option value="">-- Sélectionner --</option> </select>
-        </div>
-        <div class="form-group"><label>Date</label> <input type="date" id="reservationDate">
-        </div>
-        <div class="form-group"><label>Description</label> <textarea id="reservationDesc" placeholder="Détails du service..."></textarea>
-        </div>
-       </div><button class="btn btn-primary" onclick="addReservation()">Créer Réservation</button>
-      </div>
-      <div class="card">
-       <h3 class="card-title">📋 Réservations</h3>
-       <div class="table-wrapper">
-        <table>
-         <thead>
-          <tr>
-           <th>Client</th>
-           <th>Véhicule</th>
-           <th>Date</th>
-           <th>Statut</th>
-           <th>Actions</th>
-          </tr>
-         </thead>
-         <tbody id="reservationsTable">
-          <tr>
-           <td colspan="5" style="text-align: center; color: #a0a0a0;">Aucune réservation</td>
-          </tr>
-         </tbody>
-        </table>
-       </div>
-      </div>
-     </div><!-- MAINTENANCE SECTION -->
-     <div class="section" data-section-content="maintenance">
-      <h2 class="section-title">Planification Maintenance</h2>
-      <div class="card">
-       <h3 class="card-title">🔧 Planifier une Maintenance</h3>
-       <div class="form-grid">
-        <div class="form-group"><label>Véhicule</label> <select id="maintenanceVehicle"> <option value="">-- Sélectionner --</option> </select>
-        </div>
-        <div class="form-group"><label>Type de Maintenance</label> <select id="maintenanceType"> <option value="Révision">Révision</option> <option value="Contrôle">Contrôle Technique</option> <option value="Réparation">Réparation</option> <option value="Entretien">Entretien</option> </select>
-        </div>
-        <div class="form-group"><label>Date Planifiée</label> <input type="date" id="maintenanceDate">
-        </div>
-        <div class="form-group"><label>Coût Estimé</label> <input type="number" id="maintenanceCost" placeholder="0.00">
-        </div>
-       </div><button class="btn btn-primary" onclick="addMaintenance()">Planifier</button>
-      </div>
-      <div class="card">
-       <h3 class="card-title">📋 Révisions Planifiées</h3>
-       <div class="table-wrapper">
-        <table>
-         <thead>
-          <tr>
-           <th>Véhicule</th>
-           <th>Type</th>
-           <th>Date</th>
-           <th>Coût</th>
-           <th>Statut</th>
-           <th>Actions</th>
-          </tr>
-         </thead>
-         <tbody id="maintenanceTable">
-          <tr>
-           <td colspan="6" style="text-align: center; color: #a0a0a0;">Aucune maintenance planifiée</td>
-          </tr>
-         </tbody>
-        </table>
-       </div>
-      </div>
-     </div><!-- REPORTS SECTION -->
-     <div class="section" data-section-content="reports">
-      <h2 class="section-title">Rapports et Statistiques</h2>
-      <div class="card">
-       <h3 class="card-title">📊 Export de Données</h3>
-       <div class="btn-group"><button class="btn btn-primary" onclick="exportData('users')">Exporter Utilisateurs</button> <button class="btn btn-primary" onclick="exportData('vehicles')">Exporter Véhicules</button> <button class="btn btn-primary" onclick="exportData('reservations')">Exporter Réservations</button> <button class="btn btn-primary" onclick="exportData('maintenance')">Exporter Maintenance</button>
-       </div>
-      </div>
-      <div class="card">
-       <h3 class="card-title">📈 Statistiques Globales</h3>
-       <div id="statsContent" style="color: #a0a0a0; line-height: 2;">
-        • Utilisateurs : <span id="totalUsers">0</span><br>
-         • Véhicules : <span id="totalVehicles">0</span><br>
-         • Réservations : <span id="totalReservations">0</span><br>
-         • Maintenances : <span id="totalMaintenance">0</span>
-       </div>
-      </div>
-     </div><!-- SETTINGS SECTION -->
-     <div class="section" data-section-content="settings">
-      <h2 class="section-title">Paramètres Système</h2>
-      <div class="card">
-       <h3 class="card-title">💾 Base de Données</h3>
-       <div class="btn-group"><button class="btn btn-secondary" onclick="backupData()">💾 Sauvegarder</button> <button class="btn btn-secondary" onclick="restoreData()">📥 Restaurer</button> <button class="btn btn-danger" onclick="clearAllData()">🗑️ Effacer Tout</button>
-       </div>
-      </div>
-      <div class="card">
-       <h3 class="card-title">⚡ Maintenance Système</h3>
-       <div class="btn-group"><button class="btn btn-secondary" onclick="optimizeDB()">🔧 Optimiser</button> <button class="btn btn-secondary" onclick="cleanLogs()">🧹 Nettoyer Logs</button> <button class="btn btn-secondary" onclick="systemStatus()">🔍 État Système</button>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div>
+    </section>
+   </div><!-- FOOTER -->
+   <footer>
+    <p>© 2026 Garage La Plume - Tous droits réservés</p>
+   </footer>
   </div>
   <script>
-        // Data Management
-        const db = {
-            users: JSON.parse(localStorage.getItem('garageUsers') || '[]'),
-            vehicles: JSON.parse(localStorage.getItem('garageVehicles') || '[]'),
-            reservations: JSON.parse(localStorage.getItem('garageReservations') || '[]'),
-            maintenance: JSON.parse(localStorage.getItem('garageMaintenance') || '[]')
-        };
-
-        function saveDB() {
-            localStorage.setItem('garageUsers', JSON.stringify(db.users));
-            localStorage.setItem('garageVehicles', JSON.stringify(db.vehicles));
-            localStorage.setItem('garageReservations', JSON.stringify(db.reservations));
-            localStorage.setItem('garageMaintenance', JSON.stringify(db.maintenance));
+        // ===== INITIALISATION BASE DE DONNÉES =====
+        if (!localStorage.users) {
+            localStorage.users = JSON.stringify([
+                { user: "patron", pass: "patron123", role: "Patron" },
+                { user: "jean", pass: "jean123", role: "Employé" },
+                { user: "paul", pass: "paul123", role: "Employé" }
+            ]);
         }
 
-        // Navigation
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', () => {
-                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                
-                item.classList.add('active');
-                const section = item.getAttribute('data-section');
-                document.querySelector(`[data-section-content="${section}"]`).classList.add('active');
+        if (!localStorage.planning) {
+            localStorage.planning = JSON.stringify([]);
+        }
 
-                if (section === 'users') updateUserSelects();
-                if (section === 'vehicles') updateVehicleSelects();
+        if (!localStorage.clock) {
+            localStorage.clock = JSON.stringify([]);
+        }
+
+        if (!localStorage.files) {
+            localStorage.files = JSON.stringify([]);
+        }
+
+        if (!localStorage.contacts) {
+            localStorage.contacts = JSON.stringify([]);
+        }
+
+        if (!localStorage.candidatures) {
+            localStorage.candidatures = JSON.stringify([]);
+        }
+
+        if (!localStorage.recruiterFiles) {
+            localStorage.recruiterFiles = JSON.stringify([]);
+        }
+
+        if (!localStorage.garageInfo) {
+            localStorage.garageInfo = JSON.stringify({
+                name: "Garage La Plume",
+                slogan: "Réparation • Entretien • Diagnostic",
+                address: "123 Rue de l'Auto, 75000 Paris",
+                phone: "01 23 45 67 89",
+                email: "contact@garage.com"
             });
-        });
+        }
 
-        // Notifications
-        function showNotification(msg, type = 'success') {
-            const div = document.createElement('div');
-            div.className = `notification notification-${type}`;
-            div.textContent = msg;
-            document.body.appendChild(div);
+        if (!localStorage.services) {
+            localStorage.services = JSON.stringify([
+                { id: 1, name: "🔧 Réparation", desc: "Diagnostic et réparation complète", price: "À partir de 3000€" },
+                { id: 2, name: "🛢️ Entretien", desc: "Révision et vidange", price: "3000€ - 5000€" },
+                { id: 3, name: "🚗 Contrôle Technique", desc: "Pré-contrôle technique complet", price: "Sur rendez-vous" }
+            ]);
+        }
+
+        if (!localStorage.jobs) {
+            localStorage.jobs = JSON.stringify([
+                { id: 1, title: "👨‍💼 Agent d'Accueil", desc: "Accueil des clients, gestion des rendez-vous et des devis" },
+                { id: 2, title: "🔧 Mécanicien Garage", desc: "Réparation et entretien en atelier, diagnostic complète" },
+                { id: 3, title: "🚗 Mécanicien sur le Terrain", desc: "Dépannage et assistance routière sur appel" }
+            ]);
+        }
+
+        let currentUser = null;
+
+        // ===== NAVIGATION =====
+        function goToSection(sectionId) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // ===== CHARGER INFOS SITE =====
+        function chargerInfosSite() {
+            const info = JSON.parse(localStorage.garageInfo);
+            document.getElementById('heroTitle').textContent = info.name;
+            document.getElementById('heroSlogan').textContent = info.slogan;
+
+            afficherServices();
+            afficherOffresEmploi();
+        }
+
+        // ===== AFFICHER SERVICES =====
+        function afficherServices() {
+            const services = JSON.parse(localStorage.services);
+            const list = document.getElementById('servicesList');
+            list.innerHTML = '';
+
+            services.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'service-box';
+                div.innerHTML = `
+                    <h3>${s.name}</h3>
+                    <p>${s.desc}</p>
+                    <p><strong>Prix: ${s.price}</strong></p>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // ===== OFFRES D'EMPLOI =====
+        function afficherOffresEmploi() {
+            const jobs = JSON.parse(localStorage.jobs);
+            const list = document.getElementById('jobsList');
+            list.innerHTML = '';
+
+            jobs.forEach(j => {
+                const div = document.createElement('div');
+                div.className = 'box';
+                div.innerHTML = `
+                    <h3>${j.title}</h3>
+                    <p>${j.desc}</p>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // ===== CANDIDATURE =====
+        function uploadRecruiterFile() {
+            const fileInput = document.getElementById('recruiterFileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Sélectionnez un fichier PDF');
+                return;
+            }
+
+            if (file.type !== 'application/pdf') {
+                alert('Veuillez sélectionner un fichier PDF');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const files = JSON.parse(localStorage.recruiterFiles);
+                files.push({
+                    name: file.name,
+                    data: e.target.result,
+                    date: new Date().toLocaleString('fr-FR'),
+                    id: Date.now()
+                });
+                localStorage.recruiterFiles = JSON.stringify(files);
+
+                fileInput.value = '';
+                afficherRecruiterFiles();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function afficherRecruiterFiles() {
+            const files = JSON.parse(localStorage.recruiterFiles);
+            const list = document.getElementById('recruiterFileList');
+            list.innerHTML = '';
+
+            files.forEach(f => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>✅ ${f.name}</span>
+                                <button class="btn-small danger" onclick="supprimerRecruiterFile(${f.id})">Supprimer</button>`;
+                list.appendChild(li);
+            });
+        }
+
+        function supprimerRecruiterFile(id) {
+            let files = JSON.parse(localStorage.recruiterFiles);
+            files = files.filter(f => f.id !== id);
+            localStorage.recruiterFiles = JSON.stringify(files);
+            afficherRecruiterFiles();
+        }
+
+        function envoyerCandidature() {
+            const nom = document.getElementById('candidatNom').value;
+            const email = document.getElementById('candidatEmail').value;
+            const phone = document.getElementById('candidatPhone').value;
+            const poste = document.getElementById('candidatPoste').value;
+            const msg = document.getElementById('candidatMsg').value;
+
+            if (!nom || !email || !phone || !poste || !msg) {
+                document.getElementById('candidatMsg2').textContent = 'Veuillez remplir tous les champs';
+                document.getElementById('candidatMsg2').className = 'msg-error';
+                return;
+            }
+
+            const recruiterFiles = JSON.parse(localStorage.recruiterFiles);
+            let candidatures = JSON.parse(localStorage.candidatures);
+            candidatures.push({
+                nom,
+                email,
+                phone,
+                poste,
+                msg,
+                cv: recruiterFiles.length > 0 ? recruiterFiles[0] : null,
+                date: new Date().toLocaleString('fr-FR')
+            });
+            localStorage.candidatures = JSON.stringify(candidatures);
+
+            document.getElementById('candidatMsg2').textContent = 'Candidature envoyée avec succès! Nous vous recontacterons bientôt.';
+            document.getElementById('candidatMsg2').className = 'msg-success';
+
+            document.getElementById('candidatNom').value = '';
+            document.getElementById('candidatEmail').value = '';
+            document.getElementById('candidatPhone').value = '';
+            document.getElementById('candidatPoste').value = '';
+            document.getElementById('candidatMsg').value = '';
+            localStorage.recruiterFiles = JSON.stringify([]);
+            afficherRecruiterFiles();
+
             setTimeout(() => {
-                div.style.animation = 'fadeOut 0.3s ease forwards';
-                setTimeout(() => div.remove(), 300);
+                document.getElementById('candidatMsg2').textContent = '';
             }, 3000);
         }
 
-        // Users Management
-        function addUser() {
-            const name = document.getElementById('userName').value.trim();
-            const email = document.getElementById('userEmail').value.trim();
-            const phone = document.getElementById('userPhone').value.trim();
-            const role = document.getElementById('userRole').value;
+        // ===== CONTACT =====
+        function envoyerContact() {
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const msg = document.getElementById('contactMsg').value;
 
-            if (!name || !email) {
-                showNotification('Veuillez remplir tous les champs requis', 'error');
+            if (!name || !email || !msg) {
+                document.getElementById('contactMsg2').textContent = 'Veuillez remplir tous les champs';
+                document.getElementById('contactMsg2').className = 'msg-error';
                 return;
             }
 
-            db.users.push({ id: Date.now(), name, email, phone, role });
-            saveDB();
-            updateUsersTable();
-            updateUserSelects();
-            
-            document.getElementById('userName').value = '';
-            document.getElementById('userEmail').value = '';
-            document.getElementById('userPhone').value = '';
-            
-            showNotification(`Utilisateur ${name} créé`);
-            updateStats();
+            let contacts = JSON.parse(localStorage.contacts);
+            contacts.push({
+                name,
+                email,
+                message: msg,
+                date: new Date().toLocaleString('fr-FR')
+            });
+            localStorage.contacts = JSON.stringify(contacts);
+
+            document.getElementById('contactMsg2').textContent = 'Message envoyé avec succès!';
+            document.getElementById('contactMsg2').className = 'msg-success';
+
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactMsg').value = '';
+
+            setTimeout(() => {
+                document.getElementById('contactMsg2').textContent = '';
+            }, 3000);
         }
 
-        function deleteUser(id) {
-            if (!confirm('Confirmer la suppression ?')) return;
-            db.users = db.users.filter(u => u.id !== id);
-            saveDB();
-            updateUsersTable();
-            updateUserSelects();
-            showNotification('Utilisateur supprimé');
-            updateStats();
-        }
+        // ===== LOGIN =====
+        function login() {
+            const users = JSON.parse(localStorage.users);
+            const u = users.find(x => x.user === document.getElementById('user').value && 
+                                       x.pass === document.getElementById('pass').value);
 
-        function updateUsersTable() {
-            const tbody = document.getElementById('usersTable');
-            if (db.users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #a0a0a0;">Aucun utilisateur</td></tr>';
+            if (!u) {
+                document.getElementById('msg').textContent = 'Identifiants incorrects';
                 return;
             }
-            tbody.innerHTML = db.users.map(u => `
-                <tr>
-                    <td>${u.name}</td>
-                    <td>${u.email}</td>
-                    <td>${u.role}</td>
-                    <td>
-                        <button class="btn btn-danger" onclick="deleteUser(${u.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
-                    </td>
-                </tr>
-            `).join('');
+
+            currentUser = u;
+            document.getElementById('loginBox').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('roleText').textContent = `Connecté en tant que: ${u.user} (${u.role})`;
+
+            afficherPlanning();
+            afficherClock();
+            afficherFiles();
+
+            if (u.role === 'Patron') {
+                document.getElementById('adminPanel').classList.remove('hidden');
+                mettreAJourAdmin();
+                afficherEmployes();
+            }
         }
 
-        function updateUserSelects() {
-            const clients = db.users.filter(u => u.role === 'Client');
-            const selects = [
-                document.getElementById('reservationClient'),
-                document.getElementById('reservationClient')
-            ];
-            selects.forEach(select => {
-                if (!select) return;
-                const current = select.value;
-                select.innerHTML = '<option value="">-- Sélectionner --</option>' + 
-                    clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-                select.value = current;
+        // ===== LOGOUT =====
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginBox').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('msg').textContent = '';
+            document.getElementById('user').value = '';
+            document.getElementById('pass').value = '';
+        }
+
+        // ===== PLANNING =====
+        function ajouterPlanning() {
+            if (!currentUser) return;
+
+            const date = document.getElementById('eventDate').value;
+            const text = document.getElementById('eventText').value;
+
+            if (!date || !text) {
+                alert('Remplissez tous les champs');
+                return;
+            }
+
+            const planning = JSON.parse(localStorage.planning);
+            planning.push({ user: currentUser.user, date, text, id: Date.now() });
+            localStorage.planning = JSON.stringify(planning);
+
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventText').value = '';
+
+            afficherPlanning();
+        }
+
+        function afficherPlanning() {
+            const planning = JSON.parse(localStorage.planning);
+            const list = document.getElementById('eventList');
+            list.innerHTML = '';
+
+            planning.forEach(e => {
+                if (e.user === currentUser.user || currentUser.role === 'Patron') {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${e.date} - ${e.text}</span>
+                                    <button class="btn-small danger" onclick="supprimerPlanning(${e.id})">Supprimer</button>`;
+                    list.appendChild(li);
+                }
             });
         }
 
-        // Vehicles Management
-        function addVehicle() {
-            const brand = document.getElementById('vehicleBrand').value.trim();
-            const model = document.getElementById('vehicleModel').value.trim();
-            const reg = document.getElementById('vehicleReg').value.trim();
-            const year = document.getElementById('vehicleYear').value;
-
-            if (!brand || !model || !reg) {
-                showNotification('Veuillez remplir tous les champs requis', 'error');
-                return;
-            }
-
-            db.vehicles.push({ id: Date.now(), brand, model, reg, year });
-            saveDB();
-            updateVehiclesTable();
-            updateVehicleSelects();
-            
-            document.getElementById('vehicleBrand').value = '';
-            document.getElementById('vehicleModel').value = '';
-            document.getElementById('vehicleReg').value = '';
-            document.getElementById('vehicleYear').value = '';
-            
-            showNotification(`Véhicule ${brand} ${model} ajouté`);
-            updateStats();
-        }
-
-        function deleteVehicle(id) {
+        function supprimerPlanning(id) {
             if (!confirm('Confirmer la suppression ?')) return;
-            db.vehicles = db.vehicles.filter(v => v.id !== id);
-            saveDB();
-            updateVehiclesTable();
-            updateVehicleSelects();
-            showNotification('Véhicule supprimé');
-            updateStats();
+            let planning = JSON.parse(localStorage.planning);
+            planning = planning.filter(p => p.id !== id);
+            localStorage.planning = JSON.stringify(planning);
+            afficherPlanning();
         }
 
-        function updateVehiclesTable() {
-            const tbody = document.getElementById('vehiclesTable');
-            if (db.vehicles.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #a0a0a0;">Aucun véhicule</td></tr>';
-                return;
-            }
-            tbody.innerHTML = db.vehicles.map(v => `
-                <tr>
-                    <td>${v.brand}</td>
-                    <td>${v.model}</td>
-                    <td>${v.reg}</td>
-                    <td>${v.year}</td>
-                    <td>
-                        <button class="btn btn-danger" onclick="deleteVehicle(${v.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
-                    </td>
-                </tr>
-            `).join('');
+        // ===== POINTEUSE =====
+        function pointeuse(type) {
+            if (!currentUser) return;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('fr-FR');
+            const date = now.toLocaleDateString('fr-FR');
+
+            const clock = JSON.parse(localStorage.clock);
+            clock.push({ user: currentUser.user, type, time, date, id: Date.now() });
+            localStorage.clock = JSON.stringify(clock);
+
+            afficherClock();
+            calculerHeures();
         }
 
-        function updateVehicleSelects() {
-            const selects = [
-                document.getElementById('reservationVehicle'),
-                document.getElementById('maintenanceVehicle')
-            ];
-            selects.forEach(select => {
-                if (!select) return;
-                const current = select.value;
-                select.innerHTML = '<option value="">-- Sélectionner --</option>' + 
-                    db.vehicles.map(v => `<option value="${v.id}">${v.brand} ${v.model} (${v.reg})</option>`).join('');
-                select.value = current;
+        function afficherClock() {
+            const clock = JSON.parse(localStorage.clock);
+            const list = document.getElementById('clockList');
+            list.innerHTML = '';
+
+            const today = new Date().toLocaleDateString('fr-FR');
+            const todayClock = clock.filter(c => c.user === currentUser.user && c.date === today);
+
+            todayClock.forEach(c => {
+                const li = document.createElement('li');
+                li.textContent = `${c.type}: ${c.time}`;
+                list.appendChild(li);
             });
+
+            calculerHeures();
         }
 
-        // Reservations Management
-        function addReservation() {
-            const clientId = document.getElementById('reservationClient').value;
-            const vehicleId = document.getElementById('reservationVehicle').value;
-            const date = document.getElementById('reservationDate').value;
-            const desc = document.getElementById('reservationDesc').value.trim();
+        function calculerHeures() {
+            const clock = JSON.parse(localStorage.clock);
+            const today = new Date().toLocaleDateString('fr-FR');
+            const todayClock = clock.filter(c => c.user === currentUser.user && c.date === today);
 
-            if (!clientId || !vehicleId || !date) {
-                showNotification('Veuillez remplir tous les champs requis', 'error');
+            let heures = 0;
+            for (let i = 0; i < todayClock.length; i += 2) {
+                if (todayClock[i].type === 'Entrée' && todayClock[i+1] && todayClock[i+1].type === 'Sortie') {
+                    const entree = new Date(`2000-01-01 ${todayClock[i].time}`);
+                    const sortie = new Date(`2000-01-01 ${todayClock[i+1].time}`);
+                    heures += (sortie - entree) / (1000 * 60 * 60);
+                }
+            }
+
+            document.getElementById('heuresTravaillees').textContent = `Heures travaillées aujourd'hui: ${heures.toFixed(2)}h`;
+        }
+
+        // ===== DOCUMENTS PDF =====
+        function uploadFile() {
+            if (!currentUser) return;
+
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Sélectionnez un fichier PDF');
                 return;
             }
 
-            const client = db.users.find(u => u.id == clientId);
-            const vehicle = db.vehicles.find(v => v.id == vehicleId);
-
-            db.reservations.push({
-                id: Date.now(),
-                clientName: client.name,
-                vehicleInfo: `${vehicle.brand} ${vehicle.model}`,
-                date,
-                desc,
-                status: 'Planifiée'
-            });
-            saveDB();
-            updateReservationsTable();
-            
-            document.getElementById('reservationClient').value = '';
-            document.getElementById('reservationVehicle').value = '';
-            document.getElementById('reservationDate').value = '';
-            document.getElementById('reservationDesc').value = '';
-            
-            showNotification('Réservation créée');
-            updateStats();
-        }
-
-        function deleteReservation(id) {
-            if (!confirm('Confirmer la suppression ?')) return;
-            db.reservations = db.reservations.filter(r => r.id !== id);
-            saveDB();
-            updateReservationsTable();
-            showNotification('Réservation supprimée');
-            updateStats();
-        }
-
-        function updateReservationsTable() {
-            const tbody = document.getElementById('reservationsTable');
-            if (db.reservations.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #a0a0a0;">Aucune réservation</td></tr>';
-                return;
-            }
-            tbody.innerHTML = db.reservations.map(r => `
-                <tr>
-                    <td>${r.clientName}</td>
-                    <td>${r.vehicleInfo}</td>
-                    <td>${r.date}</td>
-                    <td>${r.status}</td>
-                    <td>
-                        <button class="btn btn-danger" onclick="deleteReservation(${r.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Maintenance Management
-        function addMaintenance() {
-            const vehicleId = document.getElementById('maintenanceVehicle').value;
-            const type = document.getElementById('maintenanceType').value;
-            const date = document.getElementById('maintenanceDate').value;
-            const cost = document.getElementById('maintenanceCost').value;
-
-            if (!vehicleId || !date) {
-                showNotification('Veuillez remplir tous les champs requis', 'error');
+            if (file.type !== 'application/pdf') {
+                alert('Veuillez sélectionner un fichier PDF');
                 return;
             }
 
-            const vehicle = db.vehicles.find(v => v.id == vehicleId);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const files = JSON.parse(localStorage.files);
+                files.push({
+                    user: currentUser.user,
+                    name: file.name,
+                    data: e.target.result,
+                    date: new Date().toLocaleString('fr-FR'),
+                    id: Date.now()
+                });
+                localStorage.files = JSON.stringify(files);
 
-            db.maintenance.push({
-                id: Date.now(),
-                vehicleInfo: `${vehicle.brand} ${vehicle.model}`,
-                type,
-                date,
-                cost,
-                status: 'Planifiée'
-            });
-            saveDB();
-            updateMaintenanceTable();
-            
-            document.getElementById('maintenanceVehicle').value = '';
-            document.getElementById('maintenanceDate').value = '';
-            document.getElementById('maintenanceCost').value = '';
-            
-            showNotification('Maintenance planifiée');
-            updateStats();
-        }
-
-        function deleteMaintenance(id) {
-            if (!confirm('Confirmer la suppression ?')) return;
-            db.maintenance = db.maintenance.filter(m => m.id !== id);
-            saveDB();
-            updateMaintenanceTable();
-            showNotification('Maintenance supprimée');
-            updateStats();
-        }
-
-        function updateMaintenanceTable() {
-            const tbody = document.getElementById('maintenanceTable');
-            if (db.maintenance.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #a0a0a0;">Aucune maintenance planifiée</td></tr>';
-                return;
-            }
-            tbody.innerHTML = db.maintenance.map(m => `
-                <tr>
-                    <td>${m.vehicleInfo}</td>
-                    <td>${m.type}</td>
-                    <td>${m.date}</td>
-                    <td>${m.cost ? m.cost + '€' : '-'}</td>
-                    <td>${m.status}</td>
-                    <td>
-                        <button class="btn btn-danger" onclick="deleteMaintenance(${m.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Stats
-        function updateStats() {
-            document.getElementById('statUsers').textContent = db.users.length;
-            document.getElementById('statVehicles').textContent = db.vehicles.length;
-            document.getElementById('statReservations').textContent = db.reservations.length;
-            document.getElementById('statMaintenance').textContent = db.maintenance.length;
-
-            document.getElementById('totalUsers').textContent = db.users.length;
-            document.getElementById('totalVehicles').textContent = db.vehicles.length;
-            document.getElementById('totalReservations').textContent = db.reservations.length;
-            document.getElementById('totalMaintenance').textContent = db.maintenance.length;
-        }
-
-        // Export/Backup
-        function exportData(type) {
-            const data = type === 'users' ? db.users : 
-                        type === 'vehicles' ? db.vehicles :
-                        type === 'reservations' ? db.reservations : db.maintenance;
-            
-            const json = JSON.stringify(data, null, 2);
-            const blob = new Blob([json], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `garage_${type}_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            showNotification(`Export ${type} réussi`);
-        }
-
-        function backupData() {
-            const allData = JSON.stringify(db, null, 2);
-            const blob = new Blob([allData], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `garage_backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            showNotification('Sauvegarde complète réussie');
-        }
-
-        function restoreData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const restored = JSON.parse(event.target.result);
-                        if (restored.users) db.users = restored.users;
-                        if (restored.vehicles) db.vehicles = restored.vehicles;
-                        if (restored.reservations) db.reservations = restored.reservations;
-                        if (restored.maintenance) db.maintenance = restored.maintenance;
-                        saveDB();
-                        updateStats();
-                        updateUsersTable();
-                        updateVehiclesTable();
-                        updateReservationsTable();
-                        updateMaintenanceTable();
-                        showNotification('Restauration réussie');
-                    } catch (e) {
-                        showNotification('Erreur lors de la restauration', 'error');
-                    }
-                };
-                reader.readAsText(file);
+                fileInput.value = '';
+                afficherFiles();
             };
-            input.click();
+            reader.readAsDataURL(file);
         }
 
-        function clearAllData() {
-            if (!confirm('⚠️ Cette action effacera TOUTES les données ! Êtes-vous sûr ?')) return;
-            if (!confirm('⚠️ DERNIERE CHANCE ! Confirmez pour effacer définitivement.')) return;
-            
-            db.users = [];
-            db.vehicles = [];
-            db.reservations = [];
-            db.maintenance = [];
-            saveDB();
-            updateStats();
-            updateUsersTable();
-            updateVehiclesTable();
-            updateReservationsTable();
-            updateMaintenanceTable();
-            showNotification('Toutes les données ont été effacées');
+        function afficherFiles() {
+            const files = JSON.parse(localStorage.files);
+            const list = document.getElementById('fileList');
+            list.innerHTML = '';
+
+            files.forEach(f => {
+                if (f.user === currentUser.user || currentUser.role === 'Patron') {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>📄 ${f.name} (${f.user}) - ${f.date}</span>
+                                    <div>
+                                        <button class="btn-small" onclick="telechargerPDF('${f.id}')">Télécharger</button>
+                                        <button class="btn-small danger" onclick="supprimerFile(${f.id})">Supprimer</button>
+                                    </div>`;
+                    list.appendChild(li);
+                }
+            });
         }
 
-        function optimizeDB() {
-            showNotification('Optimisation en cours...');
-            setTimeout(() => showNotification('Base de données optimisée'), 500);
+        function telechargerPDF(fileId) {
+            const files = JSON.parse(localStorage.files);
+            const file = files.find(f => f.id == fileId);
+
+            if (file) {
+                const link = document.createElement('a');
+                link.href = file.data;
+                link.download = file.name;
+                link.click();
+            }
         }
 
-        function cleanLogs() {
-            showNotification('Logs nettoyés');
+        function supprimerFile(id) {
+            if (!confirm('Confirmer la suppression ?')) return;
+            let files = JSON.parse(localStorage.files);
+            files = files.filter(f => f.id !== id);
+            localStorage.files = JSON.stringify(files);
+            afficherFiles();
         }
 
-        function systemStatus() {
-            const status = `
-                ✓ Système opérationnel
-                • Utilisateurs: ${db.users.length}
-                • Véhicules: ${db.vehicles.length}
-                • Réservations: ${db.reservations.length}
-                • Maintenances: ${db.maintenance.length}
+        // ===== CHANGEMENT MOT DE PASSE =====
+        function changerMotDePasse() {
+            if (!currentUser) return;
+
+            const oldPass = document.getElementById('oldPass').value;
+            const newPass = document.getElementById('newPass').value;
+            const confirmPass = document.getElementById('confirmPass').value;
+
+            if (!oldPass || !newPass || !confirmPass) {
+                document.getElementById('passMsg').textContent = 'Remplissez tous les champs';
+                document.getElementById('passMsg').className = 'msg-error';
+                return;
+            }
+
+            if (oldPass !== currentUser.pass) {
+                document.getElementById('passMsg').textContent = 'Ancien mot de passe incorrect';
+                document.getElementById('passMsg').className = 'msg-error';
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                document.getElementById('passMsg').textContent = 'Les mots de passe ne correspondent pas';
+                document.getElementById('passMsg').className = 'msg-error';
+                return;
+            }
+
+            if (newPass.length < 6) {
+                document.getElementById('passMsg').textContent = 'Le mot de passe doit avoir au moins 6 caractères';
+                document.getElementById('passMsg').className = 'msg-error';
+                return;
+            }
+
+            // Mettre à jour le mot de passe
+            let users = JSON.parse(localStorage.users);
+            const userIndex = users.findIndex(u => u.user === currentUser.user);
+            users[userIndex].pass = newPass;
+            localStorage.users = JSON.stringify(users);
+            currentUser.pass = newPass;
+
+            document.getElementById('passMsg').textContent = 'Mot de passe changé avec succès!';
+            document.getElementById('passMsg').className = 'msg-success';
+
+            document.getElementById('oldPass').value = '';
+            document.getElementById('newPass').value = '';
+            document.getElementById('confirmPass').value = '';
+
+            setTimeout(() => {
+                document.getElementById('passMsg').textContent = '';
+            }, 3000);
+        }
+
+        // ===== ADMIN PANEL =====
+        function mettreAJourAdmin() {
+            const users = JSON.parse(localStorage.users);
+            const planning = JSON.parse(localStorage.planning);
+            const clock = JSON.parse(localStorage.clock);
+            const files = JSON.parse(localStorage.files);
+
+            const statsHTML = `
+                <div class="stat-card">
+                    <div class="number">${users.length}</div>
+                    <div class="label">Employés Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">${planning.length}</div>
+                    <div class="label">Plannings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">${clock.length}</div>
+                    <div class="label">Pointages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">${files.length}</div>
+                    <div class="label">Documents</div>
+                </div>
             `;
-            alert(status);
+
+            document.getElementById('adminStats').innerHTML = statsHTML;
         }
 
-        // Initialize
-        updateStats();
-        updateUsersTable();
-        updateVehiclesTable();
-        updateReservationsTable();
-        updateMaintenanceTable();
+        function creerEmploye() {
+            if (!currentUser || currentUser.role !== 'Patron') return;
+
+            const name = document.getElementById('newUserName').value;
+            const pass = document.getElementById('newUserPass').value;
+            const role = document.getElementById('newUserRole').value;
+
+            if (!name || !pass) {
+                document.getElementById('adminMsg').textContent = 'Remplissez tous les champs';
+                document.getElementById('adminMsg').className = 'msg-error';
+                return;
+            }
+
+            let users = JSON.parse(localStorage.users);
+
+            if (users.find(u => u.user === name)) {
+                document.getElementById('adminMsg').textContent = 'Cet utilisateur existe déjà';
+                document.getElementById('adminMsg').className = 'msg-error';
+                return;
+            }
+
+            users.push({ user: name, pass, role });
+            localStorage.users = JSON.stringify(users);
+
+            document.getElementById('adminMsg').textContent = 'Employé créé avec succès!';
+            document.getElementById('adminMsg').className = 'msg-success';
+
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserPass').value = '';
+
+            afficherEmployes();
+            mettreAJourAdmin();
+
+            setTimeout(() => {
+                document.getElementById('adminMsg').textContent = '';
+            }, 3000);
+        }
+
+        function afficherEmployes() {
+            if (!currentUser || currentUser.role !== 'Patron') return;
+
+            const users = JSON.parse(localStorage.users);
+            const tbody = document.getElementById('employeTable');
+            tbody.innerHTML = '';
+
+            users.forEach(u => {
+                if (u.role !== 'Patron') {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${u.user}</td>
+                        <td>${u.role}</td>
+                        <td><button class="btn-small danger" onclick="supprimerEmploye('${u.user}')">Supprimer</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            });
+        }
+
+        function supprimerEmploye(username) {
+            if (!confirm('Confirmer la suppression de cet employé ?')) return;
+
+            let users = JSON.parse(localStorage.users);
+            users = users.filter(u => u.user !== username);
+            localStorage.users = JSON.stringify(users);
+
+            afficherEmployes();
+            mettreAJourAdmin();
+        }
+
+        // ===== CHARGER AU DÉMARRAGE =====
+        chargerInfosSite();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caef254e36d2a04',t:'MTc3MDU5Mzc1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caf0f2411657521',t:'MTc3MDU5NDkzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
