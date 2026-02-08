@@ -286,12 +286,11 @@
         function initializeStorage() {
             if (!localStorage.getItem('garageUsers')) {
                 localStorage.setItem('garageUsers', JSON.stringify([
-                    { user: 'patron', pass: 'patron123', role: 'Patron' },
-                    { user: 'Luciano', pass: 'Luciano', role: 'Employé' },
-                    { user: 'killian', pass: 'killian', role: 'Employé' }
+                    { user: 'patron', pass: 'patron123', role: 'Patron' }, 
+                    { user: 'Luciano', pass: 'Luciano', role: 'Employé' }, 
+                    { user: 'killian', pass: 'killian', role: 'Employé' } 
                     { user: 'jose', pass: 'jose', role: 'Employé' }
-                ]));
-            }
+            ]);}
             if (!localStorage.getItem('garageEvents')) {
                 localStorage.setItem('garageEvents', JSON.stringify([]));
             }
@@ -308,6 +307,20 @@
 
         function getUsers() {
             return JSON.parse(localStorage.getItem('garageUsers') || '[]');
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('garageUsers', JSON.stringify(users));
+        }
+
+        function getPasswordChangeStatus() {
+            return JSON.parse(localStorage.getItem('passwordChanged') || '{}');
+        }
+
+        function setPasswordChanged(user) {
+            const status = getPasswordChangeStatus();
+            status[user] = true;
+            localStorage.setItem('passwordChanged', JSON.stringify(status));
         }
 
         function getEvents() {
@@ -398,7 +411,7 @@
                         <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Bienvenue au Garage La Plume</h2>
                         <div class="grid md:grid-cols-2 gap-8">
                             <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <div class="text-4xl mb-4">🛠️</div>
+                                <div class="text-4xl mb-4">🛠�����</div>
                                 <h3 class="garage-title text-xl font-bold mb-2 text-white">Expertise & Qualité</h3>
                                 <p class="text-gray-400">Nos mécaniciens qualifiés vous garantissent une réparation de qualité supérieure avec des pièces de premier choix.</p>
                             </div>
@@ -876,8 +889,16 @@
             
             currentUser = user;
             localStorage.setItem('currentUser', JSON.stringify(user));
-            showDashboard();
-            showToast(`Bienvenue ${user.user} !`);
+            
+            // Check if first connection
+            const passwordStatus = getPasswordChangeStatus();
+            if (!passwordStatus[username]) {
+                showPasswordChangeModal();
+            } else {
+                showDashboard();
+                showToast(`Bienvenue ${user.user} !`);
+            }
+            
             return true;
         }
 
@@ -911,6 +932,74 @@
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 showDashboard();
+            }
+        }
+
+        function showPasswordChangeModal() {
+            document.getElementById('loginBox').innerHTML = `
+                <div class="card-bg rounded-xl p-8 border-l-4 red-border">
+                    <h3 class="garage-title text-xl font-bold mb-2 text-white text-center">Première Connexion</h3>
+                    <p class="text-gray-400 text-center text-sm mb-6">Veuillez changer votre mot de passe avant de continuer</p>
+                    <form id="passwordChangeForm" class="space-y-4">
+                        <div>
+                            <label for="newPassword" class="block text-sm font-medium mb-2 text-gray-300">Nouveau mot de passe</label>
+                            <input type="password" id="newPassword" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••" required>
+                        </div>
+                        <div>
+                            <label for="confirmPassword" class="block text-sm font-medium mb-2 text-gray-300">Confirmer le mot de passe</label>
+                            <input type="password" id="confirmPassword" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
+                            Mettre à jour le mot de passe
+                        </button>
+                    </form>
+                    <p id="passwordMsg" class="mt-4 text-center text-sm"></p>
+                </div>
+            `;
+            
+            document.getElementById('passwordChangeForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                changePassword();
+            });
+        }
+
+        function changePassword() {
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (!newPass || !confirmPass) {
+                document.getElementById('passwordMsg').textContent = 'Veuillez remplir tous les champs';
+                document.getElementById('passwordMsg').className = 'mt-4 text-center text-sm text-red-500';
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                document.getElementById('passwordMsg').textContent = 'Le mot de passe doit avoir au moins 6 caractères';
+                document.getElementById('passwordMsg').className = 'mt-4 text-center text-sm text-red-500';
+                return;
+            }
+            
+            if (newPass !== confirmPass) {
+                document.getElementById('passwordMsg').textContent = 'Les mots de passe ne correspondent pas';
+                document.getElementById('passwordMsg').className = 'mt-4 text-center text-sm text-red-500';
+                return;
+            }
+            
+            // Update user password
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.user === currentUser.user);
+            
+            if (userIndex !== -1) {
+                users[userIndex].pass = newPass;
+                saveUsers(users);
+                currentUser.pass = newPass;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Mark password as changed
+                setPasswordChanged(currentUser.user);
+                
+                showDashboard();
+                showToast(`Bienvenue ${currentUser.user} ! Mot de passe mis à jour avec succès`);
             }
         }
 
@@ -1349,5 +1438,5 @@
             window.addEventListener('popstate', renderPage);
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caed3f3b2fff4e7',t:'MTc3MDU5MjUxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caeda1174c7f4e7',t:'MTc3MDU5Mjc2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
