@@ -2,115 +2,28 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Garage La Plume</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #1c1c1c;
-    color: #f5f5f5;
-}
-
-header, footer {
-    background: #111;
-    padding: 20px;
-    border-bottom: 4px solid #c30000;
-}
-
-footer {
-    border-top: 4px solid #c30000;
-    text-align: center;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-nav a:hover { color: #c30000; }
-
-section {
-    padding: 60px 20px;
-    max-width: 1100px;
-    margin: auto;
-}
-
-.hero {
-    text-align: center;
-    background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-    url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover;
-    padding: 100px 20px;
-}
-
-.hero h2 { color: #c30000; font-size: 40px; }
-
-.services {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-}
-
-.box {
-    background: #2a2a2a;
-    padding: 20px;
-    border-left: 4px solid #c30000;
-    margin-bottom: 20px;
-}
-
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #111;
-    border: 1px solid #555;
-    color: white;
-}
-
-button {
-    background: #c30000;
-    border: none;
-    padding: 12px;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover { background: red; }
-
-.hidden { display: none; }
-
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-}
-
-.day {
-    background: #222;
-    padding: 5px;
-    min-height: 70px;
-    border: 1px solid #444;
-}
-
-.day strong { color: #c30000; }
-
-.event {
-    font-size: 11px;
-    background: #111;
-    margin-top: 4px;
-    padding: 3px;
-    border-left: 3px solid #c30000;
-}
+body{margin:0;font-family:Arial;background:#1c1c1c;color:#fff}
+header,footer{background:#111;padding:20px;border-bottom:4px solid #c30000}
+footer{border-top:4px solid #c30000;text-align:center}
+nav ul{list-style:none;display:flex;gap:20px;padding:0}
+nav a{color:#fff;text-decoration:none;font-weight:bold}
+nav a:hover{color:#c30000}
+section{padding:40px;max-width:1100px;margin:auto}
+.hero{text-align:center;padding:80px;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover}
+.hero h2{color:#c30000;font-size:38px}
+.box{background:#2a2a2a;padding:20px;border-left:4px solid #c30000;margin-bottom:20px}
+input,textarea{width:100%;padding:10px;margin-bottom:10px;background:#111;color:#fff;border:1px solid #555}
+button{background:#c30000;border:none;color:#fff;padding:10px;cursor:pointer}
+button:hover{background:red}
+.hidden{display:none}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.day{background:#111;padding:5px;border:1px solid #333;font-size:12px}
+.event{background:#c30000;margin-top:3px;padding:2px;font-size:11px}
 </style>
 </head>
 
@@ -135,60 +48,62 @@ button:hover { background: red; }
 
 <section id="services">
 <h2>Nos Services</h2>
-<div class="services">
-<div class="box"><h3>🔧 Réparation</h3></div>
-<div class="box"><h3>🛢 Dépannage</h3></div>
-<div class="box"><h3>💻 Diagnostic</h3></div>
-<div class="box"><h3>🚗 Contrôle</h3></div>
-</div>
+<div class="box">🔧 Réparation mécanique</div>
+<div class="box">🛢 Dépannage</div>
+<div class="box">💻 Diagnostic électronique</div>
+<div class="box">🚗 Pré-contrôle technique</div>
 </section>
 
 <section id="contact">
 <h2>Contact</h2>
-<form class="box">
+<div class="box">
 <input placeholder="Nom">
 <input placeholder="Email">
 <textarea placeholder="Message"></textarea>
 <button>Envoyer</button>
-</form>
+</div>
 </section>
 
-<!-- ====== ESPACE EMPLOYÉ (MODIFIÉ) ====== -->
 <section id="employe">
 <h2>Espace Employé 🔐</h2>
 
-<div class="box" id="loginBox">
+<div id="loginBox" class="box">
 <input id="user" placeholder="Identifiant">
 <input id="pass" type="password" placeholder="Mot de passe">
 <button onclick="login()">Connexion</button>
-<p id="msg" style="color:red;"></p>
+<p id="msg" style="color:red"></p>
 </div>
 
-<div id="dashboard" class="hidden box">
-<h3 id="roleText"></h3>
+<div id="dashboard" class="hidden">
 
-<h4>📅 Planning</h4>
-<div class="calendar" id="calendar"></div>
+<p id="roleText"></p>
+
+<div class="box">
+<h3>📅 Planning</h3>
 <input type="date" id="eventDate">
-<input placeholder="Entretien / Client" id="eventText">
-<button onclick="addEvent()">Ajouter</button>
+<input id="eventText" placeholder="Entretien / Mission">
+<button onclick="ajouterPlanning()">Ajouter</button>
+<div id="calendar" class="calendar"></div>
+</div>
 
-<h4>🕒 Pointage</h4>
-<button onclick="clock('Entrée')">Entrée</button>
-<button onclick="clock('Sortie')">Sortie</button>
+<div class="box">
+<h3>⏱ Pointeuse</h3>
+<button onclick="pointeuse('Entrée')">Entrée</button>
+<button onclick="pointeuse('Sortie')">Sortie</button>
 <ul id="clockList"></ul>
+<p id="heuresTravaillees"></p>
+</div>
 
-<h4>📂 Documents</h4>
+<div class="box">
+<h3>📁 Documents</h3>
 <input type="file" id="fileInput">
 <button onclick="uploadFile()">Uploader</button>
 <ul id="fileList"></ul>
+</div>
 
-<div id="adminPanel" class="hidden">
-<h4>⚙️ Administration (Patron)</h4>
-<input id="newUser" placeholder="Nouvel employé">
-<input id="newPass" placeholder="Mot de passe">
-<button onclick="addUser()">Ajouter</button>
-<ul id="userList"></ul>
+<div id="adminPanel" class="box hidden">
+<h3>👑 Vue Patron</h3>
+<div id="globalData"></div>
 </div>
 
 <button onclick="logout()">Déconnexion</button>
@@ -200,168 +115,128 @@ button:hover { background: red; }
 </footer>
 
 <script>
-/* ===== COMPTES PAR DÉFAUT ===== */
-if (!localStorage.users) {
-    localStorage.users = JSON.stringify([
-        { user: "patron", pass: "patron123", role: "Patron" },
-        { user: "jean", pass: "jean123", role: "Employé" },
-        { user: "paul", pass: "paul123", role: "Employé" }
-    ]);
+/* COMPTES */
+if(!localStorage.users){
+localStorage.users=JSON.stringify([
+{user:"patron",pass:"patron123",role:"Patron"},
+{user:"jean",pass:"jean123",role:"Employé"},
+{user:"paul",pass:"paul123",role:"Employé"}
+]);}
+
+let currentUser=null;
+
+/* LOGIN */
+function login(){
+const users=JSON.parse(localStorage.users);
+const u=users.find(x=>x.user===user.value&&x.pass===pass.value);
+if(!u){msg.textContent="Identifiants incorrects";return;}
+currentUser=u;
+roleText.textContent=u.user+" ("+u.role+")";
+loginBox.classList.add("hidden");
+dashboard.classList.remove("hidden");
+adminPanel.classList.toggle("hidden",u.role!=="Patron");
+chargerPlanning();chargerPointeuse();chargerHeures();chargerFichiers();
 }
 
-let currentUser = null;
-
-/* ===== LOGIN ===== */
-function login() {
-    const users = JSON.parse(localStorage.users);
-    const found = users.find(u => u.user === user.value && u.pass === pass.value);
-
-    if (!found) {
-        msg.textContent = "Identifiants incorrects";
-        return;
-    }
-
-    currentUser = found;
-    roleText.textContent = `${found.user} (${found.role})`;
-
-    loginBox.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-    msg.textContent = "";
-
-    if (found.role === "Patron") adminPanel.classList.remove("hidden");
-    else adminPanel.classList.add("hidden");
-
-    loadCalendar();
-    loadClock();
-    loadFiles();
+/* LOGOUT */
+function logout(){
+currentUser=null;
+dashboard.classList.add("hidden");
+loginBox.classList.remove("hidden");
 }
 
-/* ===== LOGOUT ===== */
-function logout() {
-    currentUser = null;
-    dashboard.classList.add("hidden");
-    loginBox.classList.remove("hidden");
+/* PLANNING */
+function ajouterPlanning(){
+if(!eventDate.value||!eventText.value)return;
+const d=JSON.parse(localStorage.planning||"{}");
+const k=currentUser.user+"|"+eventDate.value;
+if(!d[k])d[k]=[];
+d[k].push(eventText.value);
+localStorage.planning=JSON.stringify(d);
+eventText.value="";
+chargerPlanning();
 }
 
-/* ===== PLANNING ===== */
-function addEvent() {
-    if (!eventDate.value || !eventText.value) return;
-
-    const events = JSON.parse(localStorage.events || "{}");
-    const key = `${currentUser.user}|${eventDate.value}`;
-
-    if (!events[key]) events[key] = [];
-    events[key].push(eventText.value);
-
-    localStorage.events = JSON.stringify(events);
-    eventText.value = "";
-    loadCalendar();
+function chargerPlanning(){
+calendar.innerHTML="";
+const n=new Date(),y=n.getFullYear(),m=String(n.getMonth()+1).padStart(2,"0");
+const days=new Date(y,m,0).getDate();
+const d=JSON.parse(localStorage.planning||"{}");
+for(let i=1;i<=days;i++){
+const day=String(i).padStart(2,"0");
+const date=y+"-"+m+"-"+day;
+const div=document.createElement("div");
+div.className="day";
+div.innerHTML="<strong>"+i+"</strong>";
+(d[currentUser.user+"|"+date]||[]).forEach(e=>{
+const ev=document.createElement("div");
+ev.className="event";ev.textContent=e;div.appendChild(ev);
+});
+calendar.appendChild(div);
+}
 }
 
-function loadCalendar() {
-    calendar.innerHTML = "";
-
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const daysInMonth = new Date(year, month, 0).getDate();
-
-    const events = JSON.parse(localStorage.events || "{}");
-
-    for (let d = 1; d <= daysInMonth; d++) {
-        const day = String(d).padStart(2, "0");
-        const dateKey = `${year}-${month}-${day}`;
-        const fullKey = `${currentUser.user}|${dateKey}`;
-
-        const div = document.createElement("div");
-        div.className = "day";
-        div.innerHTML = `<strong>${d}</strong>`;
-
-        if (events[fullKey]) {
-            events[fullKey].forEach(e => {
-                const ev = document.createElement("div");
-                ev.className = "event";
-                ev.textContent = e;
-                div.appendChild(ev);
-            });
-        }
-
-        calendar.appendChild(div);
-    }
+/* POINTEUSE */
+function pointeuse(type){
+const d=JSON.parse(localStorage.pointage||"{}");
+if(!d[currentUser.user])d[currentUser.user]=[];
+const logs=d[currentUser.user];
+if(logs.length&&logs[logs.length-1].type===type)return alert("Action déjà faite");
+logs.push({type,time:new Date().toISOString()});
+localStorage.pointage=JSON.stringify(d);
+chargerPointeuse();chargerHeures();
 }
 
-/* ===== POINTEUSE (CORRIGÉE) ===== */
-function pointeuse(type) {
-    if (!currentUser) return;
-
-    const data = JSON.parse(localStorage.getItem("clocking") || "{}");
-
-    if (!data[currentUser.user]) {
-        data[currentUser.user] = [];
-    }
-
-    data[currentUser.user].push(
-        `${type} - ${new Date().toLocaleString()}`
-    );
-
-    localStorage.setItem("clocking", JSON.stringify(data));
-    chargerPointeuse();
+function chargerPointeuse(){
+clockList.innerHTML="";
+(JSON.parse(localStorage.pointage||"{}")[currentUser.user]||[])
+.forEach(l=>{
+const li=document.createElement("li");
+li.textContent=l.type+" - "+new Date(l.time).toLocaleString();
+clockList.appendChild(li);
+});
 }
 
-function chargerPointeuse() {
-    clockList.innerHTML = "";
-
-    const data = JSON.parse(localStorage.getItem("clocking") || "{}");
-    const logs = data[currentUser.user] || [];
-
-    logs.forEach(ligne => {
-        const li = document.createElement("li");
-        li.textContent = ligne;
-        clockList.appendChild(li);
-    });
+/* HEURES */
+function chargerHeures(){
+const logs=(JSON.parse(localStorage.pointage||"{}")[currentUser.user]||[]);
+let t=0;
+for(let i=0;i<logs.length;i+=2){
+if(logs[i+1])t+=new Date(logs[i+1].time)-new Date(logs[i].time);
+}
+heuresTravaillees.textContent="Heures travaillées : "+(t/3600000).toFixed(2)+" h";
+if(currentUser.role==="Patron")chargerHeuresGlobales();
 }
 
-/* ===== DOCUMENTS ===== */
-function uploadFile() {
-    if (!fileInput.files[0]) return;
-
-    const files = JSON.parse(localStorage.files || "{}");
-    if (!files[currentUser.user]) files[currentUser.user] = [];
-
-    files[currentUser.user].push(fileInput.files[0].name);
-    localStorage.files = JSON.stringify(files);
-    loadFiles();
-    fileInput.value = "";
+function chargerHeuresGlobales(){
+const d=JSON.parse(localStorage.pointage||"{}");
+globalData.innerHTML="";
+for(let u in d){
+let t=0,l=d[u];
+for(let i=0;i<l.length;i+=2){
+if(l[i+1])t+=new Date(l[i+1].time)-new Date(l[i].time);
+}
+globalData.innerHTML+=`<p><strong>${u}</strong> : ${(t/3600000).toFixed(2)} h</p>`;
+}
 }
 
-function loadFiles() {
-    fileList.innerHTML = "";
-    const files = JSON.parse(localStorage.files || "{}");
-    (files[currentUser.user] || []).forEach(f => {
-        const li = document.createElement("li");
-        li.textContent = f;
-        fileList.appendChild(li);
-    });
+/* FICHIERS */
+function uploadFile(){
+if(!fileInput.files[0])return;
+const d=JSON.parse(localStorage.files||"{}");
+if(!d[currentUser.user])d[currentUser.user]=[];
+d[currentUser.user].push(fileInput.files[0].name);
+localStorage.files=JSON.stringify(d);
+chargerFichiers();fileInput.value="";
 }
 
-/* ===== ADMIN ===== */
-function addUser() {
-    if (!newUser.value || !newPass.value) return;
-
-    const users = JSON.parse(localStorage.users);
-    users.push({ user: newUser.value, pass: newPass.value, role: "Employé" });
-    localStorage.users = JSON.stringify(users);
-
-    newUser.value = "";
-    newPass.value = "";
-    alert("Employé ajouté");
-}
-</script>
-
-
-/* ===== LOAD ===== */
-function loadAll(){
-loadCalendar();loadClock();loadFiles();
+function chargerFichiers(){
+fileList.innerHTML="";
+(JSON.parse(localStorage.files||"{}")[currentUser.user]||[])
+.forEach(f=>{
+const li=document.createElement("li");
+li.textContent=f;fileList.appendChild(li);
+});
 }
 </script>
 
