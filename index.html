@@ -318,7 +318,7 @@
         <div class="flex gap-4"><input type="file" id="candidateCv" class="hidden" accept=".pdf" required> <button type="button" id="selectCvBtn" class="btn-secondary px-6 py-3 rounded-lg font-medium text-white border border-gray-600 flex-1"> 📄 Sélectionner CV </button> <span id="cvFileName" class="text-gray-400 self-center text-sm flex-1"></span>
         </div>
        </div>
-       <div><label for="candidateLetter" class="block text-sm font-medium mb-2 text-gray-300">Lettre de Motivation (optionnel)</label> <textarea id="candidateLetter" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Parlez-nous de vous et de votre intérêt pour notre garage..."></textarea>
+       <div><label for="candidateLetter" class="block text-sm font-medium mb-2 text-gray-300">Lettre de Motivation (optionnel)</label> <textarea id="candidateLetter" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Parlez-nous de vous et de votre int��rêt pour notre garage..."></textarea>
        </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white"> Envoyer ma Candidature </button>
       </form>
      </div><!-- Admin: View Candidates -->
@@ -339,6 +339,7 @@
        </div>
        <div><label for="pass" class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label> <input type="password" id="pass" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••">
        </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white"> Se Connecter </button>
+      </form>
      </div><!-- Dashboard (Hidden by default) -->
      <div id="dashboard" class="hidden space-y-6"><!-- Welcome Banner -->
       <div class="card-bg rounded-xl p-6 border-l-4 red-border">
@@ -587,6 +588,7 @@
         function logout() {
             currentUser = null;
             localStorage.removeItem('currentUser');
+            document.getElementById('candidatesPanel').classList.add('hidden');
             hideDashboard();
             showToast('Déconnexion réussie');
         }
@@ -1133,5 +1135,5 @@
             });
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caea57d67d26fcc',t:'MTc3MDU5MDYxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caeb2de976d1344',t:'MTc3MDU5MTE2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
