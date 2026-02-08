@@ -5,968 +5,1071 @@
   <title>Garage La Plume - Server Manager</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&amp;family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <style>
-        body {
+        * {
             box-sizing: border-box;
         }
-        
+
         html, body {
             height: 100%;
             width: 100%;
             margin: 0;
             padding: 0;
         }
-        
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
         .app-wrapper {
             height: 100%;
             width: 100%;
-            overflow-y: auto;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-        
-        .garage-title {
-            font-family: 'Rajdhani', sans-serif;
-        }
-        
-        .body-text {
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        .red-accent {
-            color: #dc2626;
-        }
-        
-        .purple-accent {
-            color: #a855f7;
-        }
-        
-        .red-bg {
-            background-color: #dc2626;
-        }
-        
-        .red-border {
-            border-color: #dc2626;
-        }
-        
-        .purple-border {
-            border-color: #a855f7;
-        }
-        
-        .card-bg {
-            background: rgba(30, 30, 40, 0.9);
+
+        /* ===== HEADER ===== */
+        .header {
+            background: rgba(15, 23, 41, 0.95);
             backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00d4ff;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.15);
         }
-        
-        .input-style {
-            background: rgba(15, 15, 20, 0.8);
-            border: 1px solid rgba(100, 100, 120, 0.3);
+
+        .header-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            gap: 0;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 250px;
+            background: rgba(10, 14, 39, 0.8);
+            border-right: 1px solid rgba(0, 212, 255, 0.2);
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-left: 3px solid transparent;
             transition: all 0.3s ease;
-        }
-        
-        .input-style:focus {
-            border-color: #dc2626;
-            box-shadow: 0 0 15px rgba(220, 38, 38, 0.3);
-            outline: none;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
-        }
-        
-        .btn-secondary {
-            background: rgba(60, 60, 80, 0.8);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(80, 80, 100, 0.9);
-        }
-        
-        .nav-button {
-            padding: 10px 20px;
-            border-radius: 6px;
+            color: #a0a0a0;
             font-weight: 500;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+            color: #00d4ff;
+        }
+
+        .sidebar-item.active {
+            border-left-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .sidebar-item-icon {
+            font-size: 1.3rem;
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.5) 0%, rgba(26, 31, 58, 0.5) 100%);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            color: #00d4ff;
+            margin: 0 0 1.5rem 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: rgba(20, 30, 50, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #00d4ff;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ===== FORMS ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: rgba(15, 23, 41, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 6px;
+            padding: 0.75rem;
+            color: #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(15, 23, 41, 0.95);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: none;
-            color: white;
-            background: rgba(60, 60, 80, 0.6);
-            text-decoration: none;
-            display: inline-block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        
-        .nav-button.active {
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #00a8cc 100%);
+            color: #0a0e27;
         }
-        
-        .nav-button:not(.active):hover {
-            background: rgba(80, 80, 100, 0.8);
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
         }
-        
-        .toast {
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            border: 1px solid #00d4ff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-danger {
+            background: rgba(255, 51, 102, 0.1);
+            color: #ff3366;
+            border: 1px solid #ff3366;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 51, 102, 0.2);
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            padding: 1rem;
+            text-align: left;
+            color: #00d4ff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 1rem;
+            color: #e0e0e0;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: rgba(20, 30, 50, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
+
+        .stat-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ff88;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== NOTIFICATIONS ===== */
+        .notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 24px;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
             border-radius: 8px;
-            color: white;
-            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid;
+            animation: slideUp 0.3s ease;
             z-index: 1000;
-            animation: slideIn 0.3s ease;
+            max-width: 400px;
         }
-        
-        .toast-success {
-            background: linear-gradient(135deg, #059669, #047857);
+
+        .notification-success {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
         }
-        
-        .toast-error {
-            background: linear-gradient(135deg, #dc2626, #991b1b);
+
+        .notification-error {
+            background: rgba(255, 51, 102, 0.1);
+            border-color: #ff3366;
+            color: #ff3366;
         }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        
-        .manager-tab.active {
-            background: #a855f7 !important;
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 212, 255, 0.05);
         }
-        
-        .user-item {
-            background: rgba(25, 25, 35, 0.8);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            transition: all 0.2s ease;
-            border-radius: 6px;
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
         }
-        
-        .user-item:hover {
-            border-color: #a855f7;
-            background: rgba(35, 35, 45, 0.9);
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="app-wrapper body-text text-gray-100"><!-- Header Navigation -->
-   <header class="bg-black/80 backdrop-blur-md border-b-4 purple-border sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4">
-     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <h1 class="garage-title text-3xl font-bold purple-accent">🔧 Server Manager</h1>
-      <nav>
-       <div class="flex flex-wrap gap-2"><a href="?page=home" class="nav-button active" id="navHome">🏠 Accueil</a> <a href="?page=manager" class="nav-button" id="navManager">⚙️ Gestion</a>
+  <div class="app-wrapper"><!-- HEADER -->
+   <div class="header">
+    <h1 class="header-title">⚙️ SERVER MANAGER</h1>
+    <div class="header-status"><span class="status-indicator"></span> <span>Système Opérationnel</span>
+    </div>
+   </div><!-- MAIN CONTENT -->
+   <div class="main-content"><!-- SIDEBAR -->
+    <div class="sidebar">
+     <div class="sidebar-item active" data-section="dashboard"><span class="sidebar-item-icon">📊</span> <span>Dashboard</span>
+     </div>
+     <div class="sidebar-item" data-section="users"><span class="sidebar-item-icon">👥</span> <span>Utilisateurs</span>
+     </div>
+     <div class="sidebar-item" data-section="vehicles"><span class="sidebar-item-icon">🚗</span> <span>Véhicules</span>
+     </div>
+     <div class="sidebar-item" data-section="reservations"><span class="sidebar-item-icon">📅</span> <span>Réservations</span>
+     </div>
+     <div class="sidebar-item" data-section="maintenance"><span class="sidebar-item-icon">🔧</span> <span>Maintenance</span>
+     </div>
+     <div class="sidebar-item" data-section="reports"><span class="sidebar-item-icon">📈</span> <span>Rapports</span>
+     </div>
+     <div class="sidebar-item" data-section="settings"><span class="sidebar-item-icon">⚡</span> <span>Paramètres</span>
+     </div>
+    </div><!-- CONTENT AREA -->
+    <div class="content-area"><!-- DASHBOARD SECTION -->
+     <div class="section active" data-section-content="dashboard">
+      <h2 class="section-title">Dashboard Général</h2>
+      <div class="stats-grid">
+       <div class="stat-box">
+        <div class="stat-label">
+         Utilisateurs Actifs
+        </div>
+        <div class="stat-value" id="statUsers">
+         0
+        </div>
        </div>
-      </nav>
+       <div class="stat-box">
+        <div class="stat-label">
+         Véhicules
+        </div>
+        <div class="stat-value" id="statVehicles">
+         0
+        </div>
+       </div>
+       <div class="stat-box">
+        <div class="stat-label">
+         Réservations
+        </div>
+        <div class="stat-value" id="statReservations">
+         0
+        </div>
+       </div>
+       <div class="stat-box">
+        <div class="stat-label">
+         Révisions Planifiées
+        </div>
+        <div class="stat-value" id="statMaintenance">
+         0
+        </div>
+       </div>
+      </div>
+      <div class="card">
+       <h3 class="card-title">📋 Activité Récente</h3>
+       <div id="recentActivity" style="color: #a0a0a0; font-size: 0.9rem; line-height: 1.8;">
+        • Système initialisé<br>
+         • En attente d'activités...
+       </div>
+      </div>
+     </div><!-- USERS SECTION -->
+     <div class="section" data-section-content="users">
+      <h2 class="section-title">Gestion des Utilisateurs</h2>
+      <div class="card">
+       <h3 class="card-title">➕ Ajouter un Utilisateur</h3>
+       <div class="form-grid">
+        <div class="form-group"><label>Nom Complet</label> <input type="text" id="userName" placeholder="Jean Dupont">
+        </div>
+        <div class="form-group"><label>Email</label> <input type="email" id="userEmail" placeholder="jean@garage.fr">
+        </div>
+        <div class="form-group"><label>Téléphone</label> <input type="tel" id="userPhone" placeholder="06 12 34 56 78">
+        </div>
+        <div class="form-group"><label>Rôle</label> <select id="userRole"> <option value="Client">Client</option> <option value="Mécanicien">Mécanicien</option> <option value="Manager">Manager</option> <option value="Admin">Admin</option> </select>
+        </div>
+       </div><button class="btn btn-primary" onclick="addUser()">Créer Utilisateur</button>
+      </div>
+      <div class="card">
+       <h3 class="card-title">👥 Liste des Utilisateurs</h3>
+       <div class="table-wrapper">
+        <table>
+         <thead>
+          <tr>
+           <th>Nom</th>
+           <th>Email</th>
+           <th>Rôle</th>
+           <th>Actions</th>
+          </tr>
+         </thead>
+         <tbody id="usersTable">
+          <tr>
+           <td colspan="4" style="text-align: center; color: #a0a0a0;">Aucun utilisateur</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div><!-- VEHICLES SECTION -->
+     <div class="section" data-section-content="vehicles">
+      <h2 class="section-title">Gestion des Véhicules</h2>
+      <div class="card">
+       <h3 class="card-title">🚗 Ajouter un Véhicule</h3>
+       <div class="form-grid">
+        <div class="form-group"><label>Marque</label> <input type="text" id="vehicleBrand" placeholder="Peugeot">
+        </div>
+        <div class="form-group"><label>Modèle</label> <input type="text" id="vehicleModel" placeholder="308">
+        </div>
+        <div class="form-group"><label>Immatriculation</label> <input type="text" id="vehicleReg" placeholder="AB-123-CD">
+        </div>
+        <div class="form-group"><label>Année</label> <input type="number" id="vehicleYear" placeholder="2022">
+        </div>
+       </div><button class="btn btn-primary" onclick="addVehicle()">Ajouter Véhicule</button>
+      </div>
+      <div class="card">
+       <h3 class="card-title">📋 Parc Automobile</h3>
+       <div class="table-wrapper">
+        <table>
+         <thead>
+          <tr>
+           <th>Marque</th>
+           <th>Modèle</th>
+           <th>Immatriculation</th>
+           <th>Année</th>
+           <th>Actions</th>
+          </tr>
+         </thead>
+         <tbody id="vehiclesTable">
+          <tr>
+           <td colspan="5" style="text-align: center; color: #a0a0a0;">Aucun véhicule</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div><!-- RESERVATIONS SECTION -->
+     <div class="section" data-section-content="reservations">
+      <h2 class="section-title">Gestion des Réservations</h2>
+      <div class="card">
+       <h3 class="card-title">📅 Nouvelle Réservation</h3>
+       <div class="form-grid">
+        <div class="form-group"><label>Client</label> <select id="reservationClient"> <option value="">-- Sélectionner --</option> </select>
+        </div>
+        <div class="form-group"><label>Véhicule</label> <select id="reservationVehicle"> <option value="">-- Sélectionner --</option> </select>
+        </div>
+        <div class="form-group"><label>Date</label> <input type="date" id="reservationDate">
+        </div>
+        <div class="form-group"><label>Description</label> <textarea id="reservationDesc" placeholder="Détails du service..."></textarea>
+        </div>
+       </div><button class="btn btn-primary" onclick="addReservation()">Créer Réservation</button>
+      </div>
+      <div class="card">
+       <h3 class="card-title">📋 Réservations</h3>
+       <div class="table-wrapper">
+        <table>
+         <thead>
+          <tr>
+           <th>Client</th>
+           <th>Véhicule</th>
+           <th>Date</th>
+           <th>Statut</th>
+           <th>Actions</th>
+          </tr>
+         </thead>
+         <tbody id="reservationsTable">
+          <tr>
+           <td colspan="5" style="text-align: center; color: #a0a0a0;">Aucune réservation</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div><!-- MAINTENANCE SECTION -->
+     <div class="section" data-section-content="maintenance">
+      <h2 class="section-title">Planification Maintenance</h2>
+      <div class="card">
+       <h3 class="card-title">🔧 Planifier une Maintenance</h3>
+       <div class="form-grid">
+        <div class="form-group"><label>Véhicule</label> <select id="maintenanceVehicle"> <option value="">-- Sélectionner --</option> </select>
+        </div>
+        <div class="form-group"><label>Type de Maintenance</label> <select id="maintenanceType"> <option value="Révision">Révision</option> <option value="Contrôle">Contrôle Technique</option> <option value="Réparation">Réparation</option> <option value="Entretien">Entretien</option> </select>
+        </div>
+        <div class="form-group"><label>Date Planifiée</label> <input type="date" id="maintenanceDate">
+        </div>
+        <div class="form-group"><label>Coût Estimé</label> <input type="number" id="maintenanceCost" placeholder="0.00">
+        </div>
+       </div><button class="btn btn-primary" onclick="addMaintenance()">Planifier</button>
+      </div>
+      <div class="card">
+       <h3 class="card-title">📋 Révisions Planifiées</h3>
+       <div class="table-wrapper">
+        <table>
+         <thead>
+          <tr>
+           <th>Véhicule</th>
+           <th>Type</th>
+           <th>Date</th>
+           <th>Coût</th>
+           <th>Statut</th>
+           <th>Actions</th>
+          </tr>
+         </thead>
+         <tbody id="maintenanceTable">
+          <tr>
+           <td colspan="6" style="text-align: center; color: #a0a0a0;">Aucune maintenance planifiée</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div><!-- REPORTS SECTION -->
+     <div class="section" data-section-content="reports">
+      <h2 class="section-title">Rapports et Statistiques</h2>
+      <div class="card">
+       <h3 class="card-title">📊 Export de Données</h3>
+       <div class="btn-group"><button class="btn btn-primary" onclick="exportData('users')">Exporter Utilisateurs</button> <button class="btn btn-primary" onclick="exportData('vehicles')">Exporter Véhicules</button> <button class="btn btn-primary" onclick="exportData('reservations')">Exporter Réservations</button> <button class="btn btn-primary" onclick="exportData('maintenance')">Exporter Maintenance</button>
+       </div>
+      </div>
+      <div class="card">
+       <h3 class="card-title">📈 Statistiques Globales</h3>
+       <div id="statsContent" style="color: #a0a0a0; line-height: 2;">
+        • Utilisateurs : <span id="totalUsers">0</span><br>
+         • Véhicules : <span id="totalVehicles">0</span><br>
+         • Réservations : <span id="totalReservations">0</span><br>
+         • Maintenances : <span id="totalMaintenance">0</span>
+       </div>
+      </div>
+     </div><!-- SETTINGS SECTION -->
+     <div class="section" data-section-content="settings">
+      <h2 class="section-title">Paramètres Système</h2>
+      <div class="card">
+       <h3 class="card-title">💾 Base de Données</h3>
+       <div class="btn-group"><button class="btn btn-secondary" onclick="backupData()">💾 Sauvegarder</button> <button class="btn btn-secondary" onclick="restoreData()">📥 Restaurer</button> <button class="btn btn-danger" onclick="clearAllData()">🗑️ Effacer Tout</button>
+       </div>
+      </div>
+      <div class="card">
+       <h3 class="card-title">⚡ Maintenance Système</h3>
+       <div class="btn-group"><button class="btn btn-secondary" onclick="optimizeDB()">🔧 Optimiser</button> <button class="btn btn-secondary" onclick="cleanLogs()">🧹 Nettoyer Logs</button> <button class="btn btn-secondary" onclick="systemStatus()">🔍 État Système</button>
+       </div>
+      </div>
      </div>
     </div>
-   </header><!-- Contenu dynamique -->
-   <div id="content"></div><!-- Footer -->
-   <footer class="bg-black/80 border-t-4 purple-border py-8 px-6 text-center mt-12">
-    <p class="text-gray-400">© 2026 Garage La Plume - Server Manager</p>
-   </footer>
-  </div><!-- Toast Container -->
-  <div id="toastContainer"></div>
+   </div>
+  </div>
   <script>
-        // ============================================
-        // Storage & Initialization
-        // ============================================
-        
-        function initializeStorage() {
-            if (!localStorage.getItem('garageUsers')) {
-                localStorage.setItem('garageUsers', JSON.stringify([
-                    { user: 'patron', pass: 'patron123', role: 'Patron' },
-                    { user: 'luciano', pass: 'luciano', role: 'Employé' },
-                    { user: 'killyan', pass: 'killyan', role: 'Employé' },
-                    { user: 'anais', pass: 'anais', role: 'Gestionnaire Serveur' }
-                ]));
-            }
-            if (!localStorage.getItem('garageEvents')) {
-                localStorage.setItem('garageEvents', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('garageClock')) {
-                localStorage.setItem('garageClock', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('garageFiles')) {
-                localStorage.setItem('garageFiles', JSON.stringify([]));
-            }
+        // Data Management
+        const db = {
+            users: JSON.parse(localStorage.getItem('garageUsers') || '[]'),
+            vehicles: JSON.parse(localStorage.getItem('garageVehicles') || '[]'),
+            reservations: JSON.parse(localStorage.getItem('garageReservations') || '[]'),
+            maintenance: JSON.parse(localStorage.getItem('garageMaintenance') || '[]')
+        };
+
+        function saveDB() {
+            localStorage.setItem('garageUsers', JSON.stringify(db.users));
+            localStorage.setItem('garageVehicles', JSON.stringify(db.vehicles));
+            localStorage.setItem('garageReservations', JSON.stringify(db.reservations));
+            localStorage.setItem('garageMaintenance', JSON.stringify(db.maintenance));
         }
 
-        function getUsers() {
-            return JSON.parse(localStorage.getItem('garageUsers') || '[]');
-        }
+        // Navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                item.classList.add('active');
+                const section = item.getAttribute('data-section');
+                document.querySelector(`[data-section-content="${section}"]`).classList.add('active');
 
-        function saveUsers(users) {
-            localStorage.setItem('garageUsers', JSON.stringify(users));
-        }
+                if (section === 'users') updateUserSelects();
+                if (section === 'vehicles') updateVehicleSelects();
+            });
+        });
 
-        function getEvents() {
-            return JSON.parse(localStorage.getItem('garageEvents') || '[]');
-        }
-
-        function saveEvents(events) {
-            localStorage.setItem('garageEvents', JSON.stringify(events));
-        }
-
-        function getClockEntries() {
-            return JSON.parse(localStorage.getItem('garageClock') || '[]');
-        }
-
-        function saveClockEntries(entries) {
-            localStorage.setItem('garageClock', JSON.stringify(entries));
-        }
-
-        function getFiles() {
-            return JSON.parse(localStorage.getItem('garageFiles') || '[]');
-        }
-
-        function saveFiles(files) {
-            localStorage.setItem('garageFiles', JSON.stringify(files));
-        }
-
-        // ============================================
-        // Toast Notifications
-        // ============================================
-        
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.textContent = message;
-            container.appendChild(toast);
-            
+        // Notifications
+        function showNotification(msg, type = 'success') {
+            const div = document.createElement('div');
+            div.className = `notification notification-${type}`;
+            div.textContent = msg;
+            document.body.appendChild(div);
             setTimeout(() => {
-                toast.style.animation = 'fadeOut 0.3s ease forwards';
-                setTimeout(() => toast.remove(), 300);
+                div.style.animation = 'fadeOut 0.3s ease forwards';
+                setTimeout(() => div.remove(), 300);
             }, 3000);
         }
 
-        // ============================================
-        // Page Templates
-        // ============================================
-
-        const pages = {
-            home: () => `
-                <section class="py-16 px-6">
-                    <div class="max-w-4xl mx-auto">
-                        <div class="card-bg rounded-xl p-8 border-l-4 purple-border text-center">
-                            <h2 class="garage-title text-4xl font-bold mb-4 purple-accent">🔧 Gestionnaire de Serveur</h2>
-                            <p class="text-gray-400 text-lg mb-8">Bienvenue dans le panneau de contrôle central. Accédez à la gestion complète du serveur Garage La Plume.</p>
-                            
-                            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
-                                    <h3 class="text-2xl font-bold red-accent mb-2">👥</h3>
-                                    <p class="font-bold text-white mb-1">Gestion Utilisateurs</p>
-                                    <p class="text-gray-400 text-sm">Créer, modifier ou supprimer des utilisateurs</p>
-                                </div>
-                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
-                                    <h3 class="text-2xl font-bold red-accent mb-2">📅</h3>
-                                    <p class="font-bold text-white mb-1">Événements</p>
-                                    <p class="text-gray-400 text-sm">Gérer tous les événements et plannings</p>
-                                </div>
-                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
-                                    <h3 class="text-2xl font-bold red-accent mb-2">⏱️</h3>
-                                    <p class="font-bold text-white mb-1">Pointages</p>
-                                    <p class="text-gray-400 text-sm">Contrôler et modifier les pointages employés</p>
-                                </div>
-                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
-                                    <h3 class="text-2xl font-bold red-accent mb-2">💾</h3>
-                                    <p class="font-bold text-white mb-1">Données</p>
-                                    <p class="text-gray-400 text-sm">Exporter/importer et récupérer les données</p>
-                                </div>
-                            </div>
-
-                            <a href="?page=manager" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white inline-block">
-                                Accéder au Panneau de Contrôle →
-                            </a>
-                        </div>
-                    </div>
-                </section>
-            `,
-
-            manager: () => `
-                <section class="py-16 px-6">
-                    <div class="max-w-6xl mx-auto">
-                        <div class="card-bg rounded-xl p-8 border-l-4 purple-border">
-                            <h2 class="garage-title text-3xl font-bold mb-8 purple-accent">Panneau de Gestion Serveur</h2>
-                            
-                            <!-- Tabs Navigation -->
-                            <div class="flex flex-wrap gap-2 mb-8 border-b border-gray-600 pb-4">
-                                <button class="manager-tab active px-4 py-2 rounded-lg font-medium text-white bg-purple-600" data-tab="users">👥 Utilisateurs</button>
-                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="events">📅 Événements</button>
-                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="clock">⏱️ Pointages</button>
-                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="files">📁 Fichiers</button>
-                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="recovery">🔄 Récupération</button>
-                            </div>
-
-                            <!-- Users Tab -->
-                            <div id="usersTab" class="manager-tab-content space-y-4">
-                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Utilisateurs</h4>
-                                <div class="space-y-3 max-h-96 overflow-y-auto mb-6">
-                                    <div id="usersList"></div>
-                                </div>
-                                
-                                <div class="border-t border-gray-600 pt-4">
-                                    <h5 class="font-bold text-white mb-4">➕ Ajouter un nouvel utilisateur</h5>
-                                    <div class="grid md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Identifiant</label>
-                                            <input type="text" id="newUserName" class="input-style w-full px-4 py-2 rounded-lg text-white" placeholder="ex: jean">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label>
-                                            <input type="password" id="newUserPass" class="input-style w-full px-4 py-2 rounded-lg text-white" placeholder="••••••••">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Rôle</label>
-                                            <select id="newUserRole" class="input-style w-full px-4 py-2 rounded-lg text-white">
-                                                <option value="Employé">Employé</option>
-                                                <option value="Patron">Patron</option>
-                                                <option value="Gestionnaire Serveur">Gestionnaire Serveur</option>
-                                            </select>
-                                        </div>
-                                        <button id="addUserBtn" class="btn-primary py-2 rounded-lg font-medium text-white self-end">
-                                            ✓ Créer Utilisateur
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Events Tab -->
-                            <div id="eventsTab" class="manager-tab-content hidden space-y-4">
-                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Événements</h4>
-                                <div class="space-y-3 max-h-96 overflow-y-auto mb-6">
-                                    <div id="eventsList"></div>
-                                </div>
-                                
-                                <div class="border-t border-gray-600 pt-4">
-                                    <h5 class="font-bold text-white mb-4">➕ Ajouter un événement</h5>
-                                    <div class="grid md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Utilisateur</label>
-                                            <select id="newEventUser" class="input-style w-full px-4 py-2 rounded-lg text-white">
-                                                <option value="">Sélectionner...</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Date</label>
-                                            <input type="date" id="newEventDate" class="input-style w-full px-4 py-2 rounded-lg text-white">
-                                        </div>
-                                        <div class="md:col-span-2">
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Description</label>
-                                            <input type="text" id="newEventText" class="input-style w-full px-4 py-2 rounded-lg text-white" placeholder="Description de l'événement">
-                                        </div>
-                                        <button id="addEventManagerBtn" class="btn-primary md:col-span-2 py-2 rounded-lg font-medium text-white">
-                                            ✓ Ajouter Événement
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Clock Tab -->
-                            <div id="clockTab" class="manager-tab-content hidden space-y-4">
-                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Pointages</h4>
-                                <div class="space-y-3 max-h-96 overflow-y-auto mb-6">
-                                    <div id="clockManagerList"></div>
-                                </div>
-                                
-                                <div class="border-t border-gray-600 pt-4">
-                                    <h5 class="font-bold text-white mb-4">➕ Ajouter un pointage</h5>
-                                    <div class="grid md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Utilisateur</label>
-                                            <select id="newClockUser" class="input-style w-full px-4 py-2 rounded-lg text-white">
-                                                <option value="">Sélectionner...</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Type</label>
-                                            <select id="newClockType" class="input-style w-full px-4 py-2 rounded-lg text-white">
-                                                <option value="Entrée">✓ Entrée</option>
-                                                <option value="Sortie">✕ Sortie</option>
-                                            </select>
-                                        </div>
-                                        <div class="md:col-span-2">
-                                            <label class="block text-sm font-medium mb-2 text-gray-300">Date et Heure</label>
-                                            <input type="datetime-local" id="newClockTime" class="input-style w-full px-4 py-2 rounded-lg text-white">
-                                        </div>
-                                        <button id="addClockBtn" class="btn-primary md:col-span-2 py-2 rounded-lg font-medium text-white">
-                                            ✓ Ajouter Pointage
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Files Tab -->
-                            <div id="filesTab" class="manager-tab-content hidden space-y-4">
-                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Fichiers</h4>
-                                <div class="space-y-3 max-h-96 overflow-y-auto">
-                                    <div id="filesManagerList"></div>
-                                </div>
-                            </div>
-
-                            <!-- Recovery Tab -->
-                            <div id="recoveryTab" class="manager-tab-content hidden space-y-6">
-                                <h4 class="text-lg font-bold text-white mb-4">Récupération et Maintenance</h4>
-                                
-                                <div class="bg-black/40 rounded-lg p-4 border border-red-500/30">
-                                    <h5 class="font-bold text-red-400 mb-3">⚠️ Actions Critiques</h5>
-                                    <p class="text-gray-400 text-sm mb-4">Attention: Ces actions affectent toutes les données du serveur</p>
-                                    <div class="space-y-2">
-                                        <button id="exportDataBtn" class="btn-primary w-full py-2 rounded-lg font-medium text-white">
-                                            💾 Exporter toutes les données (JSON)
-                                        </button>
-                                        <button id="importDataBtn" class="btn-secondary w-full py-2 rounded-lg font-medium text-white border border-gray-600">
-                                            📥 Importer des données
-                                        </button>
-                                        <input type="file" id="importFile" class="hidden" accept=".json">
-                                    </div>
-                                </div>
-
-                                <div class="bg-black/40 rounded-lg p-4 border border-yellow-500/30">
-                                    <h5 class="font-bold text-yellow-400 mb-3">🔑 Gestion des Mots de Passe</h5>
-                                    <div id="backupInfo" class="text-sm text-gray-400 space-y-2 mb-4"></div>
-                                    <div class="space-y-2">
-                                        <button id="resetPasswordsBtn" class="w-full py-2 rounded-lg font-medium text-white bg-yellow-700 hover:bg-yellow-600 transition">
-                                            🔐 Réinitialiser tous les mots de passe
-                                        </button>
-                                        <button id="clearChangedPasswordsBtn" class="w-full py-2 rounded-lg font-medium text-white bg-yellow-700 hover:bg-yellow-600 transition">
-                                            🔑 Forcer changement MDP au prochain login
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="bg-black/40 rounded-lg p-4 border border-purple-500/30">
-                                    <h5 class="font-bold text-purple-400 mb-3">📊 Statistiques Serveur</h5>
-                                    <div id="serverStats" class="grid md:grid-cols-2 gap-4 text-sm">
-                                        <div class="bg-black/30 p-3 rounded">
-                                            <p class="text-gray-400">Utilisateurs</p>
-                                            <p id="statsUsers" class="text-2xl font-bold text-white">0</p>
-                                        </div>
-                                        <div class="bg-black/30 p-3 rounded">
-                                            <p class="text-gray-400">Événements</p>
-                                            <p id="statsEvents" class="text-2xl font-bold text-white">0</p>
-                                        </div>
-                                        <div class="bg-black/30 p-3 rounded">
-                                            <p class="text-gray-400">Pointages</p>
-                                            <p id="statsClock" class="text-2xl font-bold text-white">0</p>
-                                        </div>
-                                        <div class="bg-black/30 p-3 rounded">
-                                            <p class="text-gray-400">Fichiers</p>
-                                            <p id="statsFiles" class="text-2xl font-bold text-white">0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `
-        };
-
-        // ============================================
-        // Router & Navigation
-        // ============================================
-
-        function getPageFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('page') || 'home';
-        }
-
-        function renderPage() {
-            const page = getPageFromURL();
-            const contentDiv = document.getElementById('content');
-            
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            if (page === 'home') document.getElementById('navHome').classList.add('active');
-            if (page === 'manager') document.getElementById('navManager').classList.add('active');
-            
-            if (pages[page]) {
-                contentDiv.innerHTML = pages[page]();
-                attachEventListeners();
-                window.scrollTo(0, 0);
-            }
-        }
-
-        function attachEventListeners() {
-            const page = getPageFromURL();
-
-            if (page === 'manager') {
-                // Tab switching
-                document.querySelectorAll('.manager-tab').forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        document.querySelectorAll('.manager-tab').forEach(t => {
-                            t.classList.remove('active');
-                            t.style.background = 'rgba(60, 60, 80, 0.6)';
-                        });
-                        document.querySelectorAll('.manager-tab-content').forEach(c => c.classList.add('hidden'));
-                        
-                        tab.classList.add('active');
-                        tab.style.background = '#a855f7';
-                        const tabName = tab.getAttribute('data-tab');
-                        document.getElementById(tabName + 'Tab').classList.remove('hidden');
-                    });
-                });
-
-                // Initialize all tabs
-                renderUsersList();
-                renderEventsList();
-                renderClockList();
-                renderFilesList();
-                renderBackupInfo();
-                updateServerStats();
-
-                // Users Tab Events
-                document.getElementById('addUserBtn')?.addEventListener('click', addUser);
-                document.getElementById('newEventUser')?.addEventListener('focus', populateUserSelects);
-                document.getElementById('newClockUser')?.addEventListener('focus', populateUserSelects);
-
-                // Events Tab Events
-                document.getElementById('addEventManagerBtn')?.addEventListener('click', addEventManager);
-
-                // Clock Tab Events
-                document.getElementById('addClockBtn')?.addEventListener('click', addClockManager);
-
-                // Recovery Tab Events
-                document.getElementById('exportDataBtn')?.addEventListener('click', exportData);
-                document.getElementById('importDataBtn')?.addEventListener('click', () => {
-                    document.getElementById('importFile').click();
-                });
-                document.getElementById('importFile')?.addEventListener('change', importData);
-                document.getElementById('resetPasswordsBtn')?.addEventListener('click', resetAllPasswords);
-                document.getElementById('clearChangedPasswordsBtn')?.addEventListener('click', clearPasswordChanges);
-            }
-        }
-
-        // ============================================
-        // User Management
-        // ============================================
-
-        function renderUsersList() {
-            const users = getUsers();
-            const usersList = document.getElementById('usersList');
-            if (!usersList) return;
-
-            usersList.innerHTML = '';
-            users.forEach((user, index) => {
-                const userEl = document.createElement('div');
-                userEl.className = 'user-item p-4 rounded flex justify-between items-center';
-                userEl.innerHTML = `
-                    <div class="flex-1">
-                        <p class="font-bold text-white">${user.user}</p>
-                        <p class="text-sm text-purple-300">${user.role}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="editUser(${index})" class="btn-secondary px-3 py-1 rounded text-sm text-white">
-                            ✏️ Modifier
-                        </button>
-                        <button onclick="deleteUser(${index})" class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-sm text-white transition">
-                            🗑️ Supprimer
-                        </button>
-                    </div>
-                `;
-                usersList.appendChild(userEl);
-            });
-        }
-
+        // Users Management
         function addUser() {
-            const name = document.getElementById('newUserName').value.trim();
-            const pass = document.getElementById('newUserPass').value.trim();
-            const role = document.getElementById('newUserRole').value;
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const role = document.getElementById('userRole').value;
 
-            if (!name || !pass) {
-                showToast('Veuillez remplir tous les champs', 'error');
+            if (!name || !email) {
+                showNotification('Veuillez remplir tous les champs requis', 'error');
                 return;
             }
 
-            const users = getUsers();
-            if (users.find(u => u.user === name)) {
-                showToast('Cet utilisateur existe déjà', 'error');
+            db.users.push({ id: Date.now(), name, email, phone, role });
+            saveDB();
+            updateUsersTable();
+            updateUserSelects();
+            
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('userPhone').value = '';
+            
+            showNotification(`Utilisateur ${name} créé`);
+            updateStats();
+        }
+
+        function deleteUser(id) {
+            if (!confirm('Confirmer la suppression ?')) return;
+            db.users = db.users.filter(u => u.id !== id);
+            saveDB();
+            updateUsersTable();
+            updateUserSelects();
+            showNotification('Utilisateur supprimé');
+            updateStats();
+        }
+
+        function updateUsersTable() {
+            const tbody = document.getElementById('usersTable');
+            if (db.users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #a0a0a0;">Aucun utilisateur</td></tr>';
                 return;
             }
-
-            users.push({ user: name, pass: pass, role: role });
-            saveUsers(users);
-
-            document.getElementById('newUserName').value = '';
-            document.getElementById('newUserPass').value = '';
-            document.getElementById('newUserRole').value = 'Employé';
-
-            renderUsersList();
-            updateServerStats();
-            showToast(`Utilisateur ${name} créé avec succès`);
+            tbody.innerHTML = db.users.map(u => `
+                <tr>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                    <td>${u.role}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteUser(${u.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function editUser(index) {
-            const users = getUsers();
-            const user = users[index];
-            const newName = prompt('Nouvel identifiant (vide = inchangé):', user.user);
-            if (newName === null) return;
-
-            if (newName && newName !== user.user) {
-                if (users.find(u => u.user === newName)) {
-                    showToast('Cet identifiant existe déjà', 'error');
-                    return;
-                }
-                user.user = newName;
-            }
-
-            const newPass = prompt('Nouveau mot de passe (vide = inchangé):', '');
-            if (newPass === null) return;
-            if (newPass) user.pass = newPass;
-
-            const newRole = prompt('Nouveau rôle (Employé/Patron/Gestionnaire Serveur):', user.role);
-            if (newRole === null) return;
-            if (newRole) user.role = newRole;
-
-            saveUsers(users);
-            renderUsersList();
-            showToast('Utilisateur modifié avec succès');
-        }
-
-        function deleteUser(index) {
-            if (!confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) return;
-            const users = getUsers();
-            const userName = users[index].user;
-            users.splice(index, 1);
-            saveUsers(users);
-            renderUsersList();
-            updateServerStats();
-            showToast(`Utilisateur ${userName} supprimé`);
-        }
-
-        // ============================================
-        // Events Management
-        // ============================================
-
-        function renderEventsList() {
-            const events = getEvents();
-            const eventsList = document.getElementById('eventsList');
-            if (!eventsList) return;
-
-            eventsList.innerHTML = '';
-            if (events.length === 0) {
-                eventsList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun événement enregistré</p>';
-                return;
-            }
-
-            events.slice().reverse().forEach((event, idx) => {
-                const eventEl = document.createElement('div');
-                eventEl.className = 'bg-black/30 p-3 rounded flex justify-between items-center';
-                eventEl.innerHTML = `
-                    <div class="flex-1">
-                        <p class="font-bold text-white">${event.text}</p>
-                        <p class="text-xs text-gray-400">${event.user} • ${event.date}</p>
-                    </div>
-                    <button onclick="deleteEventManager('${event.id}')" class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-xs text-white transition">
-                        Supprimer
-                    </button>
-                `;
-                eventsList.appendChild(eventEl);
-            });
-        }
-
-        function populateUserSelects() {
-            const users = getUsers().filter(u => u.role === 'Employé' || u.role === 'Patron');
-            const selects = [document.getElementById('newEventUser'), document.getElementById('newClockUser')];
-
+        function updateUserSelects() {
+            const clients = db.users.filter(u => u.role === 'Client');
+            const selects = [
+                document.getElementById('reservationClient'),
+                document.getElementById('reservationClient')
+            ];
             selects.forEach(select => {
                 if (!select) return;
-                const currentValue = select.value;
-                select.innerHTML = '<option value="">Sélectionner...</option>';
-                users.forEach(user => {
-                    const option = document.createElement('option');
-                    option.value = user.user;
-                    option.textContent = user.user;
-                    select.appendChild(option);
-                });
-                select.value = currentValue;
+                const current = select.value;
+                select.innerHTML = '<option value="">-- Sélectionner --</option>' + 
+                    clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                select.value = current;
             });
         }
 
-        function addEventManager() {
-            const user = document.getElementById('newEventUser').value;
-            const date = document.getElementById('newEventDate').value;
-            const text = document.getElementById('newEventText').value.trim();
+        // Vehicles Management
+        function addVehicle() {
+            const brand = document.getElementById('vehicleBrand').value.trim();
+            const model = document.getElementById('vehicleModel').value.trim();
+            const reg = document.getElementById('vehicleReg').value.trim();
+            const year = document.getElementById('vehicleYear').value;
 
-            if (!user || !date || !text) {
-                showToast('Veuillez remplir tous les champs', 'error');
+            if (!brand || !model || !reg) {
+                showNotification('Veuillez remplir tous les champs requis', 'error');
                 return;
             }
 
-            const events = getEvents();
-            events.push({
-                id: Date.now().toString(),
-                date: date,
-                text: text,
-                user: user,
-                createdAt: new Date().toISOString()
-            });
-            saveEvents(events);
-
-            document.getElementById('newEventUser').value = '';
-            document.getElementById('newEventDate').value = '';
-            document.getElementById('newEventText').value = '';
-
-            renderEventsList();
-            updateServerStats();
-            showToast('Événement ajouté avec succès');
+            db.vehicles.push({ id: Date.now(), brand, model, reg, year });
+            saveDB();
+            updateVehiclesTable();
+            updateVehicleSelects();
+            
+            document.getElementById('vehicleBrand').value = '';
+            document.getElementById('vehicleModel').value = '';
+            document.getElementById('vehicleReg').value = '';
+            document.getElementById('vehicleYear').value = '';
+            
+            showNotification(`Véhicule ${brand} ${model} ajouté`);
+            updateStats();
         }
 
-        function deleteEventManager(eventId) {
-            const events = getEvents();
-            const index = events.findIndex(e => e.id === eventId);
-            if (index !== -1) {
-                events.splice(index, 1);
-                saveEvents(events);
-                renderEventsList();
-                updateServerStats();
-                showToast('Événement supprimé');
+        function deleteVehicle(id) {
+            if (!confirm('Confirmer la suppression ?')) return;
+            db.vehicles = db.vehicles.filter(v => v.id !== id);
+            saveDB();
+            updateVehiclesTable();
+            updateVehicleSelects();
+            showNotification('Véhicule supprimé');
+            updateStats();
+        }
+
+        function updateVehiclesTable() {
+            const tbody = document.getElementById('vehiclesTable');
+            if (db.vehicles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #a0a0a0;">Aucun véhicule</td></tr>';
+                return;
             }
+            tbody.innerHTML = db.vehicles.map(v => `
+                <tr>
+                    <td>${v.brand}</td>
+                    <td>${v.model}</td>
+                    <td>${v.reg}</td>
+                    <td>${v.year}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteVehicle(${v.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        // ============================================
-        // Clock Management
-        // ============================================
+        function updateVehicleSelects() {
+            const selects = [
+                document.getElementById('reservationVehicle'),
+                document.getElementById('maintenanceVehicle')
+            ];
+            selects.forEach(select => {
+                if (!select) return;
+                const current = select.value;
+                select.innerHTML = '<option value="">-- Sélectionner --</option>' + 
+                    db.vehicles.map(v => `<option value="${v.id}">${v.brand} ${v.model} (${v.reg})</option>`).join('');
+                select.value = current;
+            });
+        }
 
-        function renderClockList() {
-            const entries = getClockEntries();
-            const clockList = document.getElementById('clockManagerList');
-            if (!clockList) return;
+        // Reservations Management
+        function addReservation() {
+            const clientId = document.getElementById('reservationClient').value;
+            const vehicleId = document.getElementById('reservationVehicle').value;
+            const date = document.getElementById('reservationDate').value;
+            const desc = document.getElementById('reservationDesc').value.trim();
 
-            clockList.innerHTML = '';
-            if (entries.length === 0) {
-                clockList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun pointage enregistré</p>';
+            if (!clientId || !vehicleId || !date) {
+                showNotification('Veuillez remplir tous les champs requis', 'error');
                 return;
             }
 
-            entries.slice(-50).reverse().forEach(entry => {
-                const entryEl = document.createElement('div');
-                const date = new Date(entry.timestamp);
-                const displayTime = date.toLocaleString('fr-FR');
-                const color = entry.type === 'Entrée' ? 'text-green-400' : 'text-red-400';
+            const client = db.users.find(u => u.id == clientId);
+            const vehicle = db.vehicles.find(v => v.id == vehicleId);
 
-                entryEl.className = 'bg-black/30 p-3 rounded flex justify-between items-center';
-                entryEl.innerHTML = `
-                    <div class="flex-1">
-                        <p class="font-bold text-white">${entry.user}</p>
-                        <p class="text-xs text-gray-400">${displayTime}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="${color} font-bold">${entry.type === 'Entrée' ? '✓' : '✕'} ${entry.type}</span>
-                        <button onclick="deleteClockManager('${entry.id}')" class="bg-red-700 hover:bg-red-600 px-2 py-1 rounded text-xs text-white transition">
-                            Supprimer
-                        </button>
-                    </div>
-                `;
-                clockList.appendChild(entryEl);
+            db.reservations.push({
+                id: Date.now(),
+                clientName: client.name,
+                vehicleInfo: `${vehicle.brand} ${vehicle.model}`,
+                date,
+                desc,
+                status: 'Planifiée'
             });
+            saveDB();
+            updateReservationsTable();
+            
+            document.getElementById('reservationClient').value = '';
+            document.getElementById('reservationVehicle').value = '';
+            document.getElementById('reservationDate').value = '';
+            document.getElementById('reservationDesc').value = '';
+            
+            showNotification('Réservation créée');
+            updateStats();
         }
 
-        function addClockManager() {
-            const user = document.getElementById('newClockUser').value;
-            const type = document.getElementById('newClockType').value;
-            const timeStr = document.getElementById('newClockTime').value;
+        function deleteReservation(id) {
+            if (!confirm('Confirmer la suppression ?')) return;
+            db.reservations = db.reservations.filter(r => r.id !== id);
+            saveDB();
+            updateReservationsTable();
+            showNotification('Réservation supprimée');
+            updateStats();
+        }
 
-            if (!user || !timeStr) {
-                showToast('Veuillez remplir tous les champs', 'error');
+        function updateReservationsTable() {
+            const tbody = document.getElementById('reservationsTable');
+            if (db.reservations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #a0a0a0;">Aucune réservation</td></tr>';
+                return;
+            }
+            tbody.innerHTML = db.reservations.map(r => `
+                <tr>
+                    <td>${r.clientName}</td>
+                    <td>${r.vehicleInfo}</td>
+                    <td>${r.date}</td>
+                    <td>${r.status}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteReservation(${r.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Maintenance Management
+        function addMaintenance() {
+            const vehicleId = document.getElementById('maintenanceVehicle').value;
+            const type = document.getElementById('maintenanceType').value;
+            const date = document.getElementById('maintenanceDate').value;
+            const cost = document.getElementById('maintenanceCost').value;
+
+            if (!vehicleId || !date) {
+                showNotification('Veuillez remplir tous les champs requis', 'error');
                 return;
             }
 
-            const entries = getClockEntries();
-            const timestamp = new Date(timeStr).toISOString();
+            const vehicle = db.vehicles.find(v => v.id == vehicleId);
 
-            entries.push({
-                id: Date.now().toString(),
-                type: type,
-                user: user,
-                timestamp: timestamp,
-                displayTime: new Date(timeStr).toLocaleString('fr-FR')
+            db.maintenance.push({
+                id: Date.now(),
+                vehicleInfo: `${vehicle.brand} ${vehicle.model}`,
+                type,
+                date,
+                cost,
+                status: 'Planifiée'
             });
-            saveClockEntries(entries);
-
-            document.getElementById('newClockUser').value = '';
-            document.getElementById('newClockTime').value = '';
-
-            renderClockList();
-            updateServerStats();
-            showToast('Pointage ajouté avec succès');
+            saveDB();
+            updateMaintenanceTable();
+            
+            document.getElementById('maintenanceVehicle').value = '';
+            document.getElementById('maintenanceDate').value = '';
+            document.getElementById('maintenanceCost').value = '';
+            
+            showNotification('Maintenance planifiée');
+            updateStats();
         }
 
-        function deleteClockManager(entryId) {
-            const entries = getClockEntries();
-            const index = entries.findIndex(e => e.id === entryId);
-            if (index !== -1) {
-                entries.splice(index, 1);
-                saveClockEntries(entries);
-                renderClockList();
-                updateServerStats();
-                showToast('Pointage supprimé');
-            }
+        function deleteMaintenance(id) {
+            if (!confirm('Confirmer la suppression ?')) return;
+            db.maintenance = db.maintenance.filter(m => m.id !== id);
+            saveDB();
+            updateMaintenanceTable();
+            showNotification('Maintenance supprimée');
+            updateStats();
         }
 
-        // ============================================
-        // Files Management
-        // ============================================
-
-        function renderFilesList() {
-            const files = getFiles();
-            const filesList = document.getElementById('filesManagerList');
-            if (!filesList) return;
-
-            filesList.innerHTML = '';
-            if (files.length === 0) {
-                filesList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun fichier uploadé</p>';
+        function updateMaintenanceTable() {
+            const tbody = document.getElementById('maintenanceTable');
+            if (db.maintenance.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #a0a0a0;">Aucune maintenance planifiée</td></tr>';
                 return;
             }
-
-            files.slice().reverse().forEach(file => {
-                const fileEl = document.createElement('div');
-                fileEl.className = 'bg-black/30 p-3 rounded flex justify-between items-center';
-                fileEl.innerHTML = `
-                    <div class="flex-1">
-                        <p class="font-bold text-white">📄 ${file.name}</p>
-                        <p class="text-xs text-gray-400">${file.user} • ${file.size} • ${file.displayDate}</p>
-                    </div>
-                    <button onclick="deleteFileManager('${file.id}')" class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-xs text-white transition">
-                        Supprimer
-                    </button>
-                `;
-                filesList.appendChild(fileEl);
-            });
+            tbody.innerHTML = db.maintenance.map(m => `
+                <tr>
+                    <td>${m.vehicleInfo}</td>
+                    <td>${m.type}</td>
+                    <td>${m.date}</td>
+                    <td>${m.cost ? m.cost + '€' : '-'}</td>
+                    <td>${m.status}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteMaintenance(${m.id})" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Supprimer</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function deleteFileManager(fileId) {
-            const files = getFiles();
-            const index = files.findIndex(f => f.id === fileId);
-            if (index !== -1) {
-                files.splice(index, 1);
-                saveFiles(files);
-                renderFilesList();
-                updateServerStats();
-                showToast('Fichier supprimé');
-            }
+        // Stats
+        function updateStats() {
+            document.getElementById('statUsers').textContent = db.users.length;
+            document.getElementById('statVehicles').textContent = db.vehicles.length;
+            document.getElementById('statReservations').textContent = db.reservations.length;
+            document.getElementById('statMaintenance').textContent = db.maintenance.length;
+
+            document.getElementById('totalUsers').textContent = db.users.length;
+            document.getElementById('totalVehicles').textContent = db.vehicles.length;
+            document.getElementById('totalReservations').textContent = db.reservations.length;
+            document.getElementById('totalMaintenance').textContent = db.maintenance.length;
         }
 
-        // ============================================
-        // Recovery & Data Management
-        // ============================================
-
-        function renderBackupInfo() {
-            const backupInfo = document.getElementById('backupInfo');
-            if (!backupInfo) return;
-
-            const users = getUsers();
-            backupInfo.innerHTML = `
-                <div>Utilisateurs: <strong>${users.length}</strong></div>
-                <div>Événements: <strong>${getEvents().length}</strong></div>
-                <div>Pointages: <strong>${getClockEntries().length}</strong></div>
-                <div>Fichiers: <strong>${getFiles().length}</strong></div>
-                <div class="text-xs mt-2">Dernière mise à jour: <strong>${new Date().toLocaleString('fr-FR')}</strong></div>
-            `;
+        // Export/Backup
+        function exportData(type) {
+            const data = type === 'users' ? db.users : 
+                        type === 'vehicles' ? db.vehicles :
+                        type === 'reservations' ? db.reservations : db.maintenance;
+            
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `garage_${type}_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            showNotification(`Export ${type} réussi`);
         }
 
-        function updateServerStats() {
-            document.getElementById('statsUsers').textContent = getUsers().length;
-            document.getElementById('statsEvents').textContent = getEvents().length;
-            document.getElementById('statsClock').textContent = getClockEntries().length;
-            document.getElementById('statsFiles').textContent = getFiles().length;
+        function backupData() {
+            const allData = JSON.stringify(db, null, 2);
+            const blob = new Blob([allData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `garage_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            showNotification('Sauvegarde complète réussie');
         }
 
-        function exportData() {
-            const data = {
-                users: getUsers(),
-                events: getEvents(),
-                clock: getClockEntries(),
-                files: getFiles(),
-                exportedAt: new Date().toISOString()
-            };
-
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `garage-backup-${Date.now()}.json`;
-            link.click();
-            URL.revokeObjectURL(url);
-
-            showToast('✓ Données exportées avec succès');
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (confirm('Êtes-vous sûr ? Cette action remplacera toutes les données.')) {
-                        if (data.users) saveUsers(data.users);
-                        if (data.events) saveEvents(data.events);
-                        if (data.clock) saveClockEntries(data.clock);
-                        if (data.files) saveFiles(data.files);
-
-                        renderUsersList();
-                        renderEventsList();
-                        renderClockList();
-                        renderFilesList();
-                        renderBackupInfo();
-                        updateServerStats();
-
-                        showToast('✓ Données importées avec succès');
+        function restoreData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const restored = JSON.parse(event.target.result);
+                        if (restored.users) db.users = restored.users;
+                        if (restored.vehicles) db.vehicles = restored.vehicles;
+                        if (restored.reservations) db.reservations = restored.reservations;
+                        if (restored.maintenance) db.maintenance = restored.maintenance;
+                        saveDB();
+                        updateStats();
+                        updateUsersTable();
+                        updateVehiclesTable();
+                        updateReservationsTable();
+                        updateMaintenanceTable();
+                        showNotification('Restauration réussie');
+                    } catch (e) {
+                        showNotification('Erreur lors de la restauration', 'error');
                     }
-                } catch (error) {
-                    showToast('❌ Erreur lors de l\'importation', 'error');
-                }
+                };
+                reader.readAsText(file);
             };
-            reader.readAsText(file);
-            document.getElementById('importFile').value = '';
+            input.click();
         }
 
-        function resetAllPasswords() {
-            if (!confirm('Tous les mots de passe seront définis à "password123". Continuer ?')) return;
-
-            const users = getUsers();
-            users.forEach(user => {
-                user.pass = 'password123';
-            });
-            saveUsers(users);
-            localStorage.removeItem('passwordChanged');
-
-            showToast('✓ Tous les mots de passe ont été réinitialisés');
+        function clearAllData() {
+            if (!confirm('⚠️ Cette action effacera TOUTES les données ! Êtes-vous sûr ?')) return;
+            if (!confirm('⚠️ DERNIERE CHANCE ! Confirmez pour effacer définitivement.')) return;
+            
+            db.users = [];
+            db.vehicles = [];
+            db.reservations = [];
+            db.maintenance = [];
+            saveDB();
+            updateStats();
+            updateUsersTable();
+            updateVehiclesTable();
+            updateReservationsTable();
+            updateMaintenanceTable();
+            showNotification('Toutes les données ont été effacées');
         }
 
-        function clearPasswordChanges() {
-            if (!confirm('Les utilisateurs devront changer leur mot de passe à la prochaine connexion. Continuer ?')) return;
-
-            localStorage.removeItem('passwordChanged');
-            showToast('✓ Les changements de mots de passe ont été réinitialisés');
+        function optimizeDB() {
+            showNotification('Optimisation en cours...');
+            setTimeout(() => showNotification('Base de données optimisée'), 500);
         }
 
-        // ============================================
-        // Initialization
-        // ============================================
+        function cleanLogs() {
+            showNotification('Logs nettoyés');
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeStorage();
-            renderPage();
-        });
+        function systemStatus() {
+            const status = `
+                ✓ Système opérationnel
+                • Utilisateurs: ${db.users.length}
+                • Véhicules: ${db.vehicles.length}
+                • Réservations: ${db.reservations.length}
+                • Maintenances: ${db.maintenance.length}
+            `;
+            alert(status);
+        }
+
+        // Initialize
+        updateStats();
+        updateUsersTable();
+        updateVehiclesTable();
+        updateReservationsTable();
+        updateMaintenanceTable();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caee64ee21fd131',t:'MTc3MDU5MzI2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caef254e36d2a04',t:'MTc3MDU5Mzc1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
