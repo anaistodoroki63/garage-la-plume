@@ -1,75 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garage La Plume</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        header { background: #f4f4f4; padding: 10px 0; text-align: center; }
-        nav { margin: 10px; }
-        nav a { margin: 0 15px; text-decoration: none; color: #333; }
-        section { padding: 20px; }
-        .services, .gallery, .pricing, .contact, .recruitment { margin: 20px 0; }
-        table { width: 100%; border-collapse: collapse; }
-        table, th, td { border: 1px solid #ddd; }
-        th, td { padding: 8px; text-align: left; }
-    </style>
+    <title>Garage La Plume - Accueil</title>
 </head>
 <body>
     <header>
-        <h1>Welcome to Garage La Plume</h1>
+        <h1>Garage La Plume</h1>
         <nav>
-            <a href="#services">Services</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#contact">Contact</a>
-            <a href="#recruitment">Recruitment</a>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="recrutement.html">Recrutement</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </nav>
     </header>
-    <section id="services" class="services">
-        <h2>Our Services</h2>
-        <p>We provide a range of garage services including repairs, maintenance, and customization.</p>
-    </section>
-    <section id="gallery" class="gallery">
-        <h2>Gallery</h2>
-        <img src="image1.jpg" alt="Garage Image 1" style="width:200px;">
-        <img src="image2.jpg" alt="Garage Image 2" style="width:200px;">
-    </section>
-    <section id="pricing" class="pricing">
-        <h2>Pricing Table</h2>
-        <table>
-            <tr><th>Service</th><th>Price</th></tr>
-            <tr><td>Oil Change</td><td>$50</td></tr>
-            <tr><td>Tire Rotation</td><td>$30</td></tr>
-        </table>
-    </section>
-    <section id="contact" class="contact">
-        <h2>Contact Us</h2>
-        <form>
-            <label>Name:</label><br>
-            <input type="text" required><br>
-            <label>Email:</label><br>
-            <input type="email" required><br>
-            <input type="submit" value="Submit">
-        </form>
-    </section>
-    <section id="recruitment" class="recruitment">
-        <h2>Join Our Team</h2>
-        <form>
-            <label>Name:</label><br>
-            <input type="text" required><br>
-            <label>Position:</label><br>
-            <input type="text" required><br>
-            <input type="submit" value="Apply">
-        </form>
-    </section>
-    <script>
-        // Example JavaScript for form submission
-        document.querySelector('form').onsubmit = function() {
-            alert('Form submitted!');
-            return false; // Prevent actual form submission
-        };
-    </script>
+
+    <main>
+        <h2>Bienvenue</h2>
+        <p>Bienvenue sur le site officiel du Garage La Plume.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Garage La Plume. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>
