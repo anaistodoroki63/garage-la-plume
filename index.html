@@ -65,6 +65,7 @@ section {
     background: #2a2a2a;
     padding: 20px;
     border-left: 4px solid #c30000;
+    margin-bottom: 20px;
 }
 
 input, select, textarea {
@@ -92,8 +93,37 @@ button:hover { background: red; }
 .dashboard {
     background: #111;
     padding: 20px;
-    margin-top: 20px;
     border: 2px dashed #c30000;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.day {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    padding: 8px;
+    min-height: 80px;
+}
+
+.day strong { color: #c30000; }
+
+.event {
+    font-size: 12px;
+    background: #111;
+    margin-top: 4px;
+    padding: 3px;
+    border-left: 3px solid #c30000;
+}
+
+.pointage {
+    background: #2a2a2a;
+    padding: 15px;
+    border-left: 4px solid #c30000;
 }
 </style>
 </head>
@@ -113,30 +143,18 @@ button:hover { background: red; }
 </header>
 
 <section class="hero" id="accueil">
-    <h2>Garage Automobile de Confiance</h2>
-    <p>Réparation • Entretien • Diagnostic • Professionnalisme</p>
+<h2>Garage Automobile de Confiance</h2>
+<p>Réparation • Entretien • Diagnostic • Dépannage</p>
 </section>
 
 <section id="services">
-    <h2>Nos Services</h2>
-    <div class="services">
-        <div class="service-box">
-            <h3>🔧 Réparation</h3>
-            <p>2000€.</p>
-        </div>
-        <div class="service-box">
-            <h3>🛢 depannage</h3>
-            <p>3000€ ville ; 5000€ autoroute.</p>
-        </div>
-        <div class="service-box">
-            <h3>💻 Diagnostic</h3>
-            <p>Électronique et pannes.</p>
-        </div>
-        <div class="service-box">
-            <h3>🚗 Contrôle</h3>
-            <p>Pré-contrôle technique.</p>
-        </div>
-    </div>
+<h2>Nos Services</h2>
+<div class="services">
+<div class="box"><h3>🔧 Réparation</h3><p>Mécanique générale</p></div>
+<div class="box"><h3>🛢 Dépannage</h3><p>Ville & Autoroute</p></div>
+<div class="box"><h3>💻 Diagnostic</h3><p>Électronique</p></div>
+<div class="box"><h3>🚗 Contrôle</h3><p>Pré-contrôle technique</p></div>
+</div>
 </section>
 
 <section id="contact">
@@ -149,7 +167,6 @@ button:hover { background: red; }
 </form>
 </section>
 
-<!-- ESPACE EMPLOYE -->
 <section id="employe">
 <h2>Espace Employé 🔐</h2>
 
@@ -164,55 +181,34 @@ button:hover { background: red; }
 <h3>Tableau de Bord</h3>
 <p id="roleText"></p>
 
-<h4>📅 Calendrier des entretiens</h4>
-<div id="calendar" class="calendar"></div>
+<h4>📅 Planning des entretiens</h4>
+<div class="calendar" id="calendar"></div>
 
 <div class="box">
-    <input type="date" id="eventDate">
-    <input type="text" id="eventText" placeholder="Client / Véhicule / Entretien">
-    <button onclick="addEvent()">Ajouter</button>
+<input type="date" id="eventDate">
+<input type="text" id="eventText" placeholder="Client / Véhicule / Entretien">
+<button onclick="addEvent()">Ajouter</button>
 </div>
 
 <h4>🕒 Pointage</h4>
 <div class="pointage">
-    <button onclick="clock('Entrée')">Entrée</button>
-    <button onclick="clock('Sortie')">Sortie</button>
-    <ul id="clockList"></ul>
+<button onclick="clock('Entrée')">Entrée</button>
+<button onclick="clock('Sortie')">Sortie</button>
+<ul id="clockList"></ul>
 </div>
 
 <h4>📂 Documents</h4>
 <div class="box">
-    <input type="file" id="fileInput">
-    <button onclick="uploadFile()">Uploader</button>
+<input type="file" id="fileInput">
+<button onclick="uploadFile()">Uploader</button>
 </div>
 <ul id="fileList"></ul>
 
 <div id="adminPanel" class="hidden">
-<h4>⚙️ Accès Admin</h4>
+<h4>⚙️ Accès Administrateur</h4>
 <ul>
-<li>Gestion planning</li>
-<li>Vue globale</li>
-</ul>
-</div>
-
-<button onclick="logout()">Déconnexion</button>
-</div>
-    
-<h4>📅 Planning</h4>
-<ul>
-<li>Lundi : 08h - 16h</li>
-<li>Mardi : 08h - 16h</li>
-<li>Mercredi : Repos</li>
-<li>Jeudi : 08h - 16h</li>
-<li>Vendredi : 08h - 15h</li>
-</ul>
-
-<div id="adminPanel" class="hidden">
-<h4>⚙️ Accès Admin</h4>
-<ul>
-<li>Gestion employés</li>
-<li>Statistiques atelier</li>
-<li>Planning global</li>
+<li>Gestion planning global</li>
+<li>Supervision employés</li>
 </ul>
 </div>
 
@@ -227,17 +223,12 @@ button:hover { background: red; }
 <script>
 let role = "";
 
-/* ---------- LOGIN ---------- */
 function login() {
-    const u = user.value;
-    const p = pass.value;
-
-    if (u === "employe" && p === "garage123") role = "Employé";
-    else if (u === "admin" && p === "admin123") {
+    if (user.value === "employe" && pass.value === "garage123") role = "Employé";
+    else if (user.value === "admin" && pass.value === "admin123") {
         role = "Administrateur";
         adminPanel.classList.remove("hidden");
-    }
-    else {
+    } else {
         msg.textContent = "Identifiants incorrects";
         return;
     }
@@ -252,83 +243,65 @@ function login() {
     loadFiles();
 }
 
-/* ---------- LOGOUT ---------- */
 function logout() {
     dashboard.classList.add("hidden");
     loginBox.classList.remove("hidden");
     adminPanel.classList.add("hidden");
-    user.value = "";
-    pass.value = "";
 }
 
-/* ---------- CALENDRIER ---------- */
 function generateCalendar() {
-    const calendar = document.getElementById("calendar");
-    calendar.innerHTML = "";
-
+    const cal = calendar;
+    cal.innerHTML = "";
     const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const days = new Date(year, month + 1, 0).getDate();
-
+    const days = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
     const events = JSON.parse(localStorage.getItem("events")) || {};
 
     for (let d = 1; d <= days; d++) {
-        const key = `${year}-${month+1}-${d}`;
-        const day = document.createElement("div");
-        day.className = "day";
-        day.innerHTML = `<strong>${d}</strong>`;
-
+        const key = `${now.getFullYear()}-${now.getMonth()+1}-${d}`;
+        const div = document.createElement("div");
+        div.className = "day";
+        div.innerHTML = `<strong>${d}</strong>`;
         if (events[key]) {
             events[key].forEach(e => {
                 const ev = document.createElement("div");
                 ev.className = "event";
                 ev.textContent = e;
-                day.appendChild(ev);
+                div.appendChild(ev);
             });
         }
-        calendar.appendChild(day);
+        cal.appendChild(div);
     }
 }
 
 function addEvent() {
-    const date = eventDate.value;
-    const text = eventText.value;
-    if (!date || !text) return;
-
+    if (!eventDate.value || !eventText.value) return;
     const events = JSON.parse(localStorage.getItem("events")) || {};
-    if (!events[date]) events[date] = [];
-    events[date].push(text);
-
+    if (!events[eventDate.value]) events[eventDate.value] = [];
+    events[eventDate.value].push(eventText.value);
     localStorage.setItem("events", JSON.stringify(events));
     generateCalendar();
     eventText.value = "";
 }
 
-/* ---------- POINTAGE ---------- */
 function clock(type) {
     const logs = JSON.parse(localStorage.getItem("clock")) || [];
-    logs.push(`${type} - ${new Date().toLocaleString()}`);
+    logs.push(type + " - " + new Date().toLocaleString());
     localStorage.setItem("clock", JSON.stringify(logs));
     loadClock();
 }
 
 function loadClock() {
-    const ul = document.getElementById("clockList");
-    ul.innerHTML = "";
-    const logs = JSON.parse(localStorage.getItem("clock")) || [];
-    logs.forEach(l => {
+    clockList.innerHTML = "";
+    (JSON.parse(localStorage.getItem("clock")) || []).forEach(l => {
         const li = document.createElement("li");
         li.textContent = l;
-        ul.appendChild(li);
+        clockList.appendChild(li);
     });
 }
 
-/* ---------- DOCUMENTS ---------- */
 function uploadFile() {
-    const files = JSON.parse(localStorage.getItem("files")) || [];
     if (!fileInput.files[0]) return;
-
+    const files = JSON.parse(localStorage.getItem("files")) || [];
     files.push(fileInput.files[0].name);
     localStorage.setItem("files", JSON.stringify(files));
     loadFiles();
@@ -336,13 +309,11 @@ function uploadFile() {
 }
 
 function loadFiles() {
-    const ul = document.getElementById("fileList");
-    ul.innerHTML = "";
-    const files = JSON.parse(localStorage.getItem("files")) || [];
-    files.forEach(f => {
+    fileList.innerHTML = "";
+    (JSON.parse(localStorage.getItem("files")) || []).forEach(f => {
         const li = document.createElement("li");
         li.textContent = f;
-        ul.appendChild(li);
+        fileList.appendChild(li);
     });
 }
 </script>
