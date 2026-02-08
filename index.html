@@ -200,100 +200,158 @@ button:hover { background: red; }
 </footer>
 
 <script>
-/* ===== COMPTES ===== */
-if(!localStorage.users){
-localStorage.users=JSON.stringify([
-{user:"patron",pass:"patron123",role:"Patron"},
-{user:"jean",pass:"jean123",role:"Employé"},
-{user:"paul",pass:"paul123",role:"Employé"}
-]);
+/* ===== COMPTES PAR DÉFAUT ===== */
+if (!localStorage.users) {
+    localStorage.users = JSON.stringify([
+        { user: "patron", pass: "patron123", role: "Patron" },
+        { user: "jean", pass: "jean123", role: "Employé" },
+        { user: "paul", pass: "paul123", role: "Employé" }
+    ]);
 }
 
-let currentUser=null;
+let currentUser = null;
 
 /* ===== LOGIN ===== */
-function login(){
-const users=JSON.parse(localStorage.users);
-const found=users.find(u=>u.user===user.value&&u.pass===pass.value);
-if(!found){msg.textContent="Identifiants incorrects";return;}
-currentUser=found;
-roleText.textContent=`${found.user} (${found.role})`;
-loginBox.classList.add("hidden");
-dashboard.classList.remove("hidden");
-if(found.role==="Patron") adminPanel.classList.remove("hidden");
-loadAll();
+function login() {
+    const users = JSON.parse(localStorage.users);
+    const found = users.find(u => u.user === user.value && u.pass === pass.value);
+
+    if (!found) {
+        msg.textContent = "Identifiants incorrects";
+        return;
+    }
+
+    currentUser = found;
+    roleText.textContent = `${found.user} (${found.role})`;
+
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    msg.textContent = "";
+
+    if (found.role === "Patron") adminPanel.classList.remove("hidden");
+    else adminPanel.classList.add("hidden");
+
+    loadCalendar();
+    loadClock();
+    loadFiles();
 }
 
 /* ===== LOGOUT ===== */
-function logout(){
-dashboard.classList.add("hidden");
-loginBox.classList.remove("hidden");
+function logout() {
+    currentUser = null;
+    dashboard.classList.add("hidden");
+    loginBox.classList.remove("hidden");
 }
 
 /* ===== PLANNING ===== */
-function addEvent(){
-if(!eventDate.value||!eventText.value)return;
-const ev=JSON.parse(localStorage.events||"{}");
-const key=currentUser.user+"_"+eventDate.value;
-(ev[key]=ev[key]||[]).push(eventText.value);
-localStorage.events=JSON.stringify(ev);
-loadCalendar();
+function addEvent() {
+    if (!eventDate.value || !eventText.value) return;
+
+    const events = JSON.parse(localStorage.events || "{}");
+    const key = `${currentUser.user}|${eventDate.value}`;
+
+    if (!events[key]) events[key] = [];
+    events[key].push(eventText.value);
+
+    localStorage.events = JSON.stringify(events);
+    eventText.value = "";
+    loadCalendar();
 }
 
-function loadCalendar(){
-calendar.innerHTML="";
-const d=new Date();
-const days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
-const ev=JSON.parse(localStorage.events||"{}");
-for(let i=1;i<=days;i++){
-const key=currentUser.user+"_"+`${d.getFullYear()}-${d.getMonth()+1}-${i}`;
-const div=document.createElement("div");
-div.className="day";
-div.innerHTML="<strong>"+i+"</strong>";
-(ev[key]||[]).forEach(e=>{
-const v=document.createElement("div");
-v.className="event";v.textContent=e;div.appendChild(v);
-});
-calendar.appendChild(div);
-}
+function loadCalendar() {
+    calendar.innerHTML = "";
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const daysInMonth = new Date(year, month, 0).getDate();
+
+    const events = JSON.parse(localStorage.events || "{}");
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const day = String(d).padStart(2, "0");
+        const dateKey = `${year}-${month}-${day}`;
+        const fullKey = `${currentUser.user}|${dateKey}`;
+
+        const div = document.createElement("div");
+        div.className = "day";
+        div.innerHTML = `<strong>${d}</strong>`;
+
+        if (events[fullKey]) {
+            events[fullKey].forEach(e => {
+                const ev = document.createElement("div");
+                ev.className = "event";
+                ev.textContent = e;
+                div.appendChild(ev);
+            });
+        }
+
+        calendar.appendChild(div);
+    }
 }
 
 /* ===== POINTAGE ===== */
-function clock(t){
-const c=JSON.parse(localStorage.clock||"{}");
-(c[currentUser.user]=c[currentUser.user]||[]).push(t+" "+new Date().toLocaleString());
-localStorage.clock=JSON.stringify(c);
-loadClock();
+function clock(type) {
+    const clocks = JSON.parse(localStorage.clock || "{}");
+    if (!clocks[currentUser.user]) clocks[currentUser.user] = [];
+
+    clocks[currentUser.user].push(
+        `${type} - ${new Date().toLocaleString()}`
+    );
+
+    localStorage.clock = JSON.stringify(clocks);
+    loadClock();
 }
 
-function loadClock(){
-clockList.innerHTML="";
-(JSON.parse(localStorage.clock||"{}")[currentUser.user]||[])
-.forEach(x=>{const li=document.createElement("li");li.textContent=x;clockList.appendChild(li);});
+function loadClock() {
+    clockList.innerHTML = "";
+    const clocks = JSON.parse(localStorage.clock || "{}");
+    const logs = clocks[currentUser.user] || [];
+
+    logs.forEach(l => {
+        const li = document.createElement("li");
+        li.textContent = l;
+        clockList.appendChild(li);
+    });
 }
 
 /* ===== DOCUMENTS ===== */
-function uploadFile(){
-if(!fileInput.files[0])return;
-const f=JSON.parse(localStorage.files||"{}");
-(f[currentUser.user]=f[currentUser.user]||[]).push(fileInput.files[0].name);
-localStorage.files=JSON.stringify(f);
-loadFiles();
+function uploadFile() {
+    if (!fileInput.files[0]) return;
+
+    const files = JSON.parse(localStorage.files || "{}");
+    if (!files[currentUser.user]) files[currentUser.user] = [];
+
+    files[currentUser.user].push(fileInput.files[0].name);
+    localStorage.files = JSON.stringify(files);
+    loadFiles();
+    fileInput.value = "";
 }
 
-function loadFiles(){
-fileList.innerHTML="";
-(JSON.parse(localStorage.files||"{}")[currentUser.user]||[])
-.forEach(x=>{const li=document.createElement("li");li.textContent=x;fileList.appendChild(li);});
+function loadFiles() {
+    fileList.innerHTML = "";
+    const files = JSON.parse(localStorage.files || "{}");
+    (files[currentUser.user] || []).forEach(f => {
+        const li = document.createElement("li");
+        li.textContent = f;
+        fileList.appendChild(li);
+    });
 }
 
 /* ===== ADMIN ===== */
-function addUser(){
-const users=JSON.parse(localStorage.users);
-users.push({user:newUser.value,pass:newPass.value,role:"Employé"});
-localStorage.users=JSON.stringify(users);
-userList.innerHTML+=`<li>${newUser.value}</li>`;
+function addUser() {
+    if (!newUser.value || !newPass.value) return;
+
+    const users = JSON.parse(localStorage.users);
+    users.push({ user: newUser.value, pass: newPass.value, role: "Employé" });
+    localStorage.users = JSON.stringify(users);
+
+    newUser.value = "";
+    newPass.value = "";
+    alert("Employé ajouté");
 }
+</script>
+
 
 /* ===== LOAD ===== */
 function loadAll(){
