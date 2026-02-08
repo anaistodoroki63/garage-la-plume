@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Garage - Recrutement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🚗 Mon Garage</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="tarifs.html">Tarifs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="recruitement.html">Nous Rejoindre</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section">
+            <h2>Rejoignez Notre Équipe</h2>
+            <p>Nous recherchons des talents passionnés par l'automobile! Postulez maintenant.</p>
+            
+            <div class="jobs-grid">
+                <div class="job-card">
+                    <h3>Mécanicien Automobile</h3>
+                    <p><strong>Expérience requise:</strong> 3+ ans</p>
+                    <p>Nous recherchons un mécanicien expérimenté pour rejoindre notre équipe.</p>
+                </div>
+                <div class="job-card">
+                    <h3>Apprenti Mécanicien</h3>
+                    <p><strong>Niveau:</strong> CAP ou équivalent</p>
+                    <p>Opportunité de formation pour débutants motivés.</p>
+                </div>
+                <div class="job-card">
+                    <h3>Responsable Commercial</h3>
+                    <p><strong>Expérience requise:</strong> 2+ ans</p>
+                    <p>Gestion des clients et développement commercial.</p>
+                </div>
+            </div>
+
+            <form class="form" id="recruitement-form">
+                <h3>Formulaire de Candidature</h3>
+                <div class="success-message" id="recruitement-success">✓ Candidature envoyée avec succès!</div>
+                <div class="form-group">
+                    <label for="nom-candidat">Nom *</label>
+                    <input type="text" id="nom-candidat" name="nom_candidat" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom *</label>
+                    <input type="text" id="prenom" name="prenom" required>
+                </div>
+                <div class="form-group">
+                    <label for="email-candidat">Email *</label>
+                    <input type="email" id="email-candidat" name="email_candidat" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone-candidat">Téléphone *</label>
+                    <input type="tel" id="telephone-candidat" name="telephone_candidat" required>
+                </div>
+                <div class="form-group">
+                    <label for="poste">Poste souhaité *</label>
+                    <select id="poste" name="poste" required>
+                        <option value="">-- Sélectionnez un poste --</option>
+                        <option value="mecanicien">Mécanicien Automobile</option>
+                        <option value="apprenti">Apprenti Mécanicien</option>
+                        <option value="commercial">Responsable Commercial</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Années d'expérience *</label>
+                    <input type="number" id="experience" name="experience" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="cv">Lettre de motivation *</label>
+                    <textarea id="cv" name="cv" rows="5" placeholder="Parlez-nous de vous..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cv-file">Joindre un CV (PDF)</label>
+                    <input type="file" id="cv-file" name="cv_file" accept=".pdf">
+                </div>
+                <button type="submit" class="btn">Envoyer ma candidature</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Mon Garage. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        document.getElementById('recruitement-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('recruitement-success').classList.add('show');
+            this.reset();
+            setTimeout(() => {
+                document.getElementById('recruitement-success').classList.remove('show');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
