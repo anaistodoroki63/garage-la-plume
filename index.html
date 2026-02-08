@@ -1,13 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
- <head>
-  <meta charset="UTF-8">
-  <title>Garage La Plume</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&amp;family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+<head>
+    <meta charset="UTF-8">
+    <title>Garage La Plume - Server Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/_sdk/element_sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
         body {
             box-sizing: border-box;
         }
@@ -38,12 +38,20 @@
             color: #dc2626;
         }
         
+        .purple-accent {
+            color: #a855f7;
+        }
+        
         .red-bg {
             background-color: #dc2626;
         }
         
         .red-border {
             border-color: #dc2626;
+        }
+        
+        .purple-border {
+            border-color: #a855f7;
         }
         
         .card-bg {
@@ -104,61 +112,6 @@
             background: rgba(80, 80, 100, 0.8);
         }
         
-        .hero-section {
-            background: linear-gradient(135deg, rgba(15, 15, 25, 0.95) 0%, rgba(30, 30, 50, 0.9) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
-        }
-        
-        .service-card {
-            background: linear-gradient(145deg, rgba(35, 35, 50, 0.9) 0%, rgba(25, 25, 35, 0.95) 100%);
-            border-left: 4px solid #dc2626;
-            transition: all 0.3s ease;
-        }
-        
-        .service-card:hover {
-            transform: translateX(5px);
-            box-shadow: -5px 0 20px rgba(220, 38, 38, 0.2);
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-        
-        .calendar-day {
-            background: rgba(20, 20, 30, 0.8);
-            min-height: 60px;
-            border: 1px solid rgba(60, 60, 80, 0.3);
-            transition: all 0.2s ease;
-            border-radius: 4px;
-            padding: 4px;
-        }
-        
-        .calendar-day:hover {
-            border-color: #dc2626;
-        }
-        
-        .calendar-event {
-            background: linear-gradient(90deg, #dc2626, #991b1b);
-            font-size: 9px;
-            padding: 2px 4px;
-            border-radius: 2px;
-            margin-top: 2px;
-            cursor: pointer;
-        }
-        
         .toast {
             position: fixed;
             bottom: 20px;
@@ -189,108 +142,66 @@
             to { opacity: 0; }
         }
         
-        .glow-text {
-            text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+        .manager-tab.active {
+            background: #a855f7 !important;
         }
         
-        .file-item {
+        .user-item {
             background: rgba(25, 25, 35, 0.8);
-            border: 1px solid rgba(60, 60, 80, 0.3);
+            border: 1px solid rgba(168, 85, 247, 0.3);
             transition: all 0.2s ease;
-            border-radius: 4px;
+            border-radius: 6px;
         }
         
-        .file-item:hover {
-            border-color: #dc2626;
+        .user-item:hover {
+            border-color: #a855f7;
             background: rgba(35, 35, 45, 0.9);
         }
-        
-        .clock-entry {
-            border-left: 3px solid #dc2626;
-            background: rgba(25, 25, 35, 0.6);
-            border-radius: 4px;
-        }
-        
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.5), transparent);
-        }
     </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body>
-  <div class="app-wrapper body-text text-gray-100"><!-- Header Navigation -->
-   <header class="bg-black/80 backdrop-blur-md border-b-4 red-border sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4">
-     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <h1 id="garageName" class="garage-title text-3xl font-bold red-accent glow-text">Garage La Plume</h1>
-      <nav>
-       <div class="flex flex-wrap gap-2"><a href="?page=home" class="nav-button active" id="navHome">🏠 Accueil</a> <a href="?page=services" class="nav-button" id="navServices">🔧 Services</a> <a href="?page=recruitment" class="nav-button" id="navRecruitment">💼 Recrutement</a> <a href="?page=contact" class="nav-button" id="navContact">📞 Contact</a> <a href="?page=employee" class="nav-button" id="navEmployee">🔐 Employé</a>
-       </div>
-      </nav>
-     </div>
+</head>
+<body>
+    <div class="app-wrapper body-text text-gray-100">
+        <!-- Header Navigation -->
+        <header class="bg-black/80 backdrop-blur-md border-b-4 purple-border sticky top-0 z-50">
+            <div class="max-w-6xl mx-auto px-6 py-4">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <h1 class="garage-title text-3xl font-bold purple-accent">🔧 Server Manager</h1>
+                    <nav>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="?page=home" class="nav-button active" id="navHome">🏠 Accueil</a>
+                            <a href="?page=manager" class="nav-button" id="navManager">⚙️ Gestion</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu dynamique -->
+        <div id="content"></div>
+
+        <!-- Footer -->
+        <footer class="bg-black/80 border-t-4 purple-border py-8 px-6 text-center mt-12">
+            <p class="text-gray-400">&copy; 2026 Garage La Plume - Server Manager</p>
+        </footer>
     </div>
-   </header><!-- Contenu dynamique -->
-   <div id="content"></div><!-- Footer -->
-   <footer class="bg-black/80 border-t-4 red-border py-8 px-6 text-center mt-12">
-    <p class="text-gray-400">© 2026 Garage La Plume - Tous droits réservés</p>
-   </footer>
-  </div><!-- Toast Container -->
-  <div id="toastContainer"></div>
-  <script>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <script>
         // ============================================
-        // Configuration & SDK Setup
-        // ============================================
-        
-        const defaultConfig = {
-            garage_name: 'Garage La Plume',
-            hero_title: 'Garage Automobile de Confiance',
-            hero_subtitle: 'Réparation • Entretien • Diagnostic'
-        };
-
-        let config = { ...defaultConfig };
-
-        // Initialize SDK
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange: async (newConfig) => {
-                    config = { ...defaultConfig, ...newConfig };
-                    applyConfig();
-                },
-                mapToCapabilities: (cfg) => ({
-                    recolorables: [],
-                    borderables: [],
-                    fontEditable: undefined,
-                    fontSizeable: undefined
-                }),
-                mapToEditPanelValues: (cfg) => new Map([
-                    ['garage_name', cfg.garage_name || defaultConfig.garage_name],
-                    ['hero_title', cfg.hero_title || defaultConfig.hero_title],
-                    ['hero_subtitle', cfg.hero_subtitle || defaultConfig.hero_subtitle]
-                ])
-            });
-        }
-
-        function applyConfig() {
-            const garageName = config.garage_name || defaultConfig.garage_name;
-            document.getElementById('garageName').textContent = garageName;
-            document.title = garageName;
-        }
-
-        // ============================================
-        // Data Storage (localStorage)
+        // Storage & Initialization
         // ============================================
         
         function initializeStorage() {
             if (!localStorage.getItem('garageUsers')) {
                 localStorage.setItem('garageUsers', JSON.stringify([
-                    { user: 'patron', pass: 'patron123', role: 'Patron' }, 
-                    { user: 'Luciano', pass: 'Luciano', role: 'Employé' }, 
-                    { user: 'killian', pass: 'killian', role: 'Employé' } 
-                    { user: 'jose', pass: 'jose', role: 'Employé' }
-            ]);}
+                    { user: 'patron', pass: 'patron123', role: 'Patron' },
+                    { user: 'luciano', pass: 'luciano', role: 'Employé' },
+                    { user: 'killyan', pass: 'killyan', role: 'Employé' },
+                    { user: 'anais', pass: 'anais', role: 'Gestionnaire Serveur' },
+                ]));
+            }
             if (!localStorage.getItem('garageEvents')) {
                 localStorage.setItem('garageEvents', JSON.stringify([]));
             }
@@ -300,9 +211,6 @@
             if (!localStorage.getItem('garageFiles')) {
                 localStorage.setItem('garageFiles', JSON.stringify([]));
             }
-            if (!localStorage.getItem('garageCandidates')) {
-                localStorage.setItem('garageCandidates', JSON.stringify([]));
-            }
         }
 
         function getUsers() {
@@ -311,16 +219,6 @@
 
         function saveUsers(users) {
             localStorage.setItem('garageUsers', JSON.stringify(users));
-        }
-
-        function getPasswordChangeStatus() {
-            return JSON.parse(localStorage.getItem('passwordChanged') || '{}');
-        }
-
-        function setPasswordChanged(user) {
-            const status = getPasswordChangeStatus();
-            status[user] = true;
-            localStorage.setItem('passwordChanged', JSON.stringify(status));
         }
 
         function getEvents() {
@@ -347,14 +245,6 @@
             localStorage.setItem('garageFiles', JSON.stringify(files));
         }
 
-        function getCandidates() {
-            return JSON.parse(localStorage.getItem('garageCandidates') || '[]');
-        }
-
-        function saveCandidates(candidates) {
-            localStorage.setItem('garageCandidates', JSON.stringify(candidates));
-        }
-
         // ============================================
         // Toast Notifications
         // ============================================
@@ -378,378 +268,216 @@
 
         const pages = {
             home: () => `
-                <section class="hero-section py-24 px-6 text-center relative">
-                    <div class="absolute inset-0 opacity-10">
-                        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <defs>
-                                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                                </pattern>
-                            </defs>
-                            <rect width="100" height="100" fill="url(#grid)"/>
-                        </svg>
-                    </div>
-                    <div class="relative z-10 max-w-3xl mx-auto">
-                        <div class="inline-block mb-6">
-                            <svg class="w-24 h-24 mx-auto red-accent" viewBox="0 0 100 100" fill="currentColor">
-                                <path d="M85 45c0-2-1-4-3-5l-7-3c-1-4-3-8-5-11l1-8c0-2-1-4-3-5l-4-2c-2-1-4 0-5 1l-6 5c-4-1-8-1-12 0l-6-5c-2-1-4-2-5-1l-4 2c-2 1-3 3-3 5l1 8c-2 3-4 7-5 11l-7 3c-2 1-3 3-3 5v5c0 2 1 4 3 5l7 3c1 4 3 8 5 11l-1 8c0 2 1 4 3 5l4 2c2 1 4 0 5-1l6-5c4 1 8 1 12 0l6 5c1 1 3 2 5 1l4-2c2-1 3-3 3-5l-1-8c2-3 4-7 5-11l7-3c2-1 3-3 3-5v-5zM50 65c-8 0-15-7-15-15s7-15 15-15 15 7 15 15-7 15-15 15z"/>
-                            </svg>
-                        </div>
-                        <h2 id="heroTitle" class="garage-title text-4xl md:text-5xl font-bold mb-4 text-white">${config.hero_title}</h2>
-                        <p id="heroSubtitle" class="text-xl text-gray-300">${config.hero_subtitle}</p>
-                        <div class="mt-8 flex justify-center gap-4 flex-wrap">
-                            <a href="?page=contact" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white inline-block">Nous Contacter</a>
-                            <a href="?page=services" class="btn-secondary px-8 py-3 rounded-lg font-semibold text-white inline-block border border-gray-600">Nos Services</a>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="section-divider"></div>
-
-                <section class="py-16 px-6">
-                    <div class="max-w-5xl mx-auto">
-                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Bienvenue au Garage La Plume</h2>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <div class="text-4xl mb-4">🛠�����</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Expertise & Qualité</h3>
-                                <p class="text-gray-400">Nos mécaniciens qualifiés vous garantissent une réparation de qualité supérieure avec des pièces de premier choix.</p>
-                            </div>
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <div class="text-4xl mb-4">⏱️</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Rapide & Fiable</h3>
-                                <p class="text-gray-400">Nous intervenons rapidement et dans les délais prévus. Votre satisfaction est notre priorité.</p>
-                            </div>
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <div class="text-4xl mb-4">💰</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Prix Compétitifs</h3>
-                                <p class="text-gray-400">Nos tarifs sont transparents et compétitifs. Devis gratuit sur demande pour tous les services.</p>
-                            </div>
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <div class="text-4xl mb-4">🔒</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Garantie & Assurance</h3>
-                                <p class="text-gray-400">Tous nos travaux sont garantis. Nous travaillons avec les meilleures assurances.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-
-            services: () => `
-                <section class="py-16 px-6">
-                    <div class="max-w-5xl mx-auto">
-                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Nos Services</h2>
-                        <p class="text-center text-gray-400 mb-12 text-lg">Nous offrons un large éventail de services automobiles pour tous vos besoins.</p>
-                        
-                        <div class="grid md:grid-cols-3 gap-6 mb-12">
-                            <div class="service-card rounded-lg p-6">
-                                <div class="text-4xl mb-4">🔧</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Réparation Mécanique</h3>
-                                <p class="text-gray-400 mb-4">Réparation complète de votre véhicule par nos experts qualifiés. Moteur, boîte de vitesses, suspension et bien plus.</p>
-                                <p class="red-accent font-bold text-lg">À partir de 3000€</p>
-                            </div>
-                            <div class="service-card rounded-lg p-6">
-                                <div class="text-4xl mb-4">🛢️</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Entretien Régulier</h3>
-                                <p class="text-gray-400 mb-4">Entretien complet pour maintenir votre véhicule en parfait état. Vidange, filtres, fluides et inspections.</p>
-                                <p class="red-accent font-bold">Ville: 3000€ • Autoroute: 5000€</p>
-                            </div>
-                            <div class="service-card rounded-lg p-6">
-                                <div class="text-4xl mb-4">🔍</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Contrôle Technique</h3>
-                                <p class="text-gray-400 mb-4">Pré-contrôle technique complet pour préparer votre passage à la visite officielle.</p>
-                                <p class="red-accent font-bold text-lg">Sur devis</p>
-                            </div>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="service-card rounded-lg p-6">
-                                <div class="text-4xl mb-4">🚗</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Carrosserie</h3>
-                                <p class="text-gray-400 mb-4">Réparation et restauration de carrosserie. Tôlerie, peinture, redressage et débosselage.</p>
-                                <p class="red-accent font-bold">Devis personnalisé</p>
-                            </div>
-                            <div class="service-card rounded-lg p-6">
-                                <div class="text-4xl mb-4">⚡</div>
-                                <h3 class="garage-title text-xl font-bold mb-2 text-white">Électricité Auto</h3>
-                                <p class="text-gray-400 mb-4">Diagnostic et réparation des systèmes électriques. Batterie, alternateur, démarreur et électronique.</p>
-                                <p class="red-accent font-bold">À partir de 500€</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="section-divider"></div>
-
-                <section class="py-16 px-6">
-                    <div class="max-w-5xl mx-auto">
-                        <h2 class="garage-title text-2xl font-bold mb-8 text-white text-center">Pourquoi nous choisir ?</h2>
-                        <div class="grid md:grid-cols-4 gap-4">
-                            <div class="text-center">
-                                <p class="text-4xl mb-3">15+</p>
-                                <p class="text-gray-400">Années d'expérience</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-4xl mb-3">500+</p>
-                                <p class="text-gray-400">Clients satisfaits</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-4xl mb-3">98%</p>
-                                <p class="text-gray-400">Taux de satisfaction</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-4xl mb-3">24/7</p>
-                                <p class="text-gray-400">Support disponible</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-
-            recruitment: () => `
                 <section class="py-16 px-6">
                     <div class="max-w-4xl mx-auto">
-                        <h2 class="garage-title text-3xl font-bold mb-4 red-accent text-center">Rejoignez Notre Équipe</h2>
-                        <p class="text-center text-gray-400 mb-12">Nous recherchons des talents passionnés pour rejoindre notre équipe dynamique.</p>
-                        
-                        <div class="card-bg rounded-xl p-8 border-l-4 red-border mb-12">
-                            <h3 class="garage-title text-xl font-bold mb-4 text-white">Postuler pour une offre d'emploi</h3>
-                            <p class="text-gray-400 mb-6">Envoyez-nous votre CV et votre lettre de motivation. Nous examinerons votre candidature avec attention.</p>
+                        <div class="card-bg rounded-xl p-8 border-l-4 purple-border text-center">
+                            <h2 class="garage-title text-4xl font-bold mb-4 purple-accent">🔧 Gestionnaire de Serveur</h2>
+                            <p class="text-gray-400 text-lg mb-8">Bienvenue dans le panneau de contrôle central. Accédez à la gestion complète du serveur Garage La Plume.</p>
                             
-                            <form id="recruitmentForm" class="space-y-4">
-                                <div>
-                                    <label for="candidateName" class="block text-sm font-medium mb-2 text-gray-300">Nom Complet</label>
-                                    <input type="text" id="candidateName" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Jean Dupont" required>
+                            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
+                                    <h3 class="text-2xl font-bold red-accent mb-2">👥</h3>
+                                    <p class="font-bold text-white mb-1">Gestion Utilisateurs</p>
+                                    <p class="text-gray-400 text-sm">Créer, modifier ou supprimer des utilisateurs</p>
                                 </div>
-                                <div>
-                                    <label for="candidateEmail" class="block text-sm font-medium mb-2 text-gray-300">Email</label>
-                                    <input type="email" id="candidateEmail" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="jean@example.com" required>
+                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
+                                    <h3 class="text-2xl font-bold red-accent mb-2">📅</h3>
+                                    <p class="font-bold text-white mb-1">Événements</p>
+                                    <p class="text-gray-400 text-sm">Gérer tous les événements et plannings</p>
                                 </div>
-                                <div>
-                                    <label for="candidatePhone" class="block text-sm font-medium mb-2 text-gray-300">Téléphone</label>
-                                    <input type="tel" id="candidatePhone" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="06 12 34 56 78" required>
+                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
+                                    <h3 class="text-2xl font-bold red-accent mb-2">⏱️</h3>
+                                    <p class="font-bold text-white mb-1">Pointages</p>
+                                    <p class="text-gray-400 text-sm">Contrôler et modifier les pointages employés</p>
                                 </div>
-                                <div>
-                                    <label for="candidatePosition" class="block text-sm font-medium mb-2 text-gray-300">Poste Souhaité</label>
-                                    <select id="candidatePosition" class="input-style w-full px-4 py-3 rounded-lg text-white" required>
-                                        <option value="">Sélectionner un poste...</option>
-                                        <option value="Mécanicien">Mécanicien</option>
-                                        <option value="Carrossier">Carrossier</option>
-                                        <option value="Électricien Auto">Électricien Auto</option>
-                                        <option value="Apprenti">Apprenti</option>
-                                        <option value="Réceptionnaire">Réceptionnaire</option>
-                                        <option value="Autre">Autre</option>
-                                    </select>
+                                <div class="card-bg rounded-lg p-6 border-l-4 red-border">
+                                    <h3 class="text-2xl font-bold red-accent mb-2">💾</h3>
+                                    <p class="font-bold text-white mb-1">Données</p>
+                                    <p class="text-gray-400 text-sm">Exporter/importer et récupérer les données</p>
                                 </div>
-                                <div>
-                                    <label for="candidateCv" class="block text-sm font-medium mb-2 text-gray-300">CV (PDF)</label>
-                                    <div class="flex gap-4">
-                                        <input type="file" id="candidateCv" class="hidden" accept=".pdf" required>
-                                        <button type="button" id="selectCvBtn" class="btn-secondary px-6 py-3 rounded-lg font-medium text-white border border-gray-600 flex-1">
-                                            📄 Sélectionner CV
+                            </div>
+
+                            <a href="?page=manager" class="btn-primary px-8 py-3 rounded-lg font-semibold text-white inline-block">
+                                Accéder au Panneau de Contrôle →
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            manager: () => `
+                <section class="py-16 px-6">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="card-bg rounded-xl p-8 border-l-4 purple-border">
+                            <h2 class="garage-title text-3xl font-bold mb-8 purple-accent">Panneau de Gestion Serveur</h2>
+                            
+                            <!-- Tabs Navigation -->
+                            <div class="flex flex-wrap gap-2 mb-8 border-b border-gray-600 pb-4">
+                                <button class="manager-tab active px-4 py-2 rounded-lg font-medium text-white bg-purple-600" data-tab="users">👥 Utilisateurs</button>
+                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="events">📅 Événements</button>
+                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="clock">⏱️ Pointages</button>
+                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="files">📁 Fichiers</button>
+                                <button class="manager-tab px-4 py-2 rounded-lg font-medium text-white bg-gray-700" data-tab="recovery">🔄 Récupération</button>
+                            </div>
+
+                            <!-- Users Tab -->
+                            <div id="usersTab" class="manager-tab-content space-y-4">
+                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Utilisateurs</h4>
+                                <div class="space-y-3 max-h-96 overflow-y-auto mb-6">
+                                    <div id="usersList"></div>
+                                </div>
+                                
+                                <div class="border-t border-gray-600 pt-4">
+                                    <h5 class="font-bold text-white mb-4">➕ Ajouter un nouvel utilisateur</h5>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Identifiant</label>
+                                            <input type="text" id="newUserName" class="input-style w-full px-4 py-2 rounded-lg text-white" placeholder="ex: jean">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label>
+                                            <input type="password" id="newUserPass" class="input-style w-full px-4 py-2 rounded-lg text-white" placeholder="••••••••">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Rôle</label>
+                                            <select id="newUserRole" class="input-style w-full px-4 py-2 rounded-lg text-white">
+                                                <option value="Employé">Employé</option>
+                                                <option value="Patron">Patron</option>
+                                                <option value="Gestionnaire Serveur">Gestionnaire Serveur</option>
+                                            </select>
+                                        </div>
+                                        <button id="addUserBtn" class="btn-primary py-2 rounded-lg font-medium text-white self-end">
+                                            ✓ Créer Utilisateur
                                         </button>
-                                        <span id="cvFileName" class="text-gray-400 self-center text-sm flex-1"></span>
                                     </div>
                                 </div>
-                                <div>
-                                    <label for="candidateLetter" class="block text-sm font-medium mb-2 text-gray-300">Lettre de Motivation (optionnel)</label>
-                                    <textarea id="candidateLetter" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Parlez-nous de vous..."></textarea>
-                                </div>
-                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
-                                    Envoyer ma Candidature
-                                </button>
-                            </form>
-                        </div>
-
-                        <div id="candidatesPanel" class="hidden card-bg rounded-xl p-8 border-l-4 border-yellow-500">
-                            <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2">
-                                <span>📋</span> Candidatures Reçues
-                            </h3>
-                            <div id="candidatesList" class="space-y-4"></div>
-                        </div>
-                    </div>
-                </section>
-            `,
-
-            contact: () => `
-                <section class="py-16 px-6">
-                    <div class="max-w-2xl mx-auto">
-                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Contact</h2>
-                        
-                        <div class="grid md:grid-cols-2 gap-6 mb-12">
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
-                                <div class="text-4xl mb-3">📍</div>
-                                <h3 class="font-bold text-white mb-2">Adresse</h3>
-                                <p class="text-gray-400">123 Rue de la Réparation<br>75000 Paris<br>France</p>
-                            </div>
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
-                                <div class="text-4xl mb-3">📞</div>
-                                <h3 class="font-bold text-white mb-2">Téléphone</h3>
-                                <p class="text-gray-400">
-                                    <a href="tel:+33123456789" class="hover:text-red-500 transition">+33 1 23 45 67 89</a><br>
-                                    <small>Lun-Ven: 9h-18h</small>
-                                </p>
-                            </div>
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
-                                <div class="text-4xl mb-3">✉️</div>
-                                <h3 class="font-bold text-white mb-2">Email</h3>
-                                <p class="text-gray-400">
-                                    <a href="mailto:contact@garagelaplume.fr" class="hover:text-red-500 transition">contact@garagelaplume.fr</a>
-                                </p>
-                            </div>
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border text-center">
-                                <div class="text-4xl mb-3">🕐</div>
-                                <h3 class="font-bold text-white mb-2">Horaires</h3>
-                                <p class="text-gray-400">
-                                    Lun-Ven: 9h-18h<br>
-                                    Sam: 9h-13h<br>
-                                    Fermé le dimanche
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card-bg rounded-xl p-8 border-l-4 red-border">
-                            <h3 class="garage-title text-xl font-bold mb-6 text-white">Envoyez-nous un message</h3>
-                            <form id="contactForm" class="space-y-4">
-                                <div>
-                                    <label for="contactName" class="block text-sm font-medium mb-2 text-gray-300">Nom</label>
-                                    <input type="text" id="contactName" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre nom">
-                                </div>
-                                <div>
-                                    <label for="contactEmail" class="block text-sm font-medium mb-2 text-gray-300">Email</label>
-                                    <input type="email" id="contactEmail" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="votre@email.com">
-                                </div>
-                                <div>
-                                    <label for="contactMessage" class="block text-sm font-medium mb-2 text-gray-300">Message</label>
-                                    <textarea id="contactMessage" rows="4" class="input-style w-full px-4 py-3 rounded-lg text-white resize-none" placeholder="Votre message..."></textarea>
-                                </div>
-                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
-                                    Envoyer le Message
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-            `,
-
-            employee: () => `
-                <section class="py-16 px-6">
-                    <div class="max-w-4xl mx-auto">
-                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Espace Employé 🔐</h2>
-                        
-                        <!-- Login Box -->
-                        <div id="loginBox" class="card-bg rounded-xl p-8 border-l-4 red-border max-w-md mx-auto">
-                            <h3 class="garage-title text-xl font-bold mb-6 text-white text-center">Connexion</h3>
-                            <form id="loginForm" class="space-y-4">
-                                <div>
-                                    <label for="user" class="block text-sm font-medium mb-2 text-gray-300">Identifiant</label>
-                                    <input type="text" id="user" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre identifiant">
-                                </div>
-                                <div>
-                                    <label for="pass" class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label>
-                                    <input type="password" id="pass" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••">
-                                </div>
-                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
-                                    Se Connecter
-                                </button>
-                            </form>
-                            <p id="loginMsg" class="mt-4 text-center text-sm"></p>
-                        </div>
-
-                        <!-- Dashboard (Hidden by default) -->
-                        <div id="dashboard" class="hidden space-y-6">
-                            <!-- Welcome Banner -->
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <div class="flex items-center justify-between flex-wrap gap-4">
-                                    <div>
-                                        <p class="text-gray-400 text-sm">Bienvenue,</p>
-                                        <p id="welcomeUser" class="garage-title text-2xl font-bold text-white"></p>
-                                        <p id="roleText" class="text-sm red-accent font-medium"></p>
-                                    </div>
-                                    <button id="logoutBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white">
-                                        Déconnexion
-                                    </button>
-                                </div>
                             </div>
 
-                            <!-- Planning Section -->
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
-                                    <span>📅</span> Planning
-                                </h3>
-                                <div class="grid md:grid-cols-2 gap-4 mb-6">
-                                    <div>
-                                        <label for="eventDate" class="block text-sm font-medium mb-2 text-gray-300">Date</label>
-                                        <input type="date" id="eventDate" class="input-style w-full px-4 py-3 rounded-lg text-white">
-                                    </div>
-                                    <div>
-                                        <label for="eventText" class="block text-sm font-medium mb-2 text-gray-300">Mission / Entretien</label>
-                                        <input type="text" id="eventText" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Description de la tâche">
-                                    </div>
-                                </div>
-                                <button id="addEventBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white mb-6">
-                                    Ajouter au Planning
-                                </button>
-                                
-                                <div class="mb-4 flex items-center justify-between">
-                                    <button id="prevMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">← Mois précédent</button>
-                                    <span id="currentMonth" class="garage-title text-lg font-bold text-white"></span>
-                                    <button id="nextMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">Mois suivant →</button>
+                            <!-- Events Tab -->
+                            <div id="eventsTab" class="manager-tab-content hidden space-y-4">
+                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Événements</h4>
+                                <div class="space-y-3 max-h-96 overflow-y-auto mb-6">
+                                    <div id="eventsList"></div>
                                 </div>
                                 
-                                <div class="calendar-grid text-center text-xs text-gray-400 mb-2">
-                                    <div class="py-2 font-bold">Lun</div>
-                                    <div class="py-2 font-bold">Mar</div>
-                                    <div class="py-2 font-bold">Mer</div>
-                                    <div class="py-2 font-bold">Jeu</div>
-                                    <div class="py-2 font-bold">Ven</div>
-                                    <div class="py-2 font-bold">Sam</div>
-                                    <div class="py-2 font-bold">Dim</div>
+                                <div class="border-t border-gray-600 pt-4">
+                                    <h5 class="font-bold text-white mb-4">➕ Ajouter un événement</h5>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Utilisateur</label>
+                                            <select id="newEventUser" class="input-style w-full px-4 py-2 rounded-lg text-white">
+                                                <option value="">Sélectionner...</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Date</label>
+                                            <input type="date" id="newEventDate" class="input-style w-full px-4 py-2 rounded-lg text-white">
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Description</label>
+                                            <input type="text" id="newEventText" class="input-style w-full px-4 py-2 rounded-lg text-white" placeholder="Description de l'événement">
+                                        </div>
+                                        <button id="addEventManagerBtn" class="btn-primary md:col-span-2 py-2 rounded-lg font-medium text-white">
+                                            ✓ Ajouter Événement
+                                        </button>
+                                    </div>
                                 </div>
-                                <div id="calendar" class="calendar-grid"></div>
                             </div>
 
-                            <!-- Time Clock Section -->
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
-                                    <span>⏱️</span> Pointeuse
-                                </h3>
-                                <div class="flex gap-4 mb-6">
-                                    <button id="clockInBtn" class="btn-primary flex-1 py-3 rounded-lg font-medium text-white">
-                                        ✓ Entrée
-                                    </button>
-                                    <button id="clockOutBtn" class="btn-secondary flex-1 py-3 rounded-lg font-medium text-white border border-red-600">
-                                        ✕ Sortie
-                                    </button>
+                            <!-- Clock Tab -->
+                            <div id="clockTab" class="manager-tab-content hidden space-y-4">
+                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Pointages</h4>
+                                <div class="space-y-3 max-h-96 overflow-y-auto mb-6">
+                                    <div id="clockManagerList"></div>
                                 </div>
-                                <div id="clockList" class="space-y-2 max-h-48 overflow-y-auto"></div>
-                                <div id="hoursWorked" class="mt-4 p-4 bg-black/30 rounded-lg text-center"></div>
+                                
+                                <div class="border-t border-gray-600 pt-4">
+                                    <h5 class="font-bold text-white mb-4">➕ Ajouter un pointage</h5>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Utilisateur</label>
+                                            <select id="newClockUser" class="input-style w-full px-4 py-2 rounded-lg text-white">
+                                                <option value="">Sélectionner...</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Type</label>
+                                            <select id="newClockType" class="input-style w-full px-4 py-2 rounded-lg text-white">
+                                                <option value="Entrée">✓ Entrée</option>
+                                                <option value="Sortie">✕ Sortie</option>
+                                            </select>
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium mb-2 text-gray-300">Date et Heure</label>
+                                            <input type="datetime-local" id="newClockTime" class="input-style w-full px-4 py-2 rounded-lg text-white">
+                                        </div>
+                                        <button id="addClockBtn" class="btn-primary md:col-span-2 py-2 rounded-lg font-medium text-white">
+                                            ✓ Ajouter Pointage
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Documents Section -->
-                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
-                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
-                                    <span>📁</span> Documents
-                                </h3>
-                                <div class="flex gap-4 mb-6 flex-wrap">
-                                    <input type="file" id="fileInput" class="hidden">
-                                    <button id="selectFileBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white border border-gray-600">
-                                        Sélectionner un fichier
-                                    </button>
-                                    <span id="selectedFileName" class="text-gray-400 self-center text-sm"></span>
-                                    <button id="uploadFileBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white">
-                                        Uploader
-                                    </button>
+                            <!-- Files Tab -->
+                            <div id="filesTab" class="manager-tab-content hidden space-y-4">
+                                <h4 class="text-lg font-bold text-white mb-4">Gestion des Fichiers</h4>
+                                <div class="space-y-3 max-h-96 overflow-y-auto">
+                                    <div id="filesManagerList"></div>
                                 </div>
-                                <div id="fileList" class="space-y-2"></div>
                             </div>
 
-                            <!-- Admin Panel (Hidden for non-patrons) -->
-                            <div id="adminPanel" class="hidden card-bg rounded-xl p-6 border-l-4 border-yellow-500">
-                                <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2">
-                                    <span>👑</span> Vue Patron - Données Globales
-                                </h3>
-                                <div id="globalData" class="space-y-4"></div>
+                            <!-- Recovery Tab -->
+                            <div id="recoveryTab" class="manager-tab-content hidden space-y-6">
+                                <h4 class="text-lg font-bold text-white mb-4">Récupération et Maintenance</h4>
+                                
+                                <div class="bg-black/40 rounded-lg p-4 border border-red-500/30">
+                                    <h5 class="font-bold text-red-400 mb-3">⚠️ Actions Critiques</h5>
+                                    <p class="text-gray-400 text-sm mb-4">Attention: Ces actions affectent toutes les données du serveur</p>
+                                    <div class="space-y-2">
+                                        <button id="exportDataBtn" class="btn-primary w-full py-2 rounded-lg font-medium text-white">
+                                            💾 Exporter toutes les données (JSON)
+                                        </button>
+                                        <button id="importDataBtn" class="btn-secondary w-full py-2 rounded-lg font-medium text-white border border-gray-600">
+                                            📥 Importer des données
+                                        </button>
+                                        <input type="file" id="importFile" class="hidden" accept=".json">
+                                    </div>
+                                </div>
+
+                                <div class="bg-black/40 rounded-lg p-4 border border-yellow-500/30">
+                                    <h5 class="font-bold text-yellow-400 mb-3">🔑 Gestion des Mots de Passe</h5>
+                                    <div id="backupInfo" class="text-sm text-gray-400 space-y-2 mb-4"></div>
+                                    <div class="space-y-2">
+                                        <button id="resetPasswordsBtn" class="w-full py-2 rounded-lg font-medium text-white bg-yellow-700 hover:bg-yellow-600 transition">
+                                            🔐 Réinitialiser tous les mots de passe
+                                        </button>
+                                        <button id="clearChangedPasswordsBtn" class="w-full py-2 rounded-lg font-medium text-white bg-yellow-700 hover:bg-yellow-600 transition">
+                                            🔑 Forcer changement MDP au prochain login
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-black/40 rounded-lg p-4 border border-purple-500/30">
+                                    <h5 class="font-bold text-purple-400 mb-3">📊 Statistiques Serveur</h5>
+                                    <div id="serverStats" class="grid md:grid-cols-2 gap-4 text-sm">
+                                        <div class="bg-black/30 p-3 rounded">
+                                            <p class="text-gray-400">Utilisateurs</p>
+                                            <p id="statsUsers" class="text-2xl font-bold text-white">0</p>
+                                        </div>
+                                        <div class="bg-black/30 p-3 rounded">
+                                            <p class="text-gray-400">Événements</p>
+                                            <p id="statsEvents" class="text-2xl font-bold text-white">0</p>
+                                        </div>
+                                        <div class="bg-black/30 p-3 rounded">
+                                            <p class="text-gray-400">Pointages</p>
+                                            <p id="statsClock" class="text-2xl font-bold text-white">0</p>
+                                        </div>
+                                        <div class="bg-black/30 p-3 rounded">
+                                            <p class="text-gray-400">Fichiers</p>
+                                            <p id="statsFiles" class="text-2xl font-bold text-white">0</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -761,9 +489,6 @@
         // Router & Navigation
         // ============================================
 
-        let currentUser = null;
-        let currentMonth = new Date();
-
         function getPageFromURL() {
             const params = new URLSearchParams(window.location.search);
             return params.get('page') || 'home';
@@ -773,24 +498,10 @@
             const page = getPageFromURL();
             const contentDiv = document.getElementById('content');
             
-            // Update nav buttons
-            document.querySelectorAll('.nav-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            if (page === 'home') document.getElementById('navHome').classList.add('active');
+            if (page === 'manager') document.getElementById('navManager').classList.add('active');
             
-            const navMap = {
-                'home': 'navHome',
-                'services': 'navServices',
-                'recruitment': 'navRecruitment',
-                'contact': 'navContact',
-                'employee': 'navEmployee'
-            };
-            
-            if (navMap[page]) {
-                document.getElementById(navMap[page]).classList.add('active');
-            }
-            
-            // Render page content
             if (pages[page]) {
                 contentDiv.innerHTML = pages[page]();
                 attachEventListeners();
@@ -801,642 +512,293 @@
         function attachEventListeners() {
             const page = getPageFromURL();
 
-            if (page === 'contact') {
-                document.getElementById('contactForm')?.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('contactName').value;
-                    const email = document.getElementById('contactEmail').value;
-                    const message = document.getElementById('contactMessage').value;
-                    
-                    if (!name || !email || !message) {
-                        showToast('Veuillez remplir tous les champs', 'error');
-                        return;
-                    }
-                    
-                    showToast('Message envoyé avec succès !');
-                    document.getElementById('contactForm').reset();
-                });
-            }
-
-            if (page === 'recruitment') {
-                document.getElementById('selectCvBtn')?.addEventListener('click', () => {
-                    document.getElementById('candidateCv').click();
+            if (page === 'manager') {
+                // Tab switching
+                document.querySelectorAll('.manager-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.manager-tab').forEach(t => {
+                            t.classList.remove('active');
+                            t.style.background = 'rgba(60, 60, 80, 0.6)';
+                        });
+                        document.querySelectorAll('.manager-tab-content').forEach(c => c.classList.add('hidden'));
+                        
+                        tab.classList.add('active');
+                        tab.style.background = '#a855f7';
+                        const tabName = tab.getAttribute('data-tab');
+                        document.getElementById(tabName + 'Tab').classList.remove('hidden');
+                    });
                 });
 
-                document.getElementById('candidateCv')?.addEventListener('change', (e) => {
-                    const fileName = e.target.files[0]?.name || '';
-                    document.getElementById('cvFileName').textContent = fileName ? `✓ ${fileName}` : '';
-                });
+                // Initialize all tabs
+                renderUsersList();
+                renderEventsList();
+                renderClockList();
+                renderFilesList();
+                renderBackupInfo();
+                updateServerStats();
 
-                document.getElementById('recruitmentForm')?.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    submitApplication();
-                });
+                // Users Tab Events
+                document.getElementById('addUserBtn')?.addEventListener('click', addUser);
+                document.getElementById('newEventUser')?.addEventListener('focus', populateUserSelects);
+                document.getElementById('newClockUser')?.addEventListener('focus', populateUserSelects);
 
-                if (currentUser?.role === 'Patron') {
-                    renderCandidatesPanel();
-                }
-            }
+                // Events Tab Events
+                document.getElementById('addEventManagerBtn')?.addEventListener('click', addEventManager);
 
-            if (page === 'employee') {
-                document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const username = document.getElementById('user').value;
-                    const password = document.getElementById('pass').value;
-                    login(username, password);
-                });
+                // Clock Tab Events
+                document.getElementById('addClockBtn')?.addEventListener('click', addClockManager);
 
-                document.getElementById('logoutBtn')?.addEventListener('click', logout);
-                document.getElementById('addEventBtn')?.addEventListener('click', addEvent);
-                document.getElementById('clockInBtn')?.addEventListener('click', () => clockIn('Entrée'));
-                document.getElementById('clockOutBtn')?.addEventListener('click', () => clockIn('Sortie'));
-                document.getElementById('selectFileBtn')?.addEventListener('click', () => {
-                    document.getElementById('fileInput').click();
+                // Recovery Tab Events
+                document.getElementById('exportDataBtn')?.addEventListener('click', exportData);
+                document.getElementById('importDataBtn')?.addEventListener('click', () => {
+                    document.getElementById('importFile').click();
                 });
-
-                document.getElementById('fileInput')?.addEventListener('change', (e) => {
-                    const fileName = e.target.files[0]?.name || '';
-                    document.getElementById('selectedFileName').textContent = fileName;
-                });
-
-                document.getElementById('uploadFileBtn')?.addEventListener('click', uploadFile);
-                document.getElementById('prevMonth')?.addEventListener('click', () => {
-                    currentMonth.setMonth(currentMonth.getMonth() - 1);
-                    renderCalendar();
-                });
-                document.getElementById('nextMonth')?.addEventListener('click', () => {
-                    currentMonth.setMonth(currentMonth.getMonth() + 1);
-                    renderCalendar();
-                });
-
-                checkSession();
+                document.getElementById('importFile')?.addEventListener('change', importData);
+                document.getElementById('resetPasswordsBtn')?.addEventListener('click', resetAllPasswords);
+                document.getElementById('clearChangedPasswordsBtn')?.addEventListener('click', clearPasswordChanges);
             }
         }
 
         // ============================================
-        // Authentication Functions
+        // User Management
         // ============================================
 
-        function login(username, password) {
+        function renderUsersList() {
             const users = getUsers();
-            const user = users.find(u => u.user === username && u.pass === password);
-            
-            if (!user) {
-                document.getElementById('loginMsg').textContent = 'Identifiants incorrects';
-                document.getElementById('loginMsg').className = 'mt-4 text-center text-sm text-red-500';
-                return false;
-            }
-            
-            currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            
-            // Check if first connection
-            const passwordStatus = getPasswordChangeStatus();
-            if (!passwordStatus[username]) {
-                showPasswordChangeModal();
-            } else {
-                showDashboard();
-                showToast(`Bienvenue ${user.user} !`);
-            }
-            
-            return true;
-        }
+            const usersList = document.getElementById('usersList');
+            if (!usersList) return;
 
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            renderPage();
-            showToast('Déconnexion réussie');
-        }
-
-        function showDashboard() {
-            document.getElementById('loginBox').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('welcomeUser').textContent = currentUser.user.charAt(0).toUpperCase() + currentUser.user.slice(1);
-            document.getElementById('roleText').textContent = currentUser.role;
-            
-            if (currentUser.role === 'Patron') {
-                document.getElementById('adminPanel').classList.remove('hidden');
-                renderAdminPanel();
-                document.getElementById('candidatesPanel')?.classList.remove('hidden');
-                renderCandidatesPanel();
-            }
-            
-            renderCalendar();
-            renderClockEntries();
-            renderFiles();
-        }
-
-        function checkSession() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showDashboard();
-            }
-        }
-
-        function showPasswordChangeModal() {
-            document.getElementById('loginBox').innerHTML = `
-                <div class="card-bg rounded-xl p-8 border-l-4 red-border">
-                    <h3 class="garage-title text-xl font-bold mb-2 text-white text-center">Première Connexion</h3>
-                    <p class="text-gray-400 text-center text-sm mb-6">Veuillez changer votre mot de passe avant de continuer</p>
-                    <form id="passwordChangeForm" class="space-y-4">
-                        <div>
-                            <label for="newPassword" class="block text-sm font-medium mb-2 text-gray-300">Nouveau mot de passe</label>
-                            <input type="password" id="newPassword" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••" required>
-                        </div>
-                        <div>
-                            <label for="confirmPassword" class="block text-sm font-medium mb-2 text-gray-300">Confirmer le mot de passe</label>
-                            <input type="password" id="confirmPassword" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
-                            Mettre à jour le mot de passe
+            usersList.innerHTML = '';
+            users.forEach((user, index) => {
+                const userEl = document.createElement('div');
+                userEl.className = 'user-item p-4 rounded flex justify-between items-center';
+                userEl.innerHTML = `
+                    <div class="flex-1">
+                        <p class="font-bold text-white">${user.user}</p>
+                        <p class="text-sm text-purple-300">${user.role}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editUser(${index})" class="btn-secondary px-3 py-1 rounded text-sm text-white">
+                            ✏️ Modifier
                         </button>
-                    </form>
-                    <p id="passwordMsg" class="mt-4 text-center text-sm"></p>
-                </div>
-            `;
-            
-            document.getElementById('passwordChangeForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                changePassword();
+                        <button onclick="deleteUser(${index})" class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-sm text-white transition">
+                            🗑️ Supprimer
+                        </button>
+                    </div>
+                `;
+                usersList.appendChild(userEl);
             });
         }
 
-        function changePassword() {
-            const newPass = document.getElementById('newPassword').value;
-            const confirmPass = document.getElementById('confirmPassword').value;
-            
-            if (!newPass || !confirmPass) {
-                document.getElementById('passwordMsg').textContent = 'Veuillez remplir tous les champs';
-                document.getElementById('passwordMsg').className = 'mt-4 text-center text-sm text-red-500';
-                return;
-            }
-            
-            if (newPass.length < 6) {
-                document.getElementById('passwordMsg').textContent = 'Le mot de passe doit avoir au moins 6 caractères';
-                document.getElementById('passwordMsg').className = 'mt-4 text-center text-sm text-red-500';
-                return;
-            }
-            
-            if (newPass !== confirmPass) {
-                document.getElementById('passwordMsg').textContent = 'Les mots de passe ne correspondent pas';
-                document.getElementById('passwordMsg').className = 'mt-4 text-center text-sm text-red-500';
-                return;
-            }
-            
-            // Update user password
-            const users = getUsers();
-            const userIndex = users.findIndex(u => u.user === currentUser.user);
-            
-            if (userIndex !== -1) {
-                users[userIndex].pass = newPass;
-                saveUsers(users);
-                currentUser.pass = newPass;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
-                // Mark password as changed
-                setPasswordChanged(currentUser.user);
-                
-                showDashboard();
-                showToast(`Bienvenue ${currentUser.user} ! Mot de passe mis à jour avec succès`);
-            }
-        }
+        function addUser() {
+            const name = document.getElementById('newUserName').value.trim();
+            const pass = document.getElementById('newUserPass').value.trim();
+            const role = document.getElementById('newUserRole').value;
 
-        // ============================================
-        // Calendar Functions
-        // ============================================
-
-        function renderCalendar() {
-            const calendar = document.getElementById('calendar');
-            if (!calendar) return;
-
-            const events = getEvents();
-            const year = currentMonth.getFullYear();
-            const month = currentMonth.getMonth();
-            
-            const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
-                              'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
-            
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startPadding = (firstDay.getDay() + 6) % 7;
-            
-            calendar.innerHTML = '';
-            
-            for (let i = 0; i < startPadding; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day rounded opacity-30';
-                calendar.appendChild(emptyDay);
-            }
-            
-            for (let day = 1; day <= lastDay.getDate(); day++) {
-                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const dayEvents = events.filter(e => e.date === dateStr && (currentUser.role === 'Patron' || e.user === currentUser.user));
-                
-                const dayEl = document.createElement('div');
-                dayEl.className = 'calendar-day rounded p-1';
-                
-                const dayNumber = document.createElement('div');
-                dayNumber.className = 'font-bold text-gray-300 text-xs';
-                dayNumber.textContent = day;
-                dayEl.appendChild(dayNumber);
-                
-                dayEvents.forEach(event => {
-                    const eventEl = document.createElement('div');
-                    eventEl.className = 'calendar-event truncate cursor-pointer';
-                    eventEl.textContent = event.text;
-                    eventEl.title = `${event.text} (${event.user})`;
-                    eventEl.onclick = () => deleteEvent(event.id);
-                    dayEl.appendChild(eventEl);
-                });
-                
-                calendar.appendChild(dayEl);
-            }
-        }
-
-        function addEvent() {
-            const dateInput = document.getElementById('eventDate');
-            const textInput = document.getElementById('eventText');
-            
-            if (!dateInput.value || !textInput.value.trim()) {
+            if (!name || !pass) {
                 showToast('Veuillez remplir tous les champs', 'error');
                 return;
             }
-            
-            const events = getEvents();
-            const newEvent = {
-                id: Date.now().toString(),
-                date: dateInput.value,
-                text: textInput.value.trim(),
-                user: currentUser.user,
-                createdAt: new Date().toISOString()
-            };
-            
-            events.push(newEvent);
-            saveEvents(events);
-            
-            dateInput.value = '';
-            textInput.value = '';
-            
-            renderCalendar();
-            if (currentUser.role === 'Patron') renderAdminPanel();
-            showToast('Événement ajouté au planning');
-        }
 
-        function deleteEvent(eventId) {
-            const events = getEvents();
-            const eventIndex = events.findIndex(e => e.id === eventId);
-            
-            if (eventIndex === -1) return;
-            
-            const event = events[eventIndex];
-            if (currentUser.role !== 'Patron' && event.user !== currentUser.user) {
-                showToast('Vous ne pouvez supprimer que vos propres événements', 'error');
+            const users = getUsers();
+            if (users.find(u => u.user === name)) {
+                showToast('Cet utilisateur existe déjà', 'error');
                 return;
             }
-            
-            events.splice(eventIndex, 1);
-            saveEvents(events);
-            renderCalendar();
-            if (currentUser.role === 'Patron') renderAdminPanel();
-            showToast('Événement supprimé');
+
+            users.push({ user: name, pass: pass, role: role });
+            saveUsers(users);
+
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserPass').value = '';
+            document.getElementById('newUserRole').value = 'Employé';
+
+            renderUsersList();
+            updateServerStats();
+            showToast(`Utilisateur ${name} créé avec succès`);
         }
 
-        // ============================================
-        // Clock Functions
-        // ============================================
+        function editUser(index) {
+            const users = getUsers();
+            const user = users[index];
+            const newName = prompt('Nouvel identifiant (vide = inchangé):', user.user);
+            if (newName === null) return;
 
-        function clockIn(type) {
-            const entries = getClockEntries();
-            const now = new Date();
-            
-            const newEntry = {
-                id: Date.now().toString(),
-                type: type,
-                user: currentUser.user,
-                timestamp: now.toISOString(),
-                displayTime: now.toLocaleString('fr-FR')
-            };
-            
-            entries.push(newEntry);
-            saveClockEntries(entries);
-            
-            renderClockEntries();
-            if (currentUser.role === 'Patron') renderAdminPanel();
-            showToast(`${type} enregistrée à ${now.toLocaleTimeString('fr-FR')}`);
-        }
-
-        function renderClockEntries() {
-            const entries = getClockEntries();
-            const userEntries = entries.filter(e => e.user === currentUser.user);
-            
-            const clockList = document.getElementById('clockList');
-            if (!clockList) return;
-
-            clockList.innerHTML = '';
-            
-            const recentEntries = userEntries.slice(-10).reverse();
-            
-            recentEntries.forEach(entry => {
-                const entryEl = document.createElement('div');
-                entryEl.className = 'clock-entry p-3 rounded flex justify-between items-center';
-                entryEl.innerHTML = `
-                    <span class="${entry.type === 'Entrée' ? 'text-green-400' : 'text-red-400'} font-medium">
-                        ${entry.type === 'Entrée' ? '✓' : '✕'} ${entry.type}
-                    </span>
-                    <span class="text-gray-400 text-sm">${entry.displayTime}</span>
-                `;
-                clockList.appendChild(entryEl);
-            });
-            
-            const today = new Date().toDateString();
-            const todayEntries = userEntries.filter(e => new Date(e.timestamp).toDateString() === today);
-            
-            let totalMinutes = 0;
-            for (let i = 0; i < todayEntries.length - 1; i += 2) {
-                if (todayEntries[i].type === 'Entrée' && todayEntries[i + 1]?.type === 'Sortie') {
-                    const start = new Date(todayEntries[i].timestamp);
-                    const end = new Date(todayEntries[i + 1].timestamp);
-                    totalMinutes += (end - start) / 60000;
+            if (newName && newName !== user.user) {
+                if (users.find(u => u.user === newName)) {
+                    showToast('Cet identifiant existe déjà', 'error');
+                    return;
                 }
+                user.user = newName;
             }
-            
-            const hours = Math.floor(totalMinutes / 60);
-            const minutes = Math.round(totalMinutes % 60);
-            
-            document.getElementById('hoursWorked').innerHTML = `
-                <p class="text-gray-400 text-sm">Heures travaillées aujourd'hui:</p>
-                <p class="text-2xl font-bold text-white garage-title">${hours}h ${minutes}min</p>
-            `;
+
+            const newPass = prompt('Nouveau mot de passe (vide = inchangé):', '');
+            if (newPass === null) return;
+            if (newPass) user.pass = newPass;
+
+            const newRole = prompt('Nouveau rôle (Employé/Patron/Gestionnaire Serveur):', user.role);
+            if (newRole === null) return;
+            if (newRole) user.role = newRole;
+
+            saveUsers(users);
+            renderUsersList();
+            showToast('Utilisateur modifié avec succès');
+        }
+
+        function deleteUser(index) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) return;
+            const users = getUsers();
+            const userName = users[index].user;
+            users.splice(index, 1);
+            saveUsers(users);
+            renderUsersList();
+            updateServerStats();
+            showToast(`Utilisateur ${userName} supprimé`);
         }
 
         // ============================================
-        // File Functions
+        // Events Management
         // ============================================
 
-        function uploadFile() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                showToast('Veuillez sélectionner un fichier', 'error');
+        function renderEventsList() {
+            const events = getEvents();
+            const eventsList = document.getElementById('eventsList');
+            if (!eventsList) return;
+
+            eventsList.innerHTML = '';
+            if (events.length === 0) {
+                eventsList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun événement enregistré</p>';
                 return;
             }
-            
-            const files = getFiles();
-            const newFile = {
-                id: Date.now().toString(),
-                name: file.name,
-                size: formatFileSize(file.size),
-                user: currentUser.user,
-                uploadedAt: new Date().toISOString(),
-                displayDate: new Date().toLocaleDateString('fr-FR')
-            };
-            
-            files.push(newFile);
-            saveFiles(files);
-            
-            fileInput.value = '';
-            document.getElementById('selectedFileName').textContent = '';
-            
-            renderFiles();
-            if (currentUser.role === 'Patron') renderAdminPanel();
-            showToast('Fichier uploadé avec succès');
-        }
 
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-        }
-
-        function renderFiles() {
-            const files = getFiles();
-            const userFiles = currentUser.role === 'Patron' 
-                ? files 
-                : files.filter(f => f.user === currentUser.user);
-            
-            const fileList = document.getElementById('fileList');
-            if (!fileList) return;
-
-            fileList.innerHTML = '';
-            
-            if (userFiles.length === 0) {
-                fileList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun document uploadé</p>';
-                return;
-            }
-            
-            userFiles.reverse().forEach(file => {
-                const fileEl = document.createElement('div');
-                fileEl.className = 'file-item p-3 rounded flex justify-between items-center';
-                fileEl.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="text-2xl">📄</span>
-                        <div>
-                            <p class="text-white font-medium">${file.name}</p>
-                            <p class="text-gray-500 text-xs">${file.size} • ${file.displayDate}${currentUser.role === 'Patron' ? ` • ${file.user}` : ''}</p>
-                        </div>
+            events.slice().reverse().forEach((event, idx) => {
+                const eventEl = document.createElement('div');
+                eventEl.className = 'bg-black/30 p-3 rounded flex justify-between items-center';
+                eventEl.innerHTML = `
+                    <div class="flex-1">
+                        <p class="font-bold text-white">${event.text}</p>
+                        <p class="text-xs text-gray-400">${event.user} • ${event.date}</p>
                     </div>
-                    <button class="text-red-400 hover:text-red-300 text-sm" onclick="deleteFile('${file.id}')">
+                    <button onclick="deleteEventManager('${event.id}')" class="bg-red-700 hover:bg-red-600 px-3 py-1 rounded text-xs text-white transition">
                         Supprimer
                     </button>
                 `;
-                fileList.appendChild(fileEl);
+                eventsList.appendChild(eventEl);
             });
         }
 
-        function deleteFile(fileId) {
-            const files = getFiles();
-            const fileIndex = files.findIndex(f => f.id === fileId);
-            
-            if (fileIndex === -1) return;
-            
-            const file = files[fileIndex];
-            if (currentUser.role !== 'Patron' && file.user !== currentUser.user) {
-                showToast('Vous ne pouvez supprimer que vos propres fichiers', 'error');
-                return;
-            }
-            
-            files.splice(fileIndex, 1);
-            saveFiles(files);
-            renderFiles();
-            if (currentUser.role === 'Patron') renderAdminPanel();
-            showToast('Fichier supprimé');
+        function populateUserSelects() {
+            const users = getUsers().filter(u => u.role === 'Employé' || u.role === 'Patron');
+            const selects = [document.getElementById('newEventUser'), document.getElementById('newClockUser')];
+
+            selects.forEach(select => {
+                if (!select) return;
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Sélectionner...</option>';
+                users.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.user;
+                    option.textContent = user.user;
+                    select.appendChild(option);
+                });
+                select.value = currentValue;
+            });
         }
 
-        // ============================================
-        // Recruitment Functions
-        // ============================================
+        function addEventManager() {
+            const user = document.getElementById('newEventUser').value;
+            const date = document.getElementById('newEventDate').value;
+            const text = document.getElementById('newEventText').value.trim();
 
-        function submitApplication() {
-            const name = document.getElementById('candidateName').value.trim();
-            const email = document.getElementById('candidateEmail').value.trim();
-            const phone = document.getElementById('candidatePhone').value.trim();
-            const position = document.getElementById('candidatePosition').value;
-            const letter = document.getElementById('candidateLetter').value.trim();
-            const cvFile = document.getElementById('candidateCv').files[0];
-            
-            if (!name || !email || !phone || !position || !cvFile) {
-                showToast('Veuillez remplir tous les champs obligatoires et joindre un CV', 'error');
+            if (!user || !date || !text) {
+                showToast('Veuillez remplir tous les champs', 'error');
                 return;
             }
-            
-            const candidates = getCandidates();
-            const newCandidate = {
+
+            const events = getEvents();
+            events.push({
                 id: Date.now().toString(),
-                name: name,
-                email: email,
-                phone: phone,
-                position: position,
-                letter: letter,
-                cvFileName: cvFile.name,
-                cvSize: formatFileSize(cvFile.size),
-                submittedAt: new Date().toISOString(),
-                displayDate: new Date().toLocaleDateString('fr-FR'),
-                displayTime: new Date().toLocaleTimeString('fr-FR')
-            };
-            
-            candidates.push(newCandidate);
-            saveCandidates(candidates);
-            
-            document.getElementById('recruitmentForm').reset();
-            document.getElementById('cvFileName').textContent = '';
-            
-            if (currentUser?.role === 'Patron') renderCandidatesPanel();
-            showToast('Candidature envoyée avec succès !');
+                date: date,
+                text: text,
+                user: user,
+                createdAt: new Date().toISOString()
+            });
+            saveEvents(events);
+
+            document.getElementById('newEventUser').value = '';
+            document.getElementById('newEventDate').value = '';
+            document.getElementById('newEventText').value = '';
+
+            renderEventsList();
+            updateServerStats();
+            showToast('Événement ajouté avec succès');
         }
 
-        function renderCandidatesPanel() {
-            const panel = document.getElementById('candidatesPanel');
-            if (!panel) return;
+        function deleteEventManager(eventId) {
+            const events = getEvents();
+            const index = events.findIndex(e => e.id === eventId);
+            if (index !== -1) {
+                events.splice(index, 1);
+                saveEvents(events);
+                renderEventsList();
+                updateServerStats();
+                showToast('Événement supprimé');
+            }
+        }
 
-            const candidates = getCandidates();
-            const candidatesList = document.getElementById('candidatesList');
-            
-            if (candidates.length === 0) {
-                candidatesList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucune candidature reçue</p>';
+        // ============================================
+        // Clock Management
+        // ============================================
+
+        function renderClockList() {
+            const entries = getClockEntries();
+            const clockList = document.getElementById('clockManagerList');
+            if (!clockList) return;
+
+            clockList.innerHTML = '';
+            if (entries.length === 0) {
+                clockList.innerHTML = '<p class="text-gray-500 text-center py-4">Aucun pointage enregistré</p>';
                 return;
             }
-            
-            candidatesList.innerHTML = '';
-            candidates.slice().reverse().forEach(candidate => {
-                const candidateEl = document.createElement('div');
-                candidateEl.className = 'bg-black/30 rounded-lg p-4 border border-yellow-500/30';
-                candidateEl.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <p class="text-white font-bold">${candidate.name}</p>
-                            <p class="text-yellow-400 text-sm">${candidate.position}</p>
-                        </div>
-                        <button class="text-red-400 hover:text-red-300 text-sm" onclick="deleteCandidate('${candidate.id}')">
+
+            entries.slice(-50).reverse().forEach(entry => {
+                const entryEl = document.createElement('div');
+                const date = new Date(entry.timestamp);
+                const displayTime = date.toLocaleString('fr-FR');
+                const color = entry.type === 'Entrée' ? 'text-green-400' : 'text-red-400';
+
+                entryEl.className = 'bg-black/30 p-3 rounded flex justify-between items-center';
+                entryEl.innerHTML = `
+                    <div class="flex-1">
+                        <p class="font-bold text-white">${entry.user}</p>
+                        <p class="text-xs text-gray-400">${displayTime}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="${color} font-bold">${entry.type === 'Entrée' ? '✓' : '✕'} ${entry.type}</span>
+                        <button onclick="deleteClockManager('${entry.id}')" class="bg-red-700 hover:bg-red-600 px-2 py-1 rounded text-xs text-white transition">
                             Supprimer
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
-                        <div>
-                            <p class="text-gray-500">Email</p>
-                            <p class="text-white"><a href="mailto:${candidate.email}" class="text-blue-400 hover:underline">${candidate.email}</a></p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500">Téléphone</p>
-                            <p class="text-white"><a href="tel:${candidate.phone}" class="text-blue-400 hover:underline">${candidate.phone}</a></p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500">CV</p>
-                            <p class="text-white">📄 ${candidate.cvFileName}</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500">Candidature</p>
-                            <p class="text-white">${candidate.displayDate}</p>
-                        </div>
-                    </div>
-                    ${candidate.letter ? `
-                        <div class="bg-black/40 rounded p-3 text-sm">
-                            <p class="text-gray-500 mb-1">Lettre de motivation:</p>
-                            <p class="text-gray-300 italic">"${candidate.letter}"</p>
-                        </div>
-                    ` : ''}
                 `;
-                candidatesList.appendChild(candidateEl);
+                clockList.appendChild(entryEl);
             });
         }
 
-        function deleteCandidate(candidateId) {
-            const candidates = getCandidates();
-            const index = candidates.findIndex(c => c.id === candidateId);
-            
-            if (index !== -1) {
-                candidates.splice(index, 1);
-                saveCandidates(candidates);
-                renderCandidatesPanel();
-                showToast('Candidature supprimée');
+        function addClockManager() {
+            const user = document.getElementById('newClockUser').value;
+            const type = document.getElementById('newClockType').value;
+            const timeStr = document.getElementById('newClockTime').value;
+
+            if (!user || !timeStr) {
+                showToast('Veuillez remplir tous les champs', 'error');
+                return;
             }
-        }
 
-        function renderAdminPanel() {
-            const globalData = document.getElementById('globalData');
-            if (!globalData) return;
+            const entries = getClockEntries();
+            const timestamp = new Date(timeStr).toISOString();
 
-            const events = getEvents();
-            const clockEntries = getClockEntries();
-            const files = getFiles();
-            const users = getUsers().filter(u => u.role === 'Employé');
-            
-            let html = '';
-            
-            users.forEach(user => {
-                const userEvents = events.filter(e => e.user === user.user).length;
-                const userClockToday = clockEntries.filter(e => 
-                    e.user === user.user && 
-                    new Date(e.timestamp).toDateString() === new Date().toDateString()
-                );
-                const userFiles = files.filter(f => f.user === user.user).length;
-                
-                const lastEntry = userClockToday[userClockToday.length - 1];
-                const status = lastEntry?.type === 'Entrée' ? 'Présent' : 'Absent';
-                const statusColor = status === 'Présent' ? 'text-green-400' : 'text-gray-400';
-                
-                html += `
-                    <div class="bg-black/30 rounded-lg p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-white">${user.user.charAt(0).toUpperCase() + user.user.slice(1)}</span>
-                            <span class="${statusColor} text-sm font-medium">${status}</span>
-                        </div>
-                        <div class="grid grid-cols-3 gap-4 text-center text-sm">
-                            <div>
-                                <p class="text-gray-400">Événements</p>
-                                <p class="text-white font-bold">${userEvents}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-400">Pointages</p>
-                                <p class="text-white font-bold">${userClockToday.length}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-400">Documents</p>
-                                <p class="text-white font-bold">${userFiles}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            globalData.innerHTML = html || '<p class="text-gray-500 text-center">Aucun employé enregistré</p>';
-        }
-
-        // ============================================
-        // Initialization
-        // ============================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeStorage();
-            applyConfig();
-            renderPage();
-
-            window.addEventListener('hashchange', renderPage);
-            window.addEventListener('popstate', renderPage);
-        });
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caeda1174c7f4e7',t:'MTc3MDU5Mjc2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+            entries.push({
+                id: Date.now().toString(),
+                type: type,
+                user: user,
+                ti
