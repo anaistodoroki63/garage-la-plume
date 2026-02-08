@@ -31,6 +31,7 @@
             display: flex;
             gap: 20px;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
 
         nav a {
@@ -50,10 +51,8 @@
         }
 
         .hero {
-            background: linear-gradient(
-                rgba(0,0,0,0.7),
-                rgba(0,0,0,0.7)
-            ), url('https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d') center/cover;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+            url('https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d') center/cover;
             text-align: center;
             padding: 100px 20px;
         }
@@ -61,10 +60,6 @@
         .hero h2 {
             font-size: 40px;
             color: #c30000;
-        }
-
-        .hero p {
-            font-size: 18px;
         }
 
         .services {
@@ -83,10 +78,10 @@
             color: #c30000;
         }
 
-        form {
+        form, .employee-box {
             background: #2a2a2a;
             padding: 25px;
-            max-width: 500px;
+            max-width: 450px;
         }
 
         input, select, textarea {
@@ -111,6 +106,17 @@
             background: #ff0000;
         }
 
+        .hidden {
+            display: none;
+        }
+
+        .access-box {
+            background: #111;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px dashed #c30000;
+        }
+
         footer {
             background: #111;
             text-align: center;
@@ -122,7 +128,6 @@
             nav ul {
                 flex-direction: column;
             }
-
             .hero h2 {
                 font-size: 28px;
             }
@@ -139,6 +144,7 @@
             <li><a href="#services">Services</a></li>
             <li><a href="#recrutement">Recrutement</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="#employe">Employé</a></li>
         </ul>
     </nav>
 </header>
@@ -153,13 +159,12 @@
     <div class="services">
         <div class="service-box">
             <h3>🔧 Réparation</h3>
-            <p>2 000€.</p>
+            <p>2000€.</p>
         </div>
         <div class="service-box">
-            <h3>dépannage</h3>
+            <h3>🛢 dépanage</h3>
             <p>3000€ en ville ; 5000€ autoroute.</p>
         </div>
-       
         <div class="service-box">
             <h3>🚗 Contrôle</h3>
             <p>Pré-contrôle technique.</p>
@@ -169,12 +174,11 @@
 
 <section id="recrutement">
     <h2>Recrutement</h2>
-    <p>Vous êtes mécanicien et passionné par l’automobile ? Rejoignez notre équipe.</p>
+    <p>Nous recrutons des mécaniciens passionnés et motivés.</p>
 </section>
 
 <section id="contact">
     <h2>Contact</h2>
-
     <form>
         <input type="text" placeholder="Nom" required>
         <input type="email" placeholder="Email" required>
@@ -189,9 +193,50 @@
     </form>
 </section>
 
+<section id="employe">
+    <h2>Espace Employé 🔐</h2>
+
+    <div class="employee-box">
+        <h3>Connexion</h3>
+
+        <input type="text" id="username" placeholder="Identifiant">
+        <input type="password" id="password" placeholder="Mot de passe">
+
+        <button onclick="login()">Se connecter</button>
+        <p id="error" style="color:red;"></p>
+    </div>
+
+    <div id="access" class="access-box hidden">
+        <h3>Accès Employé Autorisé ✅</h3>
+        <ul>
+            <li>📅 Planning interne</li>
+            <li>📂 Documents internes</li>
+            <li>🔧 Outils garage</li>
+            <li>📊 Statistiques atelier</li>
+        </ul>
+    </div>
+</section>
+
 <footer>
     <p>&copy; 2026 Garage La Plume</p>
 </footer>
+
+<script>
+    function login() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        const access = document.getElementById("access");
+        const error = document.getElementById("error");
+
+        if (user === "employe" && pass === "garage123") {
+            access.classList.remove("hidden");
+            error.textContent = "";
+        } else {
+            error.textContent = "Identifiants incorrects";
+            access.classList.add("hidden");
+        }
+    }
+</script>
 
 </body>
 </html>
