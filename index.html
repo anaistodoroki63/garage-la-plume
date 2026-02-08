@@ -3,28 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garage La Plume - Accueil</title>
+    <title>Garage La Plume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 40px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        form input, form select, form textarea, form button {
+            width: 100%;
+            max-width: 400px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #f4f4f4;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Garage La Plume</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="recrutement.html">Recrutement</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <h2>Bienvenue</h2>
-        <p>Bienvenue sur le site officiel du Garage La Plume.</p>
-    </main>
+<header>
+    <h1>Garage La Plume</h1>
+    <nav>
+        <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#recrutement">Recrutement</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <footer>
-        <p>&copy; 2026 Garage La Plume. Tous droits réservés.</p>
-    </footer>
+<section id="accueil">
+    <h2>Accueil</h2>
+    <p>Bienvenue au Garage La Plume, votre garage de confiance.</p>
+</section>
+
+<section id="services">
+    <h2>Services</h2>
+    <ul>
+        <li>Réparation automobile</li>
+        <li>Entretien et vidange</li>
+        <li>Diagnostic électronique</li>
+        <li>Contrôle technique</li>
+    </ul>
+</section>
+
+<section id="recrutement">
+    <h2>Recrutement</h2>
+    <p>Nous recrutons des mécaniciens motivés.</p>
+    <p>Envoyez-nous votre candidature via le formulaire de contact.</p>
+</section>
+
+<section id="contact">
+    <h2>Contact</h2>
+
+    <form action="#" method="post">
+        <label>Nom</label><br>
+        <input type="text" name="nom" required><br>
+
+        <label>Email</label><br>
+        <input type="email" name="email" required><br>
+
+        <label>Téléphone</label><br>
+        <input type="tel" name="telephone"><br>
+
+        <label>Sujet</label><br>
+        <select name="sujet">
+            <option>Information</option>
+            <option>Rendez-vous</option>
+            <option>Recrutement</option>
+        </select><br>
+
+        <label>Message</label><br>
+        <textarea name="message" rows="5" required></textarea><br>
+
+        <button type="submit">Envoyer</button>
+    </form>
+
+    <p>Email : contact@garagelaplume.fr</p>
+    <p>Téléphone : 01 23 45 67 89</p>
+</section>
+
+<footer>
+    <p>&copy; 2026 Garage La Plume. Tous droits réservés.</p>
+</footer>
+
 </body>
 </html>
