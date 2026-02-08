@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Garage - Réparation Automobile</title>
+    <title>Mon Garage - Accueil</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,232 +11,26 @@
         <h1>🚗 Mon Garage</h1>
         <nav>
             <ul>
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#galerie">Galerie</a></li>
-                <li><a href="#tarifs">Tarifs</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#recruitement">Nous Rejoindre</a></li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="tarifs.html">Tarifs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="recruitement.html">Nous Rejoindre</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <!-- ACCUEIL -->
         <section id="accueil" class="section">
             <h2>Bienvenue à Mon Garage</h2>
             <p>Nous offrons des services de réparation et d'entretien automobiles de qualité depuis 20 ans. Notre équipe d'experts est à votre service!</p>
-        </section>
-
-        <!-- SERVICES -->
-        <section id="services" class="section">
-            <h2>Nos Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>🔧 Réparation Mécanique</h3>
-                    <p>Réparation complète de moteur et transmission</p>
-                </div>
-                <div class="service-card">
-                    <h3>🛠️ Entretien Régulier</h3>
-                    <p>Vidange, filtre, plaquettes de frein</p>
-                </div>
-                <div class="service-card">
-                    <h3>🔌 Diagnostic Électronique</h3>
-                    <p>Scan complet des systèmes électroniques</p>
-                </div>
-                <div class="service-card">
-                    <h3>⚙️ Changement de Pneus</h3>
-                    <p>Équilibrage et changement professionnel</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- GALERIE -->
-        <section id="galerie" class="section">
-            <h2>Galerie de Nos Travaux</h2>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x200?text=Réparation+1" alt="Réparation mécanique">
-                    <p>Réparation moteur complet</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x200?text=Entretien" alt="Entretien">
-                    <p>Entretien régulier</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x200?text=Diagnostic" alt="Diagnostic">
-                    <p>Diagnostic électronique</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x200?text=Pneus" alt="Pneus">
-                    <p>Service de pneus</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- TARIFS -->
-        <section id="tarifs" class="section">
-            <h2>Nos Tarifs</h2>
-            <table class="tarifs-table">
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Description</th>
-                        <th>Prix</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Vidange</td>
-                        <td>Vidange + filtre huile</td>
-                        <td>69€</td>
-                    </tr>
-                    <tr>
-                        <td>Plaquettes de Frein</td>
-                        <td>Changement complet avant/arrière</td>
-                        <td>150€</td>
-                    </tr>
-                    <tr>
-                        <td>Changement Pneu</td>
-                        <td>Par pneu (main d'œuvre)</td>
-                        <td>25€</td>
-                    </tr>
-                    <tr>
-                        <td>Diagnostic Électronique</td>
-                        <td>Scan complet du système</td>
-                        <td>80€</td>
-                    </tr>
-                    <tr>
-                        <td>Révision Complète</td>
-                        <td>Entretien complet véhicule</td>
-                        <td>250€</td>
-                    </tr>
-                    <tr>
-                        <td>Réparation Mécanique</td>
-                        <td>Devis sur demande</td>
-                        <td>À partir de 100€/h</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- CONTACT -->
-        <section id="contact" class="section">
-            <h2>Nous Contacter</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Informations de Contact</h3>
-                    <p><strong>Adresse:</strong> 123 Rue de la Mécanique, 75000 Paris</p>
-                    <p><strong>Téléphone:</strong> 01 23 45 67 89</p>
-                    <p><strong>Email:</strong> contact@mongarage.fr</p>
-                    <p><strong>Horaires:</strong></p>
-                    <ul>
-                        <li>Lundi - Vendredi: 8h - 18h</li>
-                        <li>Samedi: 9h - 17h</li>
-                        <li>Dimanche: Fermé</li>
-                    </ul>
-                </div>
-
-                <form class="form" id="contact-form">
-                    <h3>Formulaire de Contact</h3>
-                    <div class="form-group">
-                        <label for="nom">Nom *</label>
-                        <input type="text" id="nom" name="nom" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="telephone">Téléphone</label>
-                        <input type="tel" id="telephone" name="telephone">
-                    </div>
-                    <div class="form-group">
-                        <label for="sujet">Sujet *</label>
-                        <input type="text" id="sujet" name="sujet" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message *</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn">Envoyer</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- RECRUTEMENT -->
-        <section id="recruitement" class="section">
-            <h2>Rejoignez Notre Équipe</h2>
-            <p>Nous recherchons des talents passionnés par l'automobile! Postulez maintenant.</p>
-            
-            <div class="jobs-grid">
-                <div class="job-card">
-                    <h3>Mécanicien Automobile</h3>
-                    <p><strong>Expérience requise:</strong> 3+ ans</p>
-                    <p>Nous recherchons un mécanicien expérimenté pour rejoindre notre équipe.</p>
-                </div>
-                <div class="job-card">
-                    <h3>Apprenti Mécanicien</h3>
-                    <p><strong>Niveau:</strong> CAP ou équivalent</p>
-                    <p>Opportunité de formation pour débutants motivés.</p>
-                </div>
-                <div class="job-card">
-                    <h3>Responsable Commercial</h3>
-                    <p><strong>Expérience requise:</strong> 2+ ans</p>
-                    <p>Gestion des clients et développement commercial.</p>
-                </div>
-            </div>
-
-            <form class="form" id="recruitement-form">
-                <h3>Formulaire de Candidature</h3>
-                <div class="form-group">
-                    <label for="nom-candidat">Nom *</label>
-                    <input type="text" id="nom-candidat" name="nom_candidat" required>
-                </div>
-                <div class="form-group">
-                    <label for="prenom">Prénom *</label>
-                    <input type="text" id="prenom" name="prenom" required>
-                </div>
-                <div class="form-group">
-                    <label for="email-candidat">Email *</label>
-                    <input type="email" id="email-candidat" name="email_candidat" required>
-                </div>
-                <div class="form-group">
-                    <label for="telephone-candidat">Téléphone *</label>
-                    <input type="tel" id="telephone-candidat" name="telephone_candidat" required>
-                </div>
-                <div class="form-group">
-                    <label for="poste">Poste souhaité *</label>
-                    <select id="poste" name="poste" required>
-                        <option value="">-- Sélectionnez un poste --</option>
-                        <option value="mecanicien">Mécanicien Automobile</option>
-                        <option value="apprenti">Apprenti Mécanicien</option>
-                        <option value="commercial">Responsable Commercial</option>
-                        <option value="autre">Autre</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="experience">Années d'expérience *</label>
-                    <input type="number" id="experience" name="experience" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="cv">Lettre de motivation *</label>
-                    <textarea id="cv" name="cv" rows="5" placeholder="Parlez-nous de vous..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="cv-file">Joindre un CV (PDF)</label>
-                    <input type="file" id="cv-file" name="cv_file" accept=".pdf">
-                </div>
-                <button type="submit" class="btn">Envoyer ma candidature</button>
-            </form>
+            <p>Explorez notre site pour découvrir nos services, nos tarifs et rejoindre notre équipe.</p>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2026 Mon Garage. Tous droits réservés.</p>
-        <p>Suivez-nous sur les réseaux sociaux</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
