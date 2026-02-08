@@ -4,46 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garage La Plume</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #1c1c1c;
+            color: #f5f5f5;
         }
 
         header {
-            background: #333;
-            color: white;
-            padding: 15px;
+            background: #111;
+            padding: 20px;
+            border-bottom: 4px solid #c30000;
+        }
+
+        header h1 {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         nav ul {
             list-style: none;
             padding: 0;
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            margin-top: 10px;
         }
 
         nav a {
-            color: white;
+            color: #f5f5f5;
             text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #c30000;
         }
 
         section {
-            padding: 40px 20px;
-            border-bottom: 1px solid #ddd;
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: auto;
         }
 
-        form input, form select, form textarea, form button {
+        .hero {
+            background: linear-gradient(
+                rgba(0,0,0,0.7),
+                rgba(0,0,0,0.7)
+            ), url('https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d') center/cover;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h2 {
+            font-size: 40px;
+            color: #c30000;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .service-box {
+            background: #2a2a2a;
+            padding: 20px;
+            border-left: 4px solid #c30000;
+        }
+
+        .service-box h3 {
+            color: #c30000;
+        }
+
+        form {
+            background: #2a2a2a;
+            padding: 25px;
+            max-width: 500px;
+        }
+
+        input, select, textarea {
             width: 100%;
-            max-width: 400px;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #111;
+            border: 1px solid #555;
+            color: white;
+        }
+
+        button {
+            background: #c30000;
+            border: none;
+            padding: 12px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff0000;
         }
 
         footer {
-            background: #f4f4f4;
+            background: #111;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
+            border-top: 4px solid #c30000;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            .hero h2 {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
@@ -61,59 +143,57 @@
     </nav>
 </header>
 
-<section id="accueil">
-    <h2>Accueil</h2>
-    <p>Bienvenue au Garage La Plume, votre garage de confiance.</p>
+<section class="hero" id="accueil">
+    <h2>Garage Automobile de Confiance</h2>
+    <p>Réparation • Entretien • Diagnostic • Professionnalisme</p>
 </section>
 
 <section id="services">
-    <h2>Services</h2>
-    <ul>
-        <li>Réparation automobile</li>
-        <li>Entretien et vidange</li>
-        <li>Diagnostic électronique</li>
-        <li>Contrôle technique</li>
-    </ul>
+    <h2>Nos Services</h2>
+    <div class="services">
+        <div class="service-box">
+            <h3>🔧 Réparation</h3>
+            <p>Mécanique toutes marques.</p>
+        </div>
+        <div class="service-box">
+            <h3>🛢 Entretien</h3>
+            <p>Vidange, freins, filtres.</p>
+        </div>
+        <div class="service-box">
+            <h3>💻 Diagnostic</h3>
+            <p>Électronique et pannes.</p>
+        </div>
+        <div class="service-box">
+            <h3>🚗 Contrôle</h3>
+            <p>Pré-contrôle technique.</p>
+        </div>
+    </div>
 </section>
 
 <section id="recrutement">
     <h2>Recrutement</h2>
-    <p>Nous recrutons des mécaniciens motivés.</p>
-    <p>Envoyez-nous votre candidature via le formulaire de contact.</p>
+    <p>Vous êtes mécanicien et passionné par l’automobile ? Rejoignez notre équipe.</p>
 </section>
 
 <section id="contact">
     <h2>Contact</h2>
 
-    <form action="#" method="post">
-        <label>Nom</label><br>
-        <input type="text" name="nom" required><br>
-
-        <label>Email</label><br>
-        <input type="email" name="email" required><br>
-
-        <label>Téléphone</label><br>
-        <input type="tel" name="telephone"><br>
-
-        <label>Sujet</label><br>
-        <select name="sujet">
+    <form>
+        <input type="text" placeholder="Nom" required>
+        <input type="email" placeholder="Email" required>
+        <input type="tel" placeholder="Téléphone">
+        <select>
             <option>Information</option>
             <option>Rendez-vous</option>
             <option>Recrutement</option>
-        </select><br>
-
-        <label>Message</label><br>
-        <textarea name="message" rows="5" required></textarea><br>
-
-        <button type="submit">Envoyer</button>
+        </select>
+        <textarea rows="5" placeholder="Message" required></textarea>
+        <button>Envoyer</button>
     </form>
-
-    <p>Email : contact@garagelaplume.fr</p>
-    <p>Téléphone : 01 23 45 67 89</p>
 </section>
 
 <footer>
-    <p>&copy; 2026 Garage La Plume. Tous droits réservés.</p>
+    <p>&copy; 2026 Garage La Plume</p>
 </footer>
 
 </body>
