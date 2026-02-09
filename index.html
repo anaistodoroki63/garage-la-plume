@@ -10,10 +10,11 @@ body{margin:0;font-family:Arial;background:#1c1c1c;color:#f5f5f5}
 header,footer{background:#111;padding:20px;border-bottom:4px solid #c30000}
 footer{border-top:4px solid #c30000;text-align:center}
 nav ul{list-style:none;padding:0;display:flex;gap:20px;flex-wrap:wrap}
-nav a{color:white;text-decoration:none;font-weight:bold}
+nav a{color:white;text-decoration:none;font-weight:bold;cursor:pointer}
 nav a:hover{color:#c30000}
 section{padding:60px 20px;max-width:1100px;margin:auto}
-.hero{text-align:center;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover;padding:100px 20px}
+.hero{text-align:center;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover;padding:100px 20px}
 .hero h2{color:#c30000;font-size:40px}
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .box{background:#2a2a2a;padding:20px;border-left:4px solid #c30000;margin-bottom:20px}
@@ -22,7 +23,7 @@ button{background:#c30000;border:none;padding:12px;color:white;cursor:pointer}
 button:hover{background:red}
 .hidden{display:none}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.day{background:#222;padding:6px;min-height:80px;border:1px solid #444}
+.day{background:#222;padding:8px;min-height:80px;border:1px solid #444}
 .day strong{color:#c30000}
 .event{font-size:11px;background:#111;margin-top:4px;padding:3px;border-left:3px solid #c30000}
 </style>
@@ -34,30 +35,45 @@ button:hover{background:red}
 <h1>Garage La Plume</h1>
 <nav>
 <ul>
-<li><a href="#accueil">Accueil</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="#contact">Contact</a></li>
-<li><a href="#employe">Employé</a></li>
+<li><a onclick="showPage('accueil')">Accueil</a></li>
+<li><a onclick="showPage('services')">Services</a></li>
+<li><a onclick="showPage('recrutement')">Recrutement</a></li>
+<li><a onclick="showPage('contact')">Contact</a></li>
+<li><a onclick="showPage('employe')">Employé</a></li>
 </ul>
 </nav>
 </header>
 
-<section class="hero" id="accueil">
+<!-- ACCUEIL -->
+<section id="accueil" class="page">
+<div class="hero">
 <h2>Garage Automobile de Confiance</h2>
 <p>Réparation • Entretien • Diagnostic</p>
-</section>
-
-<section id="services">
-<h2>Nos Services</h2>
-<div class="services">
-<div class="box">🔧 Réparation</div>
-<div class="box">🛢 Dépannage</div>
-<div class="box">💻 Diagnostic</div>
-<div class="box">🚗 Contrôle</div>
 </div>
 </section>
 
-<section id="contact">
+<!-- SERVICES -->
+<section id="services" class="page hidden">
+<h2>Nos Services</h2>
+<div class="services">
+<div class="box">🔧 Réparation mécanique</div>
+<div class="box">🛢 Dépannage</div>
+<div class="box">💻 Diagnostic électronique</div>
+<div class="box">🚗 Pré-contrôle technique</div>
+</div>
+</section>
+
+<!-- RECRUTEMENT -->
+<section id="recrutement" class="page hidden">
+<h2>Recrutement</h2>
+<div class="box">
+<p>Nous recrutons des mécaniciens motivés.</p>
+<p>Contactez-nous pour rejoindre l’équipe.</p>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="page hidden">
 <h2>Contact</h2>
 <form class="box">
 <input placeholder="Nom" required>
@@ -67,7 +83,8 @@ button:hover{background:red}
 </form>
 </section>
 
-<section id="employe">
+<!-- EMPLOYÉ -->
+<section id="employe" class="page hidden">
 <h2>Espace Employé 🔐</h2>
 
 <div id="loginBox" class="box">
@@ -82,9 +99,8 @@ button:hover{background:red}
 
 <h4>📅 Planning</h4>
 <div class="calendar" id="calendar"></div>
-
 <input type="date" id="eventDate">
-<input placeholder="Entretien / Client" id="eventText">
+<input id="eventText" placeholder="Entretien / Client">
 <button onclick="addEvent()">Ajouter</button>
 
 <h4>🕒 Pointeuse</h4>
@@ -93,7 +109,7 @@ button:hover{background:red}
 <ul id="clockList"></ul>
 
 <div id="adminPanel" class="hidden">
-<h4>⚙️ Gestion Patron</h4>
+<h4>⚙️ Gestionnaire</h4>
 <input id="newUser" placeholder="Nouvel employé">
 <input id="newPass" placeholder="Mot de passe">
 <button onclick="addUser()">Ajouter</button>
@@ -107,6 +123,13 @@ button:hover{background:red}
 <footer>&copy; 2026 Garage La Plume</footer>
 
 <script>
+/* NAVIGATION */
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+/* USERS */
 if(!localStorage.users){
 localStorage.users=JSON.stringify([
 {user:"patron",pass:"patron123",role:"Patron"},
@@ -117,6 +140,7 @@ localStorage.users=JSON.stringify([
 
 let currentUser=null;
 
+/* LOGIN */
 function login(){
 const users=JSON.parse(localStorage.users);
 const u=users.find(x=>x.user===loginUser.value&&x.pass===loginPass.value);
@@ -129,6 +153,7 @@ if(u.role==="Patron") adminPanel.classList.remove("hidden");
 loadCalendar();loadClock();loadUsers();
 }
 
+/* LOGOUT */
 function logout(){
 dashboard.classList.add("hidden");
 loginBox.classList.remove("hidden");
@@ -136,12 +161,14 @@ adminPanel.classList.add("hidden");
 currentUser=null;
 }
 
+/* PLANNING */
 function addEvent(){
 if(!eventDate.value||!eventText.value)return;
 const data=JSON.parse(localStorage.events||"{}");
 const key=currentUser.user+"_"+eventDate.value;
 (data[key]=data[key]||[]).push(eventText.value);
 localStorage.events=JSON.stringify(data);
+eventText.value="";
 loadCalendar();
 }
 
@@ -164,6 +191,7 @@ calendar.appendChild(div);
 }
 }
 
+/* POINTEUSE */
 function pointeuse(type){
 const c=JSON.parse(localStorage.clock||"{}");
 (c[currentUser.user]=c[currentUser.user]||[]).push(type+" "+new Date().toLocaleString());
@@ -177,6 +205,7 @@ clockList.innerHTML="";
 .forEach(l=>{const li=document.createElement("li");li.textContent=l;clockList.appendChild(li);});
 }
 
+/* ADMIN */
 function addUser(){
 const users=JSON.parse(localStorage.users);
 users.push({user:newUser.value,pass:newPass.value,role:"Employé"});
@@ -185,6 +214,7 @@ loadUsers();
 }
 
 function loadUsers(){
+if(!userList)return;
 userList.innerHTML="";
 JSON.parse(localStorage.users).forEach(u=>{
 const li=document.createElement("li");
