@@ -1424,6 +1424,103 @@
             
             globalData.innerHTML = html || '<p class="text-gray-500 text-center">Aucun employé enregistré</p>';
         }
+        // ============================================
+        // Recovery & Data Management
+        // ============================================
+
+        function renderBackupInfo() {
+            const backupInfo = document.getElementById('backupInfo');
+            if (!backupInfo) return;
+
+            const users = getUsers();
+            backupInfo.innerHTML = `
+                <div>Utilisateurs: <strong>${users.length}</strong></div>
+                <div>Événements: <strong>${getEvents().length}</strong></div>
+                <div>Pointages: <strong>${getClockEntries().length}</strong></div>
+                <div>Fichiers: <strong>${getFiles().length}</strong></div>
+                <div class="text-xs mt-2">Dernière mise à jour: <strong>${new Date().toLocaleString('fr-FR')}</strong></div>
+            `;
+        }
+
+        function updateServerStats() {
+            document.getElementById('statsUsers').textContent = getUsers().length;
+            document.getElementById('statsEvents').textContent = getEvents().length;
+            document.getElementById('statsClock').textContent = getClockEntries().length;
+            document.getElementById('statsFiles').textContent = getFiles().length;
+        }
+
+        function exportData() {
+            const data = {
+                users: getUsers(),
+                events: getEvents(),
+                clock: getClockEntries(),
+                files: getFiles(),
+                exportedAt: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `garage-backup-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            showToast('✓ Données exportées avec succès');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (confirm('Êtes-vous sûr ? Cette action remplacera toutes les données.')) {
+                        if (data.users) saveUsers(data.users);
+                        if (data.events) saveEvents(data.events);
+                        if (data.clock) saveClockEntries(data.clock);
+                        if (data.files) saveFiles(data.files);
+
+                        renderUsersList();
+                        renderEventsList();
+                        renderClockList();
+                        renderFilesList();
+                        renderBackupInfo();
+                        updateServerStats();
+
+                        showToast('✓ Données importées avec succès');
+                    }
+                } catch (error) {
+                    showToast('❌ Erreur lors de l\'importation', 'error');
+                }
+            };
+            reader.readAsText(file);
+            document.getElementById('importFile').value = '';
+        }
+
+        function resetAllPasswords() {
+            if (!confirm('Tous les mots de passe seront définis à "password123". Continuer ?')) return;
+
+            const users = getUsers();
+            users.forEach(user => {
+                user.pass = 'password123';
+            });
+            saveUsers(users);
+            localStorage.removeItem('passwordChanged');
+
+            showToast('✓ Tous les mots de passe ont été réinitialisés');
+        }
+
+        function clearPasswordChanges() {
+            if (!confirm('Les utilisateurs devront changer leur mot de passe à la prochaine connexion. Continuer ?')) return;
+
+            localStorage.removeItem('passwordChanged');
+            showToast('✓ Les changements de mots de passe ont été réinitialisés');
+        }
 
         // ============================================
         // Initialization
