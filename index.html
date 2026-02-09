@@ -18,7 +18,7 @@ url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover
 .hero h2{color:#c30000;font-size:40px}
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .box{background:#2a2a2a;padding:20px;border-left:4px solid #c30000;margin-bottom:20px}
-input,textarea{width:100%;padding:10px;margin-bottom:10px;background:#111;border:1px solid #555;color:white}
+input,textarea,select{width:100%;padding:10px;margin-bottom:10px;background:#111;border:1px solid #555;color:white}
 button{background:#c30000;border:none;padding:12px;color:white;cursor:pointer}
 button:hover{background:red}
 .hidden{display:none}
@@ -40,6 +40,7 @@ button:hover{background:red}
 <li><a onclick="showPage('recrutement')">Recrutement</a></li>
 <li><a onclick="showPage('contact')">Contact</a></li>
 <li><a onclick="showPage('employe')">Employé</a></li>
+<li id="serverLink" class="hidden"><a onclick="showPage('server')">Server</a></li>
 </ul>
 </nav>
 </header>
@@ -68,7 +69,6 @@ button:hover{background:red}
 <h2>Recrutement</h2>
 <div class="box">
 <p>Nous recrutons des mécaniciens motivés.</p>
-<p>Contactez-nous pour rejoindre l’équipe.</p>
 </div>
 </section>
 
@@ -76,8 +76,8 @@ button:hover{background:red}
 <section id="contact" class="page hidden">
 <h2>Contact</h2>
 <form class="box">
-<input placeholder="Nom" required>
-<input placeholder="Email" required>
+<input placeholder="Nom">
+<input placeholder="Email">
 <textarea placeholder="Message"></textarea>
 <button>Envoyer</button>
 </form>
@@ -98,7 +98,7 @@ button:hover{background:red}
 <h3 id="roleText"></h3>
 
 <h4>📅 Planning</h4>
-<div class="calendar" id="calendar"></div>
+<div id="calendar" class="calendar"></div>
 <input type="date" id="eventDate">
 <input id="eventText" placeholder="Entretien / Client">
 <button onclick="addEvent()">Ajouter</button>
@@ -108,28 +108,45 @@ button:hover{background:red}
 <button onclick="pointeuse('Sortie')">Sortie</button>
 <ul id="clockList"></ul>
 
-<div id="adminPanel" class="hidden">
-<h4>⚙️ Gestionnaire</h4>
-<input id="newUser" placeholder="Nouvel employé">
+<button onclick="logout()">Déconnexion</button>
+</div>
+</section>
+
+<!-- SERVER MANAGEMENT -->
+<section id="server" class="page hidden">
+<h2>🖥️ Server Management</h2>
+
+<div class="box">
+<h3>👥 Comptes utilisateurs</h3>
+<ul id="serverUserList"></ul>
+
+<h4>➕ Ajouter un employé</h4>
+<input id="newUser" placeholder="Identifiant">
 <input id="newPass" placeholder="Mot de passe">
 <button onclick="addUser()">Ajouter</button>
-<ul id="userList"></ul>
 </div>
 
-<button onclick="logout()">Déconnexion</button>
+<div class="box">
+<h3>📊 Heures pointées</h3>
+<div id="hoursReport"></div>
+</div>
+
+<div class="box">
+<h3>📅 Activité planning</h3>
+<div id="planningReport"></div>
 </div>
 </section>
 
 <footer>&copy; 2026 Garage La Plume</footer>
 
 <script>
-/* NAVIGATION */
+/* NAV */
 function showPage(id){
 document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
 
-/* USERS */
+/* USERS INIT */
 if(!localStorage.users){
 localStorage.users=JSON.stringify([
 {user:"patron",pass:"patron123",role:"Patron"},
@@ -149,16 +166,21 @@ currentUser=u;
 roleText.textContent=`${u.user} (${u.role})`;
 loginBox.classList.add("hidden");
 dashboard.classList.remove("hidden");
-if(u.role==="Patron") adminPanel.classList.remove("hidden");
-loadCalendar();loadClock();loadUsers();
+
+if(u.role==="Patron"){
+serverLink.classList.remove("hidden");
+loadServer();
+}
+loadCalendar();loadClock();
 }
 
 /* LOGOUT */
 function logout(){
 dashboard.classList.add("hidden");
 loginBox.classList.remove("hidden");
-adminPanel.classList.add("hidden");
+serverLink.classList.add("hidden");
 currentUser=null;
+showPage('accueil');
 }
 
 /* PLANNING */
@@ -172,6 +194,7 @@ eventText.value="";
 loadCalendar();
 }
 
+/* CALENDAR */
 function loadCalendar(){
 calendar.innerHTML="";
 const d=new Date();
@@ -191,7 +214,7 @@ calendar.appendChild(div);
 }
 }
 
-/* POINTEUSE */
+/* POINTAGE */
 function pointeuse(type){
 const c=JSON.parse(localStorage.clock||"{}");
 (c[currentUser.user]=c[currentUser.user]||[]).push(type+" "+new Date().toLocaleString());
@@ -202,25 +225,62 @@ loadClock();
 function loadClock(){
 clockList.innerHTML="";
 (JSON.parse(localStorage.clock||"{}")[currentUser.user]||[])
-.forEach(l=>{const li=document.createElement("li");li.textContent=l;clockList.appendChild(li);});
+.forEach(l=>{
+const li=document.createElement("li");
+li.textContent=l;
+clockList.appendChild(li);
+});
 }
 
-/* ADMIN */
+/* SERVER MANAGEMENT */
+function loadServer(){
+loadServerUsers();
+loadReports();
+}
+
+function loadServerUsers(){
+serverUserList.innerHTML="";
+JSON.parse(localStorage.users).forEach(u=>{
+const li=document.createElement("li");
+li.innerHTML=`${u.user} (${u.role})
+<button onclick="resetPass('${u.user}')">Reset MDP</button>
+<button onclick="deleteUser('${u.user}')">Supprimer</button>`;
+serverUserList.appendChild(li);
+});
+}
+
 function addUser(){
 const users=JSON.parse(localStorage.users);
 users.push({user:newUser.value,pass:newPass.value,role:"Employé"});
 localStorage.users=JSON.stringify(users);
-loadUsers();
+loadServer();
 }
 
-function loadUsers(){
-if(!userList)return;
-userList.innerHTML="";
-JSON.parse(localStorage.users).forEach(u=>{
-const li=document.createElement("li");
-li.textContent=`${u.user} (${u.role})`;
-userList.appendChild(li);
-});
+function resetPass(user){
+const users=JSON.parse(localStorage.users);
+const u=users.find(x=>x.user===user);
+u.pass="1234";
+localStorage.users=JSON.stringify(users);
+alert("Mot de passe réinitialisé à 1234");
+}
+
+function deleteUser(user){
+let users=JSON.parse(localStorage.users);
+users=users.filter(u=>u.user!==user);
+localStorage.users=JSON.stringify(users);
+loadServer();
+}
+
+/* REPORTS */
+function loadReports(){
+const clock=JSON.parse(localStorage.clock||"{}");
+hoursReport.innerHTML="";
+for(let u in clock){
+hoursReport.innerHTML+=`<p>${u} : ${clock[u].length} pointages</p>`;
+}
+
+const events=JSON.parse(localStorage.events||"{}");
+planningReport.innerHTML=`<p>Total événements : ${Object.keys(events).length}</p>`;
 }
 </script>
 
