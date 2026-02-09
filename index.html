@@ -283,7 +283,7 @@
         // Data Storage (localStorage)
         // ============================================
         
-      function initializeStorage() {
+    function initializeStorage() {
     if (!localStorage.getItem('garageUsers')) {
         localStorage.setItem('garageUsers', JSON.stringify([
             { user: 'laplume', pass: 'laplume', role: 'Patron' },
@@ -291,71 +291,19 @@
             { user: 'paul', pass: 'paul123', role: 'Employé' }
         ]));
     }
+    if (!localStorage.getItem('garageEvents')) {
+        localStorage.setItem('garageEvents', JSON.stringify([]));
+    }
+    if (!localStorage.getItem('garageClock')) {
+        localStorage.setItem('garageClock', JSON.stringify([]));
+    }
+    if (!localStorage.getItem('garageFiles')) {
+        localStorage.setItem('garageFiles', JSON.stringify([]));
+    }
+    if (!localStorage.getItem('garageCandidates')) {
+        localStorage.setItem('garageCandidates', JSON.stringify([]));
+    }
 }
-            if (!localStorage.getItem('garageEvents')) {
-                localStorage.setItem('garageEvents', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('garageClock')) {
-                localStorage.setItem('garageClock', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('garageFiles')) {
-                localStorage.setItem('garageFiles', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('garageCandidates')) {
-                localStorage.setItem('garageCandidates', JSON.stringify([]));
-            }
-        }
-
-        function getUsers() {
-            return JSON.parse(localStorage.getItem('garageUsers') || '[]');
-        }
-
-        function saveUsers(users) {
-            localStorage.setItem('garageUsers', JSON.stringify(users));
-        }
-
-        function getPasswordChangeStatus() {
-            return JSON.parse(localStorage.getItem('passwordChanged') || '{}');
-        }
-
-        function setPasswordChanged(user) {
-            const status = getPasswordChangeStatus();
-            status[user] = true;
-            localStorage.setItem('passwordChanged', JSON.stringify(status));
-        }
-
-        function getEvents() {
-            return JSON.parse(localStorage.getItem('garageEvents') || '[]');
-        }
-
-        function saveEvents(events) {
-            localStorage.setItem('garageEvents', JSON.stringify(events));
-        }
-
-        function getClockEntries() {
-            return JSON.parse(localStorage.getItem('garageClock') || '[]');
-        }
-
-        function saveClockEntries(entries) {
-            localStorage.setItem('garageClock', JSON.stringify(entries));
-        }
-
-        function getFiles() {
-            return JSON.parse(localStorage.getItem('garageFiles') || '[]');
-        }
-
-        function saveFiles(files) {
-            localStorage.setItem('garageFiles', JSON.stringify(files));
-        }
-
-        function getCandidates() {
-            return JSON.parse(localStorage.getItem('garageCandidates') || '[]');
-        }
-
-        function saveCandidates(candidates) {
-            localStorage.setItem('garageCandidates', JSON.stringify(candidates));
-        }
-
         // ============================================
         // Toast Notifications
         // ============================================
