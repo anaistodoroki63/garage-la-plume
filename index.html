@@ -872,6 +872,40 @@
                 checkSession();
             }
         }
+          if (page === 'gestionnaire') {
+                document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById('user').value;
+                    const password = document.getElementById('pass').value;
+                    login(username, password);
+                });
+
+                document.getElementById('logoutBtn')?.addEventListener('click', logout);
+                document.getElementById('addEventBtn')?.addEventListener('click', addEvent);
+                document.getElementById('clockInBtn')?.addEventListener('click', () => clockIn('Entrée'));
+                document.getElementById('clockOutBtn')?.addEventListener('click', () => clockIn('Sortie'));
+                document.getElementById('selectFileBtn')?.addEventListener('click', () => {
+                document.getElementById('fileInput').click();
+                });
+
+                document.getElementById('fileInput')?.addEventListener('change', (e) => {
+                    const fileName = e.target.files[0]?.name || '';
+                    document.getElementById('selectedFileName').textContent = fileName;
+                });
+
+                document.getElementById('uploadFileBtn')?.addEventListener('click', uploadFile);
+                document.getElementById('prevMonth')?.addEventListener('click', () => {
+                    currentMonth.setMonth(currentMonth.getMonth() - 1);
+                    renderCalendar();
+                });
+                document.getElementById('nextMonth')?.addEventListener('click', () => {
+                    currentMonth.setMonth(currentMonth.getMonth() + 1);
+                    renderCalendar();
+                });
+
+                checkSession();
+            }
+        }
 
         // ============================================
         // Authentication Functions
