@@ -1,1096 +1,206 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
- <head>
-  <meta charset="UTF-8">
-  <title>Garage La Plume</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/_sdk/element_sdk.js"></script>
-  <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #1c1c1c;
-            color: #fff;
-        }
-
-        .app-wrapper {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background: #111;
-            padding: 20px;
-            border-bottom: 4px solid #c30000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            padding: 0;
-            margin: 0;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #c30000;
-        }
-
-        .content-wrapper {
-            flex: 1;
-            overflow-y: auto;
-            padding: 40px;
-            max-width: 1100px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        section {
-            display: none;
-        }
-
-        section.active {
-            display: block;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Crect fill='%23333' width='1200' height='600'/%3E%3C/svg%3E") center/cover;
-            margin-bottom: 40px;
-        }
-
-        .hero h2 {
-            color: #c30000;
-            font-size: 38px;
-            margin: 0 0 10px 0;
-        }
-
-        .hero p {
-            font-size: 18px;
-            margin: 0;
-        }
-
-        h2 {
-            color: #c30000;
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            color: #c30000;
-        }
-
-        .box {
-            background: #2a2a2a;
-            padding: 20px;
-            border-left: 4px solid #c30000;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-
-        .service-box {
-            background: #2a2a2a;
-            padding: 20px;
-            border-left: 4px solid #c30000;
-            margin-bottom: 15px;
-        }
-
-        .service-box h3 {
-            margin-top: 0;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #111;
-            color: #fff;
-            border: 1px solid #555;
-            border-radius: 4px;
-            font-family: Arial;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #c30000;
-        }
-
-        button {
-            background: #c30000;
-            border: none;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: background 0.3s;
-            margin-right: 5px;
-            margin-bottom: 10px;
-        }
-
-        button:hover {
-            background: #ff0000;
-        }
-
-        button.secondary {
-            background: #555;
-        }
-
-        button.secondary:hover {
-            background: #777;
-        }
-
-        button.danger {
-            background: #8b0000;
-        }
-
-        button.danger:hover {
-            background: #c30000;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        footer {
-            background: #111;
-            padding: 20px;
-            border-top: 4px solid #c30000;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        /* Planning & Calendar */
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .day {
-            background: #111;
-            padding: 10px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            min-height: 60px;
-            font-size: 12px;
-        }
-
-        .event {
-            background: #c30000;
-            margin-top: 3px;
-            padding: 3px;
-            font-size: 11px;
-            border-radius: 2px;
-        }
-
-        /* Lists */
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            background: #111;
-            padding: 10px;
-            margin-bottom: 5px;
-            border-left: 3px solid #c30000;
-            border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn-small {
-            padding: 5px 10px;
-            font-size: 12px;
-            margin: 0;
-        }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        table th {
-            background: #111;
-            padding: 10px;
-            text-align: left;
-            border-bottom: 2px solid #c30000;
-        }
-
-        table td {
-            background: #2a2a2a;
-            padding: 10px;
-            border-bottom: 1px solid #333;
-        }
-
-        table tr:hover td {
-            background: #333;
-        }
-
-        /* Messages */
-        .msg-error {
-            color: #ff6666;
-            margin-bottom: 10px;
-        }
-
-        .msg-success {
-            color: #66ff66;
-            margin-bottom: 10px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #2a2a2a;
-            padding: 30px;
-            border-radius: 8px;
-            max-width: 400px;
-            width: 90%;
-            border: 2px solid #c30000;
-        }
-
-        .modal-content h3 {
-            margin-top: 0;
-        }
-
-        .close-modal {
-            float: right;
-            font-size: 20px;
-            cursor: pointer;
-            color: #c30000;
-        }
-
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #2a2a2a;
-            padding: 20px;
-            border-left: 4px solid #c30000;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        .stat-card .number {
-            font-size: 32px;
-            color: #c30000;
-            font-weight: bold;
-        }
-
-        .stat-card .label {
-            font-size: 14px;
-            color: #aaa;
-            margin-top: 10px;
-        }
-
-        .employé-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #c30000;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            z-index: 999;
-        }
-
-        .employé-btn:hover {
-            background: #ff0000;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .hero h2 {
-                font-size: 24px;
-            }
-
-            .content-wrapper {
-                padding: 20px;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .employé-btn {
-                position: static;
-                display: block;
-                margin-bottom: 20px;
-                text-align: center;
-            }
-        }
-    </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
-  <style>@view-transition { navigation: auto; }</style>
- </head>
- <body><a href="employé.html" target="_blank" class="employé-btn">⚙️ employé</a>
-  <div class="app-wrapper">
-   <!-- HEADER -->
-   <header>
-    <h1>🔧 Garage La Plume</h1>
-    <nav>
-     <ul id="mainNav">
-      <li><a onclick="goToSection('accueil')">Accueil</a></li>
-      <li><a onclick="goToSection('services')">Services</a></li>
-      <li><a onclick="goToSection('recrutement')">Recrutement</a></li>
-      <li><a onclick="goToSection('contact')">Contact</a></li>
-      <li><a onclick="goToSection('employe')">Employé</a></li>
-     </ul>
-    </nav>
-   </header><!-- CONTENT -->
-   <div class="content-wrapper">
-    <!-- ACCUEIL -->
-    <section id="accueil" class="active">
-     <div class="hero">
-      <h2 id="heroTitle">Garage Automobile de Confiance</h2>
-      <p id="heroSlogan">Réparation • Entretien • Diagnostic</p>
-     </div>
-     <div class="box">
-      <h2>Bienvenue chez Garage La Plume</h2>
-      <p id="accueilText">Votre garage de confiance pour tous vos besoins automobiles. Nous proposons des services de qualité avec une équipe professionnelle.</p>
-     </div>
-    </section><!-- SERVICES -->
-    <section id="services">
-     <h2>Nos Services</h2>
-     <div id="servicesList"></div>
-    </section><!-- RECRUTEMENT -->
-    <section id="recrutement">
-     <h2>Rejoignez Notre Équipe 💼</h2>
-     <div class="box">
-      <h3>Offres d'Emploi</h3>
-      <p>Nous recherchons activement des talents pour renforcer notre équipe!</p>
-      <div id="jobsList"></div>
-     </div>
-     <div class="box">
-      <h3>Postuler</h3><input id="candidatNom" placeholder="Votre nom"> <input id="candidatEmail" placeholder="Votre email"> <input id="candidatPhone" placeholder="Votre téléphone"> <input id="candidatPoste" placeholder="Poste recherché"> <textarea id="candidatMsg" placeholder="Votre message" rows="5"></textarea>
-      <h3 style="margin-top: 20px;">📄 Joindre un CV (PDF)</h3><input type="file" id="recruiterFileInput" accept=".pdf"> <button onclick="uploadRecruiterFile()">Joindre mon CV</button>
-      <ul id="recruiterFileList" style="margin-top: 10px;"></ul><button onclick="envoyerCandidature()" style="margin-top: 10px;">Envoyer ma candidature</button>
-      <p id="candidatMsg2"></p>
-     </div>
-    </section><!-- CONTACT -->
-    <section id="contact">
-     <h2>Contact</h2>
-     <div class="box">
-      <input id="contactName" placeholder="Votre nom"> <input id="contactEmail" placeholder="Votre email"> <textarea id="contactMsg" placeholder="Votre message" rows="5"></textarea> <button onclick="envoyerContact()">Envoyer</button>
-      <p id="contactMsg2"></p>
-     </div>
-    </section><!-- EMPLOYE -->
-    <section id="employe">
-     <h2>Espace Employé 🔐</h2><!-- LOGIN -->
-     <div id="loginBox" class="box">
-      <h3>Connexion</h3><input id="user" placeholder="Identifiant"> <input id="pass" type="password" placeholder="Mot de passe"> <button onclick="login()">Connexion</button>
-      <p id="msg" class="msg-error"></p>
-     </div><!-- DASHBOARD -->
-     <div id="dashboard" class="hidden">
-      <p id="roleText" style="font-size: 16px; margin-bottom: 20px;"></p><!-- PLANNING -->
-      <div class="box">
-       <h3>📅 Planning</h3><input type="date" id="eventDate"> <input id="eventText" placeholder="Entretien / Mission"> <button onclick="ajouterPlanning()">Ajouter</button>
-       <div id="calendar" class="calendar"></div>
-       <ul id="eventList" style="margin-top: 20px;"></ul>
-      </div><!-- POINTEUSE -->
-      <div class="box">
-       <h3>⏱️ Pointeuse</h3><button onclick="pointeuse('Entrée')">Entrée</button> <button onclick="pointeuse('Sortie')">Sortie</button>
-       <ul id="clockList"></ul>
-       <p id="heuresTravaillees" style="margin-top: 15px; font-weight: bold;"></p>
-      </div><!-- DOCUMENTS -->
-      <div class="box">
-       <h3>📄 Documents PDF</h3><input type="file" id="fileInput" accept=".pdf"> <button onclick="uploadFile()">Importer PDF</button>
-       <ul id="fileList"></ul>
-      </div><!-- CHANGEMENT MDPASS -->
-      <div class="box">
-       <h3>🔑 Changer Mon Mot de Passe</h3><input id="oldPass" type="password" placeholder="Ancien mot de passe"> <input id="newPass" type="password" placeholder="Nouveau mot de passe"> <input id="confirmPass" type="password" placeholder="Confirmer mot de passe"> <button onclick="changerMotDePasse()">Mettre à jour</button>
-       <p id="passMsg"></p>
-      </div><!-- ADMIN PANEL -->
-      <div id="adminPanel" class="box hidden">
-       <h3>👑 Vue Patron</h3>
-       <div class="dashboard-grid" id="adminStats"></div>
-       <h3>Gérer les Employés</h3>
-       <div>
-        <input id="newUserName" placeholder="Nouvel identifiant"> <input id="newUserPass" type="password" placeholder="Mot de passe"> <select id="newUserRole"> <option value="Employé">Employé</option> <option value="Manager">Manager</option> </select> <button onclick="creerEmploye()">Créer Employé</button>
-        <p id="adminMsg"></p>
-       </div>
-       <h3>Liste des Employés</h3>
-       <table>
-        <thead>
-         <tr>
-          <th>Identifiant</th>
-          <th>Rôle</th>
-          <th>Actions</th>
-         </tr>
-        </thead>
-        <tbody id="employeTable"></tbody>
-       </table>
-      </div><button class="danger" onclick="logout()">Déconnexion</button>
-     </div>
-    </section>
-   </div><!-- FOOTER -->
-   <footer>
-    <p>© 2026 Garage La Plume - Tous droits réservés</p>
-   </footer>
-  </div>
-  <script>
-        // ===== INITIALISATION BASE DE DONNÉES =====
-        if (!localStorage.users) {
-            localStorage.users = JSON.stringify([
-                { user: "patron", pass: "patron123", role: "Patron" },
-                { user: "jean", pass: "jean123", role: "Employé" },
-                { user: "paul", pass: "paul123", role: "Employé" }
-            ]);
-        }
-
-        if (!localStorage.planning) {
-            localStorage.planning = JSON.stringify([]);
-        }
-
-        if (!localStorage.clock) {
-            localStorage.clock = JSON.stringify([]);
-        }
-
-        if (!localStorage.files) {
-            localStorage.files = JSON.stringify([]);
-        }
-
-        if (!localStorage.contacts) {
-            localStorage.contacts = JSON.stringify([]);
-        }
-
-        if (!localStorage.candidatures) {
-            localStorage.candidatures = JSON.stringify([]);
-        }
-
-        if (!localStorage.recruiterFiles) {
-            localStorage.recruiterFiles = JSON.stringify([]);
-        }
-
-        if (!localStorage.garageInfo) {
-            localStorage.garageInfo = JSON.stringify({
-                name: "Garage La Plume",
-                slogan: "Réparation • Entretien • Diagnostic",
-                address: "123 Rue de l'Auto, 75000 Paris",
-                phone: "01 23 45 67 89",
-                email: "contact@garage.com"
-            });
-        }
-
-        if (!localStorage.services) {
-            localStorage.services = JSON.stringify([
-                { id: 1, name: "🔧 Réparation", desc: "Diagnostic et réparation complète", price: "À partir de 3000€" },
-                { id: 2, name: "🛢️ Entretien", desc: "Révision et vidange", price: "3000€ - 5000€" },
-                { id: 3, name: "🚗 Contrôle Technique", desc: "Pré-contrôle technique complet", price: "Sur rendez-vous" }
-            ]);
-        }
-
-        if (!localStorage.jobs) {
-            localStorage.jobs = JSON.stringify([
-                { id: 1, title: "👨‍💼 Agent d'Accueil", desc: "Accueil des clients, gestion des rendez-vous et des devis" },
-                { id: 2, title: "🔧 Mécanicien Garage", desc: "Réparation et entretien en atelier, diagnostic complète" },
-                { id: 3, title: "🚗 Mécanicien sur le Terrain", desc: "Dépannage et assistance routière sur appel" }
-            ]);
-        }
-
-        let currentUser = null;
-
-        // ===== NAVIGATION =====
-        function goToSection(sectionId) {
-            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        // ===== CHARGER INFOS SITE =====
-        function chargerInfosSite() {
-            const info = JSON.parse(localStorage.garageInfo);
-            document.getElementById('heroTitle').textContent = info.name;
-            document.getElementById('heroSlogan').textContent = info.slogan;
-
-            afficherServices();
-            afficherOffresEmploi();
-        }
-
-        // ===== AFFICHER SERVICES =====
-        function afficherServices() {
-            const services = JSON.parse(localStorage.services);
-            const list = document.getElementById('servicesList');
-            list.innerHTML = '';
-
-            services.forEach(s => {
-                const div = document.createElement('div');
-                div.className = 'service-box';
-                div.innerHTML = `
-                    <h3>${s.name}</h3>
-                    <p>${s.desc}</p>
-                    <p><strong>Prix: ${s.price}</strong></p>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        // ===== OFFRES D'EMPLOI =====
-        function afficherOffresEmploi() {
-            const jobs = JSON.parse(localStorage.jobs);
-            const list = document.getElementById('jobsList');
-            list.innerHTML = '';
-
-            jobs.forEach(j => {
-                const div = document.createElement('div');
-                div.className = 'box';
-                div.innerHTML = `
-                    <h3>${j.title}</h3>
-                    <p>${j.desc}</p>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        // ===== CANDIDATURE =====
-        function uploadRecruiterFile() {
-            const fileInput = document.getElementById('recruiterFileInput');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                alert('Sélectionnez un fichier PDF');
-                return;
-            }
-
-            if (file.type !== 'application/pdf') {
-                alert('Veuillez sélectionner un fichier PDF');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const files = JSON.parse(localStorage.recruiterFiles);
-                files.push({
-                    name: file.name,
-                    data: e.target.result,
-                    date: new Date().toLocaleString('fr-FR'),
-                    id: Date.now()
-                });
-                localStorage.recruiterFiles = JSON.stringify(files);
-
-                fileInput.value = '';
-                afficherRecruiterFiles();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function afficherRecruiterFiles() {
-            const files = JSON.parse(localStorage.recruiterFiles);
-            const list = document.getElementById('recruiterFileList');
-            list.innerHTML = '';
-
-            files.forEach(f => {
-                const li = document.createElement('li');
-                li.innerHTML = `<span>✅ ${f.name}</span>
-                                <button class="btn-small danger" onclick="supprimerRecruiterFile(${f.id})">Supprimer</button>`;
-                list.appendChild(li);
-            });
-        }
-
-        function supprimerRecruiterFile(id) {
-            let files = JSON.parse(localStorage.recruiterFiles);
-            files = files.filter(f => f.id !== id);
-            localStorage.recruiterFiles = JSON.stringify(files);
-            afficherRecruiterFiles();
-        }
-
-        function envoyerCandidature() {
-            const nom = document.getElementById('candidatNom').value;
-            const email = document.getElementById('candidatEmail').value;
-            const phone = document.getElementById('candidatPhone').value;
-            const poste = document.getElementById('candidatPoste').value;
-            const msg = document.getElementById('candidatMsg').value;
-
-            if (!nom || !email || !phone || !poste || !msg) {
-                document.getElementById('candidatMsg2').textContent = 'Veuillez remplir tous les champs';
-                document.getElementById('candidatMsg2').className = 'msg-error';
-                return;
-            }
-
-            const recruiterFiles = JSON.parse(localStorage.recruiterFiles);
-            let candidatures = JSON.parse(localStorage.candidatures);
-            candidatures.push({
-                nom,
-                email,
-                phone,
-                poste,
-                msg,
-                cv: recruiterFiles.length > 0 ? recruiterFiles[0] : null,
-                date: new Date().toLocaleString('fr-FR')
-            });
-            localStorage.candidatures = JSON.stringify(candidatures);
-
-            document.getElementById('candidatMsg2').textContent = 'Candidature envoyée avec succès! Nous vous recontacterons bientôt.';
-            document.getElementById('candidatMsg2').className = 'msg-success';
-
-            document.getElementById('candidatNom').value = '';
-            document.getElementById('candidatEmail').value = '';
-            document.getElementById('candidatPhone').value = '';
-            document.getElementById('candidatPoste').value = '';
-            document.getElementById('candidatMsg').value = '';
-            localStorage.recruiterFiles = JSON.stringify([]);
-            afficherRecruiterFiles();
-
-            setTimeout(() => {
-                document.getElementById('candidatMsg2').textContent = '';
-            }, 3000);
-        }
-
-        // ===== CONTACT =====
-        function envoyerContact() {
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const msg = document.getElementById('contactMsg').value;
-
-            if (!name || !email || !msg) {
-                document.getElementById('contactMsg2').textContent = 'Veuillez remplir tous les champs';
-                document.getElementById('contactMsg2').className = 'msg-error';
-                return;
-            }
-
-            let contacts = JSON.parse(localStorage.contacts);
-            contacts.push({
-                name,
-                email,
-                message: msg,
-                date: new Date().toLocaleString('fr-FR')
-            });
-            localStorage.contacts = JSON.stringify(contacts);
-
-            document.getElementById('contactMsg2').textContent = 'Message envoyé avec succès!';
-            document.getElementById('contactMsg2').className = 'msg-success';
-
-            document.getElementById('contactName').value = '';
-            document.getElementById('contactEmail').value = '';
-            document.getElementById('contactMsg').value = '';
-
-            setTimeout(() => {
-                document.getElementById('contactMsg2').textContent = '';
-            }, 3000);
-        }
-
-        // ===== LOGIN =====
-        function login() {
-            const users = JSON.parse(localStorage.users);
-            const u = users.find(x => x.user === document.getElementById('user').value && 
-                                       x.pass === document.getElementById('pass').value);
-
-            if (!u) {
-                document.getElementById('msg').textContent = 'Identifiants incorrects';
-                return;
-            }
-
-            currentUser = u;
-            document.getElementById('loginBox').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('roleText').textContent = `Connecté en tant que: ${u.user} (${u.role})`;
-
-            afficherPlanning();
-            afficherClock();
-            afficherFiles();
-
-            if (u.role === 'Patron') {
-                document.getElementById('adminPanel').classList.remove('hidden');
-                mettreAJourAdmin();
-                afficherEmployes();
-            }
-        }
-
-        // ===== LOGOUT =====
-        function logout() {
-            currentUser = null;
-            document.getElementById('loginBox').classList.remove('hidden');
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('adminPanel').classList.add('hidden');
-            document.getElementById('msg').textContent = '';
-            document.getElementById('user').value = '';
-            document.getElementById('pass').value = '';
-        }
-
-        // ===== PLANNING =====
-        function ajouterPlanning() {
-            if (!currentUser) return;
-
-            const date = document.getElementById('eventDate').value;
-            const text = document.getElementById('eventText').value;
-
-            if (!date || !text) {
-                alert('Remplissez tous les champs');
-                return;
-            }
-
-            const planning = JSON.parse(localStorage.planning);
-            planning.push({ user: currentUser.user, date, text, id: Date.now() });
-            localStorage.planning = JSON.stringify(planning);
-
-            document.getElementById('eventDate').value = '';
-            document.getElementById('eventText').value = '';
-
-            afficherPlanning();
-        }
-
-        function afficherPlanning() {
-            const planning = JSON.parse(localStorage.planning);
-            const list = document.getElementById('eventList');
-            list.innerHTML = '';
-
-            planning.forEach(e => {
-                if (e.user === currentUser.user || currentUser.role === 'Patron') {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<span>${e.date} - ${e.text}</span>
-                                    <button class="btn-small danger" onclick="supprimerPlanning(${e.id})">Supprimer</button>`;
-                    list.appendChild(li);
-                }
-            });
-        }
-
-        function supprimerPlanning(id) {
-            if (!confirm('Confirmer la suppression ?')) return;
-            let planning = JSON.parse(localStorage.planning);
-            planning = planning.filter(p => p.id !== id);
-            localStorage.planning = JSON.stringify(planning);
-            afficherPlanning();
-        }
-
-        // ===== POINTEUSE =====
-        function pointeuse(type) {
-            if (!currentUser) return;
-
-            const now = new Date();
-            const time = now.toLocaleTimeString('fr-FR');
-            const date = now.toLocaleDateString('fr-FR');
-
-            const clock = JSON.parse(localStorage.clock);
-            clock.push({ user: currentUser.user, type, time, date, id: Date.now() });
-            localStorage.clock = JSON.stringify(clock);
-
-            afficherClock();
-            calculerHeures();
-        }
-
-        function afficherClock() {
-            const clock = JSON.parse(localStorage.clock);
-            const list = document.getElementById('clockList');
-            list.innerHTML = '';
-
-            const today = new Date().toLocaleDateString('fr-FR');
-            const todayClock = clock.filter(c => c.user === currentUser.user && c.date === today);
-
-            todayClock.forEach(c => {
-                const li = document.createElement('li');
-                li.textContent = `${c.type}: ${c.time}`;
-                list.appendChild(li);
-            });
-
-            calculerHeures();
-        }
-
-        function calculerHeures() {
-            const clock = JSON.parse(localStorage.clock);
-            const today = new Date().toLocaleDateString('fr-FR');
-            const todayClock = clock.filter(c => c.user === currentUser.user && c.date === today);
-
-            let heures = 0;
-            for (let i = 0; i < todayClock.length; i += 2) {
-                if (todayClock[i].type === 'Entrée' && todayClock[i+1] && todayClock[i+1].type === 'Sortie') {
-                    const entree = new Date(`2000-01-01 ${todayClock[i].time}`);
-                    const sortie = new Date(`2000-01-01 ${todayClock[i+1].time}`);
-                    heures += (sortie - entree) / (1000 * 60 * 60);
-                }
-            }
-
-            document.getElementById('heuresTravaillees').textContent = `Heures travaillées aujourd'hui: ${heures.toFixed(2)}h`;
-        }
-
-        // ===== DOCUMENTS PDF =====
-        function uploadFile() {
-            if (!currentUser) return;
-
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                alert('Sélectionnez un fichier PDF');
-                return;
-            }
-
-            if (file.type !== 'application/pdf') {
-                alert('Veuillez sélectionner un fichier PDF');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const files = JSON.parse(localStorage.files);
-                files.push({
-                    user: currentUser.user,
-                    name: file.name,
-                    data: e.target.result,
-                    date: new Date().toLocaleString('fr-FR'),
-                    id: Date.now()
-                });
-                localStorage.files = JSON.stringify(files);
-
-                fileInput.value = '';
-                afficherFiles();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function afficherFiles() {
-            const files = JSON.parse(localStorage.files);
-            const list = document.getElementById('fileList');
-            list.innerHTML = '';
-
-            files.forEach(f => {
-                if (f.user === currentUser.user || currentUser.role === 'Patron') {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<span>📄 ${f.name} (${f.user}) - ${f.date}</span>
-                                    <div>
-                                        <button class="btn-small" onclick="telechargerPDF('${f.id}')">Télécharger</button>
-                                        <button class="btn-small danger" onclick="supprimerFile(${f.id})">Supprimer</button>
-                                    </div>`;
-                    list.appendChild(li);
-                }
-            });
-        }
-
-        function telechargerPDF(fileId) {
-            const files = JSON.parse(localStorage.files);
-            const file = files.find(f => f.id == fileId);
-
-            if (file) {
-                const link = document.createElement('a');
-                link.href = file.data;
-                link.download = file.name;
-                link.click();
-            }
-        }
-
-        function supprimerFile(id) {
-            if (!confirm('Confirmer la suppression ?')) return;
-            let files = JSON.parse(localStorage.files);
-            files = files.filter(f => f.id !== id);
-            localStorage.files = JSON.stringify(files);
-            afficherFiles();
-        }
-
-        // ===== CHANGEMENT MOT DE PASSE =====
-        function changerMotDePasse() {
-            if (!currentUser) return;
-
-            const oldPass = document.getElementById('oldPass').value;
-            const newPass = document.getElementById('newPass').value;
-            const confirmPass = document.getElementById('confirmPass').value;
-
-            if (!oldPass || !newPass || !confirmPass) {
-                document.getElementById('passMsg').textContent = 'Remplissez tous les champs';
-                document.getElementById('passMsg').className = 'msg-error';
-                return;
-            }
-
-            if (oldPass !== currentUser.pass) {
-                document.getElementById('passMsg').textContent = 'Ancien mot de passe incorrect';
-                document.getElementById('passMsg').className = 'msg-error';
-                return;
-            }
-
-            if (newPass !== confirmPass) {
-                document.getElementById('passMsg').textContent = 'Les mots de passe ne correspondent pas';
-                document.getElementById('passMsg').className = 'msg-error';
-                return;
-            }
-
-            if (newPass.length < 6) {
-                document.getElementById('passMsg').textContent = 'Le mot de passe doit avoir au moins 6 caractères';
-                document.getElementById('passMsg').className = 'msg-error';
-                return;
-            }
-
-            // Mettre à jour le mot de passe
-            let users = JSON.parse(localStorage.users);
-            const userIndex = users.findIndex(u => u.user === currentUser.user);
-            users[userIndex].pass = newPass;
-            localStorage.users = JSON.stringify(users);
-            currentUser.pass = newPass;
-
-            document.getElementById('passMsg').textContent = 'Mot de passe changé avec succès!';
-            document.getElementById('passMsg').className = 'msg-success';
-
-            document.getElementById('oldPass').value = '';
-            document.getElementById('newPass').value = '';
-            document.getElementById('confirmPass').value = '';
-
-            setTimeout(() => {
-                document.getElementById('passMsg').textContent = '';
-            }, 3000);
-        }
-
-        // ===== ADMIN PANEL =====
-        function mettreAJourAdmin() {
-            const users = JSON.parse(localStorage.users);
-            const planning = JSON.parse(localStorage.planning);
-            const clock = JSON.parse(localStorage.clock);
-            const files = JSON.parse(localStorage.files);
-
-            const statsHTML = `
-                <div class="stat-card">
-                    <div class="number">${users.length}</div>
-                    <div class="label">Employés Total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">${planning.length}</div>
-                    <div class="label">Plannings</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">${clock.length}</div>
-                    <div class="label">Pointages</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">${files.length}</div>
-                    <div class="label">Documents</div>
-                </div>
-            `;
-
-            document.getElementById('adminStats').innerHTML = statsHTML;
-        }
-
-        function creerEmploye() {
-            if (!currentUser || currentUser.role !== 'Patron') return;
-
-            const name = document.getElementById('newUserName').value;
-            const pass = document.getElementById('newUserPass').value;
-            const role = document.getElementById('newUserRole').value;
-
-            if (!name || !pass) {
-                document.getElementById('adminMsg').textContent = 'Remplissez tous les champs';
-                document.getElementById('adminMsg').className = 'msg-error';
-                return;
-            }
-
-            let users = JSON.parse(localStorage.users);
-
-            if (users.find(u => u.user === name)) {
-                document.getElementById('adminMsg').textContent = 'Cet utilisateur existe déjà';
-                document.getElementById('adminMsg').className = 'msg-error';
-                return;
-            }
-
-            users.push({ user: name, pass, role });
-            localStorage.users = JSON.stringify(users);
-
-            document.getElementById('adminMsg').textContent = 'Employé créé avec succès!';
-            document.getElementById('adminMsg').className = 'msg-success';
-
-            document.getElementById('newUserName').value = '';
-            document.getElementById('newUserPass').value = '';
-
-            afficherEmployes();
-            mettreAJourAdmin();
-
-            setTimeout(() => {
-                document.getElementById('adminMsg').textContent = '';
-            }, 3000);
-        }
-
-        function afficherEmployes() {
-            if (!currentUser || currentUser.role !== 'Patron') return;
-
-            const users = JSON.parse(localStorage.users);
-            const tbody = document.getElementById('employeTable');
-            tbody.innerHTML = '';
-
-            users.forEach(u => {
-                if (u.role !== 'Patron') {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${u.user}</td>
-                        <td>${u.role}</td>
-                        <td><button class="btn-small danger" onclick="supprimerEmploye('${u.user}')">Supprimer</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                }
-            });
-        }
-
-        function supprimerEmploye(username) {
-            if (!confirm('Confirmer la suppression de cet employé ?')) return;
-
-            let users = JSON.parse(localStorage.users);
-            users = users.filter(u => u.user !== username);
-            localStorage.users = JSON.stringify(users);
-
-            afficherEmployes();
-            mettreAJourAdmin();
-        }
-
-        // ===== CHARGER AU DÉMARRAGE =====
-        chargerInfosSite();
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9caf0f2411657521',t:'MTc3MDU5NDkzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<head>
+<meta charset="UTF-8">
+<title>Garage La Plume</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial;background:#1c1c1c;color:#fff}
+header,footer{background:#111;padding:20px;border-bottom:4px solid #c30000}
+footer{border-top:4px solid #c30000;text-align:center}
+nav ul{list-style:none;display:flex;gap:20px;padding:0}
+nav a{color:#fff;text-decoration:none;font-weight:bold}
+nav a:hover{color:#c30000}
+section{padding:40px;max-width:1100px;margin:auto}
+.hero{text-align:center;padding:80px;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+url("https://images.unsplash.com/photo-1581579185169-07c97f4c7b5d") center/cover}
+.hero h2{color:#c30000;font-size:38px}
+.box{background:#2a2a2a;padding:20px;border-left:4px solid #c30000;margin-bottom:20px}
+input,textarea{width:100%;padding:10px;margin-bottom:10px;background:#111;color:#fff;border:1px solid #555}
+button{background:#c30000;border:none;color:#fff;padding:10px;cursor:pointer}
+button:hover{background:red}
+.hidden{display:none}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{background:#222;padding:6px;min-height:70px;border:1px solid #444}
+.event{font-size:11px;background:#111;margin-top:3px;padding:3px;border-left:3px solid #c30000}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Garage La Plume</h1>
+</header>
+
+<section class="hero">
+<h2>Garage Automobile de Confiance</h2>
+<p>Réparation • Entretien • Diagnostic</p>
+</section>
+
+<section id="employe">
+<h2>Espace Employé 🔐</h2>
+
+<div id="loginBox" class="box">
+<input id="user" placeholder="Identifiant">
+<input id="pass" type="password" placeholder="Mot de passe">
+<button onclick="login()">Connexion</button>
+<p id="msg" style="color:red"></p>
+</div>
+
+<!-- RESET PASSWORD -->
+<div id="resetBox" class="box hidden">
+<h3>🔐 Première connexion</h3>
+<input id="newPass" type="password" placeholder="Nouveau mot de passe">
+<button onclick="resetPassword()">Valider</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+<p id="roleText"></p>
+
+<div class="box">
+<h3>📅 Planning</h3>
+<input type="date" id="eventDate">
+<input id="eventText" placeholder="Entretien / Mission">
+<button onclick="addPlanning()">Ajouter</button>
+<div id="calendar" class="calendar"></div>
+</div>
+
+<div class="box">
+<h3>⏱ Pointeuse</h3>
+<button onclick="pointeuse('Entrée')">Entrée</button>
+<button onclick="pointeuse('Sortie')">Sortie</button>
+<ul id="clockList"></ul>
+</div>
+
+<!-- SERVER MANAGEMENT -->
+<div id="serverPanel" class="box hidden">
+<h3>🖥️ Server Management (Patron)</h3>
+<ul id="userList"></ul>
+</div>
+
+<button onclick="logout()">Déconnexion</button>
+</div>
+</section>
+
+<footer>
+<p>&copy; 2026 Garage La Plume</p>
+</footer>
+
+<script>
+/* ===== USERS INIT ===== */
+if(!localStorage.users){
+localStorage.users=JSON.stringify([
+{user:"patron",pass:"patron123",role:"Patron",first:true},
+{user:"jean",pass:"jean123",role:"Employé",first:true},
+{user:"paul",pass:"paul123",role:"Employé",first:true}
+]);
+}
+
+let currentUser=null;
+
+/* ===== LOGIN ===== */
+function login(){
+const users=JSON.parse(localStorage.users);
+const u=users.find(x=>x.user===user.value&&x.pass===pass.value);
+if(!u){msg.textContent="Identifiants incorrects";return;}
+
+currentUser=u;
+loginBox.classList.add("hidden");
+
+if(u.first){
+resetBox.classList.remove("hidden");
+}else{
+openDashboard();
+}
+}
+
+/* ===== RESET PASSWORD ===== */
+function resetPassword(){
+if(!newPass.value)return alert("Mot de passe requis");
+const users=JSON.parse(localStorage.users);
+const u=users.find(x=>x.user===currentUser.user);
+u.pass=newPass.value;
+u.first=false;
+localStorage.users=JSON.stringify(users);
+resetBox.classList.add("hidden");
+openDashboard();
+}
+
+/* ===== DASHBOARD ===== */
+function openDashboard(){
+roleText.textContent=currentUser.user+" ("+currentUser.role+")";
+dashboard.classList.remove("hidden");
+if(currentUser.role==="Patron") loadServer();
+loadCalendar();
+loadClock();
+}
+
+/* ===== LOGOUT ===== */
+function logout(){
+currentUser=null;
+dashboard.classList.add("hidden");
+resetBox.classList.add("hidden");
+loginBox.classList.remove("hidden");
+}
+
+/* ===== PLANNING ===== */
+function addPlanning(){
+if(!eventDate.value||!eventText.value)return;
+const p=JSON.parse(localStorage.planning||"{}");
+const k=currentUser.user+"|"+eventDate.value;
+(p[k]=p[k]||[]).push(eventText.value);
+localStorage.planning=JSON.stringify(p);
+eventText.value="";
+loadCalendar();
+}
+
+function loadCalendar(){
+calendar.innerHTML="";
+const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0");
+const days=new Date(y,m,0).getDate();
+const p=JSON.parse(localStorage.planning||"{}");
+for(let i=1;i<=days;i++){
+const day=String(i).padStart(2,"0");
+const k=currentUser.user+"|"+y+"-"+m+"-"+day;
+const div=document.createElement("div");
+div.className="day";
+div.innerHTML="<strong>"+i+"</strong>";
+(p[k]||[]).forEach(e=>{
+const ev=document.createElement("div");
+ev.className="event";ev.textContent=e;div.appendChild(ev);
+});
+calendar.appendChild(div);
+}
+}
+
+/* ===== POINTEUSE ===== */
+function pointeuse(type){
+const d=JSON.parse(localStorage.pointage||"{}");
+(d[currentUser.user]=d[currentUser.user]||[]).push(type+" "+new Date().toLocaleString());
+localStorage.pointage=JSON.stringify(d);
+loadClock();
+}
+
+function loadClock(){
+clockList.innerHTML="";
+(JSON.parse(localStorage.pointage||"{}")[currentUser.user]||[])
+.forEach(l=>{
+const li=document.createElement("li");
+li.textContent=l;clockList.appendChild(li);
+});
+}
+
+/* ===== SERVER MANAGEMENT ===== */
+function loadServer(){
+serverPanel.classList.remove("hidden");
+userList.innerHTML="";
+JSON.parse(localStorage.users).forEach(u=>{
+userList.innerHTML+=`<li>${u.user} (${u.role})</li>`;
+});
+}
+</script>
+
+</body>
 </html>
