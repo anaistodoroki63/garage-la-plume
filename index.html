@@ -283,14 +283,15 @@
         // Data Storage (localStorage)
         // ============================================
         
-        function initializeStorage() {
-            if (!localStorage.getItem('garageUsers')) {
-                localStorage.setItem('garageUsers', JSON.stringify([
-                    { user: 'laplume', pass: 'laplume', role: 'Patron' },
-                    { user: 'jean', pass: 'jean123', role: 'Employé' },
-                    { user: 'paul', pass: 'paul123', role: 'Employé' }
-                ]);
-            }
+      function initializeStorage() {
+    if (!localStorage.getItem('garageUsers')) {
+        localStorage.setItem('garageUsers', JSON.stringify([
+            { user: 'laplume', pass: 'laplume', role: 'Patron' },
+            { user: 'jean', pass: 'jean123', role: 'Employé' },
+            { user: 'paul', pass: 'paul123', role: 'Employé' }
+        ]));
+    }
+}
             if (!localStorage.getItem('garageEvents')) {
                 localStorage.setItem('garageEvents', JSON.stringify([]));
             }
