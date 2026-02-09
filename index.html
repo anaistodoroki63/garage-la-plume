@@ -772,6 +772,129 @@
                     </div>
                 </section>
             `
+           gestionnaire: () => `
+                <section class="py-16 px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="garage-title text-3xl font-bold mb-8 red-accent text-center">Espace Employé 🔐</h2>
+                        
+                        <!-- Login Box -->
+                        <div id="loginBox" class="card-bg rounded-xl p-8 border-l-4 red-border max-w-md mx-auto">
+                            <h3 class="garage-title text-xl font-bold mb-6 text-white text-center">Connexion</h3>
+                            <form id="loginForm" class="space-y-4">
+                                <div>
+                                    <label for="user" class="block text-sm font-medium mb-2 text-gray-300">Identifiant</label>
+                                    <input type="text" id="user" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Votre identifiant">
+                                </div>
+                                <div>
+                                    <label for="pass" class="block text-sm font-medium mb-2 text-gray-300">Mot de passe</label>
+                                    <input type="password" id="pass" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="••••••••">
+                                </div>
+                                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold text-white">
+                                    Se Connecter
+                                </button>
+                            </form>
+                            <p id="loginMsg" class="mt-4 text-center text-sm"></p>
+                        </div>
+
+                        <!-- Dashboard (Hidden by default) -->
+                        <div id="dashboard" class="hidden space-y-6">
+                            <!-- Welcome Banner -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <div class="flex items-center justify-between flex-wrap gap-4">
+                                    <div>
+                                        <p class="text-gray-400 text-sm">Bienvenue,</p>
+                                        <p id="welcomeUser" class="garage-title text-2xl font-bold text-white"></p>
+                                        <p id="roleText" class="text-sm red-accent font-medium"></p>
+                                    </div>
+                                    <button id="logoutBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white">
+                                        Déconnexion
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Planning Section -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
+                                    <span>📅</span> Planning
+                                </h3>
+                                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                    <div>
+                                        <label for="eventDate" class="block text-sm font-medium mb-2 text-gray-300">Date</label>
+                                        <input type="date" id="eventDate" class="input-style w-full px-4 py-3 rounded-lg text-white">
+                                    </div>
+                                    <div>
+                                        <label for="eventText" class="block text-sm font-medium mb-2 text-gray-300">Mission / Entretien</label>
+                                        <input type="text" id="eventText" class="input-style w-full px-4 py-3 rounded-lg text-white" placeholder="Description de la tâche">
+                                    </div>
+                                </div>
+                                <button id="addEventBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white mb-6">
+                                    Ajouter au Planning
+                                </button>
+                                
+                                <div class="mb-4 flex items-center justify-between">
+                                    <button id="prevMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">← Mois précédent</button>
+                                    <span id="currentMonth" class="garage-title text-lg font-bold text-white"></span>
+                                    <button id="nextMonth" class="btn-secondary px-4 py-2 rounded-lg text-white">Mois suivant →</button>
+                                </div>
+                                
+                                <div class="calendar-grid text-center text-xs text-gray-400 mb-2">
+                                    <div class="py-2 font-bold">Lun</div>
+                                    <div class="py-2 font-bold">Mar</div>
+                                    <div class="py-2 font-bold">Mer</div>
+                                    <div class="py-2 font-bold">Jeu</div>
+                                    <div class="py-2 font-bold">Ven</div>
+                                    <div class="py-2 font-bold">Sam</div>
+                                    <div class="py-2 font-bold">Dim</div>
+                                </div>
+                                <div id="calendar" class="calendar-grid"></div>
+                            </div>
+
+                            <!-- Time Clock Section -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
+                                    <span>⏱️</span> Pointeuse
+                                </h3>
+                                <div class="flex gap-4 mb-6">
+                                    <button id="clockInBtn" class="btn-primary flex-1 py-3 rounded-lg font-medium text-white">
+                                        ✓ Entrée
+                                    </button>
+                                    <button id="clockOutBtn" class="btn-secondary flex-1 py-3 rounded-lg font-medium text-white border border-red-600">
+                                        ✕ Sortie
+                                    </button>
+                                </div>
+                                <div id="clockList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+                                <div id="hoursWorked" class="mt-4 p-4 bg-black/30 rounded-lg text-center"></div>
+                            </div>
+
+                            <!-- Documents Section -->
+                            <div class="card-bg rounded-xl p-6 border-l-4 red-border">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-white flex items-center gap-2">
+                                    <span>📁</span> Documents
+                                </h3>
+                                <div class="flex gap-4 mb-6 flex-wrap">
+                                    <input type="file" id="fileInput" class="hidden">
+                                    <button id="selectFileBtn" class="btn-secondary px-6 py-2 rounded-lg font-medium text-white border border-gray-600">
+                                        Sélectionner un fichier
+                                    </button>
+                                    <span id="selectedFileName" class="text-gray-400 self-center text-sm"></span>
+                                    <button id="uploadFileBtn" class="btn-primary px-6 py-2 rounded-lg font-medium text-white">
+                                        Uploader
+                                    </button>
+                                </div>
+                                <div id="fileList" class="space-y-2"></div>
+                            </div>
+
+                            <!-- Admin Panel (Hidden for non-patrons) -->
+                            <div id="adminPanel" class="hidden card-bg rounded-xl p-6 border-l-4 border-yellow-500">
+                                <h3 class="garage-title text-xl font-bold mb-4 text-yellow-400 flex items-center gap-2">
+                                    <span>👑</span> Vue Patron - Données Globales
+                                </h3>
+                                <div id="globalData" class="space-y-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `
         };
 
         // ============================================
